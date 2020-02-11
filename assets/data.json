@@ -1,0 +1,63 @@
+{
+  "filters": [
+    {
+      "name": "Categories",
+      "items": [
+        "Open source",
+        "Flutter",
+        "Firebase",
+        "Article"
+      ]
+    },
+    {
+      "name": "Languages",
+      "items": [
+        "Dart",
+        "JavaScript",
+        "Python",
+        "Kotlin",
+        "Java",
+        "C++",
+        "Go",
+        "Objective-C"
+      ]
+    },
+    {
+      "name": "Platforms",
+      "items": [
+        "Web",
+        "Android",
+        "iOS"
+      ]
+    }
+  ],
+  "colors": {
+    "Dart": "#00b4ab",
+    "JavaScript": "#f1e05a",
+    "Python": "#3572a5",
+    "Kotlin": "#f18e33",
+    "Java": "#b07219",
+    "C++": "#6866fb",
+    "Go": "#375eab",
+    "Objective-C": "#438eff",
+    "Web": "#000000",
+    "Android": "#3ddc84",
+    "iOS": "#fc3d39",
+    "Open source": "#63e6be",
+    "Flutter": "#02569b",
+    "Firebase": "#ffa000",
+    "Article": "#000000"
+  },
+  "icons": {
+    "Web": "assets/web.png",
+    "GitHub": "assets/github.png",
+    "StackOverflow": "assets/stackoverflow.png",
+    "Play Store": "assets/play_store.png",
+    "Medium": "assets/medium.png",
+    "Twitter": "assets/twitter.png",
+    "YouTube": "assets/youtube.png"
+  },
+  "projects": [
+
+  ]
+}
