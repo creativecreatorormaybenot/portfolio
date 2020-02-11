@@ -1,0 +1,39 @@
+name: web app
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'lib/**'
+      - 'assets/**'
+      - 'pubspec.yaml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      deploy_secret: ${{ secrets.web_deploy }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1.1.1
+        with:
+          channel: 'dev'
+      - name: Build and deploy app
+        run: |
+          flutter packages get
+          flutter config --enable-web
+          flutter create .
+          flutter build web --release
+          cd build/web
+          git init
+          git config user.email "19204050+creativecreatorormaybenot@users.noreply.github.com"
+          git config user.name creativecreatorormaybenot
+          git remote add origin https://${{ secrets.web_deploy }}@github.com/creativecreatorormaybenot/portfolio.git
+          git checkout -b gh-pages
+          touch ".nojekyll"
+          git add .
+          git commit -am "Web deployment"
+          git push origin gh-pages --force
