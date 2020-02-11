@@ -17,3 +17,13 @@ dev_dependencies:
 
   json_serializable: 3.2.5
   build_runner: 1.7.4
+
+flutter:
+  assets:
+    - assets/github.png
+    - assets/medium.png
+    - assets/play_store.png
+    - assets/stackoverflow.png
+    - assets/twitter.png
+    - assets/web.png
+    - assets/youtube.png
