@@ -13,7 +13,7 @@ class PortfolioData {
   final Map<String, Color> colors;
 
   @JsonKey(fromJson: iconsFromJson, toJson: _unimplemented)
-  final Map<String, AssetImage> icons;
+  final Map<String, AssetImage> icons; // todo scale down play store icon - remove old file from Git history
 
   final List<dynamic> project; // todo
 

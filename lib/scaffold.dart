@@ -12,7 +12,22 @@ class LayoutScaffold extends StatelessWidget {
   const LayoutScaffold({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Row(
-        children: <Widget>[for (final image in portfolioData.icons.values) Image(image: image)],
+  Widget build(BuildContext context) => Material(
+        color: Theme.of(context).primaryColor,
+        child: Row(
+          children: <Widget>[
+            for (final image in portfolioData.icons.values)
+              ClipOval(
+                child: Container(
+                  color: Theme.of(context).cardColor,
+                  child: Image(
+                    image: image,
+                    width: 64,
+                    height: 64,
+                  ),
+                ),
+              )
+          ],
+        ),
       );
 }
