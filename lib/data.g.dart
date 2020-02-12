@@ -7,6 +7,8 @@ part of 'data.dart';
 // **************************************************************************
 
 PortfolioData _$PortfolioDataFromJson(Map<String, dynamic> json) {
+  $checkKeys(json,
+      requiredKeys: const ['filters', 'colors', 'icons', 'projects']);
   return PortfolioData(
     (json['filters'] as List)
         ?.map((e) =>
@@ -14,7 +16,7 @@ PortfolioData _$PortfolioDataFromJson(Map<String, dynamic> json) {
         ?.toList(),
     PortfolioData.colorsFromJson(json['colors'] as Map<String, String>),
     PortfolioData.iconsFromJson(json['icons'] as Map<String, String>),
-    (json['project'] as List)
+    (json['projects'] as List)
         ?.map((e) =>
             e == null ? null : Project.fromJson(e as Map<String, dynamic>))
         ?.toList(),
@@ -102,11 +104,12 @@ final _$portfolioDataJsonLiteral = {
     'Play Store': 'assets/play_store.png',
     'Medium': 'assets/medium.png',
     'Twitter': 'assets/twitter.png',
-    'YouTube': 'assets/youtube.png'
+    'YouTube': 'assets/youtube.png',
+    'Dart Pub': 'assets/dart_pub.png'
   },
   'projects': [
     {
-      'title': 'Flutter Clock challenge - Clock Display',
+      'title': 'Flutter Clock challenge submission',
       'description':
           'Created a clock face for the Flutter Clock challenge and [confidential]. In this project, I made use of custom render objects to achieve full layout control - I also wrote an article about that.',
       'categories': ['Flutter', 'Dart', 'Open source', 'Design', 'Article'],
@@ -123,7 +126,7 @@ final _$portfolioDataJsonLiteral = {
         {
           'type': 'Web',
           'hint': 'Clock face running on Flutter web',
-          'url': 'https://github.com/creativecreatorormaybenot/clock'
+          'url': 'https://creativecreatorormaybenot.github.io/clock'
         },
         {
           'type': 'Twitter',
@@ -134,6 +137,30 @@ final _$portfolioDataJsonLiteral = {
           'type': 'Web',
           'hint': 'Announcement of [confidential]',
           'url': 'TODO: link to [confidential]'
+        }
+      ]
+    },
+    {
+      'title': 'Material Design Feature Discovery Flutter plugin',
+      'description':
+          'A plugin for Flutter that implements tap target feature discovery from a Material design spec. I am not the author of the plugin - I majorly contributed later.',
+      'categories': ['Flutter', 'Dart', 'Open source', 'Design'],
+      'links': [
+        {
+          'type': 'GitHub',
+          'hint': 'Plugin repository on GitHub',
+          'url': 'https://github.com/ayalma/feature_discovery'
+        },
+        {
+          'type': 'GitHub',
+          'hint': 'Contributor page of the plugin on GitHub',
+          'url':
+              'https://github.com/ayalma/feature_discovery/graphs/contributors'
+        },
+        {
+          'type': 'Dart Pub',
+          'hint': 'Plugin on Dart Pub',
+          'url': 'https://pub.dev/packages/feature_discovery'
         }
       ]
     }

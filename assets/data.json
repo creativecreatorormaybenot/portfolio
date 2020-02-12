@@ -57,7 +57,8 @@
     "Play Store": "assets/play_store.png",
     "Medium": "assets/medium.png",
     "Twitter": "assets/twitter.png",
-    "YouTube": "assets/youtube.png"
+    "YouTube": "assets/youtube.png",
+    "Dart Pub": "assets/dart_pub.png"
   },
   "projects": [
     {
@@ -83,7 +84,7 @@
         {
           "type": "Web",
           "hint": "Clock face running on Flutter web",
-          "url": "https://github.com/creativecreatorormaybenot/clock"
+          "url": "https://creativecreatorormaybenot.github.io/clock"
         },
         {
           "type": "Twitter",
@@ -117,7 +118,7 @@
           "url": "https://github.com/ayalma/feature_discovery/graphs/contributors"
         },
         {
-          "type": "Web",
+          "type": "Dart Pub",
           "hint": "Plugin on Dart Pub",
           "url": "https://pub.dev/packages/feature_discovery"
         }

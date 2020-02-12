@@ -3,30 +3,18 @@ import 'package:portfolio/card.dart';
 import 'package:portfolio/data.dart';
 import 'package:provider/provider.dart';
 
-class App extends StatefulWidget {
+class App extends StatelessWidget {
   const App({Key key}) : super(key: key);
 
   @override
-  _AppState createState() => _AppState();
-}
-
-class _AppState extends State<App> {
-  PortfolioData data;
-
-  @override
-  void initState() {
-    super.initState();
-
-    data = portfolioData;
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Provider(
+        create: (context) => portfolioData,
+        child: const LayoutScaffold(),
+      ),
+    );
   }
-
-  @override
-  Widget build(BuildContext context) => MaterialApp(
-        home: Provider.value(
-          value: data,
-          child: const LayoutScaffold(),
-        ),
-      );
 }
 
 class LayoutScaffold extends StatelessWidget {
@@ -37,7 +25,15 @@ class LayoutScaffold extends StatelessWidget {
         color: Theme.of(context).primaryColor,
         child: Row(
           children: <Widget>[
-            LinkIconButton(link: Link('GitHub', 'url', '')),
+            for (final project in PortfolioData.of(context).projects)
+              Column(
+                children: <Widget>[
+                  for (final link in project.links)
+                    LinkIconButton(
+                      link: link,
+                    )
+                ],
+              )
           ],
         ),
       );

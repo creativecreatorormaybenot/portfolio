@@ -21,6 +21,7 @@ dev_dependencies:
 
 flutter:
   assets:
+    - assets/dart_pub.png
     - assets/github.png
     - assets/medium.png
     - assets/play_store.png

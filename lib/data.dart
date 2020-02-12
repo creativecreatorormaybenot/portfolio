@@ -1,24 +1,29 @@
 import 'dart:ui';
 
-import 'package:flutter/painting.dart';
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:provider/provider.dart';
 
 /// Build using `flutter packages pub run build_runner build` in the project directory.
 part 'data.g.dart';
 
 @JsonSerializable(createToJson: false)
 class PortfolioData {
+  static PortfolioData of(BuildContext context) => Provider.of<PortfolioData>(context);
+
+  @JsonKey(required: true)
   final List<Filter> filters;
 
-  @JsonKey(fromJson: colorsFromJson, toJson: _unimplemented)
+  @JsonKey(required: true, fromJson: colorsFromJson, toJson: _unimplemented)
   final Map<String, Color> colors;
 
-  @JsonKey(fromJson: iconsFromJson, toJson: _unimplemented)
-  final Map<String, AssetImage> icons; // todo scale down play store icon - remove old file from Git history
+  @JsonKey(required: true, fromJson: iconsFromJson, toJson: _unimplemented)
+  final Map<String, AssetImage> icons;
 
-  final List<Project> project;
+  @JsonKey(required: true)
+  final List<Project> projects;
 
-  PortfolioData(this.filters, this.colors, this.icons, this.project);
+  PortfolioData(this.filters, this.colors, this.icons, this.projects);
 
   factory PortfolioData.fromJson(Map<String, dynamic> json) => _$PortfolioDataFromJson(json);
 
