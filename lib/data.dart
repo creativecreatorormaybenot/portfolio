@@ -6,7 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 /// Build using `flutter packages pub run build_runner build` in the project directory.
 part 'data.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class PortfolioData {
   final List<Filter> filters;
 
@@ -31,7 +31,7 @@ class PortfolioData {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class Filter {
   final String name;
 
@@ -40,7 +40,7 @@ class Filter {
   Filter(this.name, this.items);
 }
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class Project {
   final String title, description;
 
@@ -51,7 +51,7 @@ class Project {
   Project(this.title, this.description, this.categories, this.links);
 }
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class Link {
   final String type, url;
 

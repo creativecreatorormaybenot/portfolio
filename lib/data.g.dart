@@ -21,25 +21,12 @@ PortfolioData _$PortfolioDataFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$PortfolioDataToJson(PortfolioData instance) =>
-    <String, dynamic>{
-      'filters': instance.filters,
-      'colors': _unimplemented(instance.colors),
-      'icons': _unimplemented(instance.icons),
-      'project': instance.project,
-    };
-
 Filter _$FilterFromJson(Map<String, dynamic> json) {
   return Filter(
     json['name'] as String,
     (json['items'] as List)?.map((e) => e as String)?.toList(),
   );
 }
-
-Map<String, dynamic> _$FilterToJson(Filter instance) => <String, dynamic>{
-      'name': instance.name,
-      'items': instance.items,
-    };
 
 Project _$ProjectFromJson(Map<String, dynamic> json) {
   return Project(
@@ -53,24 +40,12 @@ Project _$ProjectFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
-      'title': instance.title,
-      'description': instance.description,
-      'categories': instance.categories,
-      'links': instance.links,
-    };
-
 Link _$LinkFromJson(Map<String, dynamic> json) {
   return Link(
     json['type'] as String,
     json['url'] as String,
   );
 }
-
-Map<String, dynamic> _$LinkToJson(Link instance) => <String, dynamic>{
-      'type': instance.type,
-      'url': instance.url,
-    };
 
 // **************************************************************************
 // JsonLiteralGenerator
