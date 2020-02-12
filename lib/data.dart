@@ -38,6 +38,8 @@ class Filter {
   final List<String> items;
 
   Filter(this.name, this.items);
+
+  factory Filter.fromJson(Map<String, dynamic> json) => _$FilterFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)
@@ -49,6 +51,8 @@ class Project {
   final List<Link> links;
 
   Project(this.title, this.description, this.categories, this.links);
+
+  factory Project.fromJson(Map<String, dynamic> json) => _$ProjectFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)
@@ -56,6 +60,8 @@ class Link {
   final String type, url;
 
   Link(this.type, this.url);
+
+  factory Link.fromJson(Map<String, dynamic> json) => _$LinkFromJson(json);
 }
 
 Map _unimplemented(dynamic value) => throw UnimplementedError();
