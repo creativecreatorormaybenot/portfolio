@@ -6,7 +6,8 @@
         "Open source",
         "Flutter",
         "Firebase",
-        "Article"
+        "Article",
+        "Design"
       ]
     },
     {
@@ -46,7 +47,8 @@
     "Open source": "#63e6be",
     "Flutter": "#02569b",
     "Firebase": "#ffa000",
-    "Article": "#000000"
+    "Article": "#000000",
+    "Design": "#e4505b"
   },
   "icons": {
     "Web": "assets/web.png",
@@ -58,6 +60,34 @@
     "YouTube": "assets/youtube.png"
   },
   "projects": [
-
+    {
+      "title": "Flutter Clock challenge - Clock Display",
+      "description": "Created a clock face for the Flutter Clock challenge and [confidential]. In this project, I made use of custom render objects to achieve full layout control - I also wrote an article about that.",
+      "categories": [
+        "Flutter",
+        "Dart",
+        "Open source",
+        "Design",
+        "Article"
+      ],
+      "links": [
+        {
+          "type": "GitHub",
+          "url": "https://github.com/creativecreatorormaybenot/clock"
+        },
+        {
+          "type": "Medium",
+          "url": "https://link.medium.com/7AMS0mNUF3"
+        },
+        {
+          "type": "Twitter",
+          "url": "https://twitter.com/creativemaybeno/status/1219433528858959872?s=20"
+        },
+        {
+          "type": "Web",
+          "url": "TODO: link to [confidential]"
+        }
+      ]
+    }
   ]
 }
