@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/painting.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+/// Build using `flutter packages pub run build_runner build` in the project directory.
 part 'data.g.dart';
 
 @JsonSerializable()
@@ -15,7 +16,7 @@ class PortfolioData {
   @JsonKey(fromJson: iconsFromJson, toJson: _unimplemented)
   final Map<String, AssetImage> icons; // todo scale down play store icon - remove old file from Git history
 
-  final List<dynamic> project; // todo
+  final List<Project> project;
 
   PortfolioData(this.filters, this.colors, this.icons, this.project);
 
@@ -37,8 +38,24 @@ class Filter {
   final List<String> items;
 
   Filter(this.name, this.items);
+}
 
-  factory Filter.fromJson(Map<String, dynamic> json) => _$FilterFromJson(json);
+@JsonSerializable()
+class Project {
+  final String title, description;
+
+  final List<String> categories;
+
+  final List<Link> links;
+
+  Project(this.title, this.description, this.categories, this.links);
+}
+
+@JsonSerializable()
+class Link {
+  final String type, url;
+
+  Link(this.type, this.url);
 }
 
 Map _unimplemented(dynamic value) => throw UnimplementedError();

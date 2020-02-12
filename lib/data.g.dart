@@ -14,7 +14,10 @@ PortfolioData _$PortfolioDataFromJson(Map<String, dynamic> json) {
         ?.toList(),
     PortfolioData.colorsFromJson(json['colors'] as Map<String, String>),
     PortfolioData.iconsFromJson(json['icons'] as Map<String, String>),
-    json['project'] as List,
+    (json['project'] as List)
+        ?.map((e) =>
+            e == null ? null : Project.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -38,6 +41,37 @@ Map<String, dynamic> _$FilterToJson(Filter instance) => <String, dynamic>{
       'items': instance.items,
     };
 
+Project _$ProjectFromJson(Map<String, dynamic> json) {
+  return Project(
+    json['title'] as String,
+    json['description'] as String,
+    (json['categories'] as List)?.map((e) => e as String)?.toList(),
+    (json['links'] as List)
+        ?.map(
+            (e) => e == null ? null : Link.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
+      'title': instance.title,
+      'description': instance.description,
+      'categories': instance.categories,
+      'links': instance.links,
+    };
+
+Link _$LinkFromJson(Map<String, dynamic> json) {
+  return Link(
+    json['type'] as String,
+    json['url'] as String,
+  );
+}
+
+Map<String, dynamic> _$LinkToJson(Link instance) => <String, dynamic>{
+      'type': instance.type,
+      'url': instance.url,
+    };
+
 // **************************************************************************
 // JsonLiteralGenerator
 // **************************************************************************
@@ -46,7 +80,7 @@ final _$portfolioDataJsonLiteral = {
   'filters': [
     {
       'name': 'Categories',
-      'items': ['Open source', 'Flutter', 'Firebase', 'Article']
+      'items': ['Open source', 'Flutter', 'Firebase', 'Article', 'Design']
     },
     {
       'name': 'Languages',
@@ -81,7 +115,8 @@ final _$portfolioDataJsonLiteral = {
     'Open source': '#63e6be',
     'Flutter': '#02569b',
     'Firebase': '#ffa000',
-    'Article': '#000000'
+    'Article': '#000000',
+    'Design': '#e4505b'
   },
   'icons': {
     'Web': 'assets/web.png',
@@ -92,5 +127,25 @@ final _$portfolioDataJsonLiteral = {
     'Twitter': 'assets/twitter.png',
     'YouTube': 'assets/youtube.png'
   },
-  'projects': []
+  'projects': [
+    {
+      'title': 'Flutter Clock challenge - Clock Display',
+      'description':
+          'Created a clock face for the Flutter Clock challenge and [confidential]. In this project, I made use of custom render objects to achieve full layout control - I also wrote an article about that.',
+      'categories': ['Flutter', 'Dart', 'Open source', 'Design', 'Article'],
+      'links': [
+        {
+          'type': 'GitHub',
+          'url': 'https://github.com/creativecreatorormaybenot/clock'
+        },
+        {'type': 'Medium', 'url': 'https://link.medium.com/7AMS0mNUF3'},
+        {
+          'type': 'Twitter',
+          'url':
+              'https://twitter.com/creativemaybeno/status/1219433528858959872?s=20'
+        },
+        {'type': 'Web', 'url': 'TODO: link to [confidential]'}
+      ]
+    }
+  ]
 };
