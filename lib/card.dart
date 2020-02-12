@@ -3,6 +3,33 @@ import 'package:portfolio/data.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+class ProjectCard extends StatelessWidget {
+  final Project project;
+
+  const ProjectCard({
+    Key key,
+    this.project,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Card(
+        child: Column(
+          children: <Widget>[
+            SelectableText(
+              project.title,
+              style: Theme.of(context).textTheme.headline5,
+            ),
+            SelectableText(project.description),
+            Row(
+              children: <Widget>[
+                for (final link in project.links) LinkIconButton(link: link),
+              ],
+            )
+          ],
+        ),
+      );
+}
+
 class LinkIconButton extends StatelessWidget {
   final Link link;
 

@@ -23,16 +23,12 @@ class LayoutScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Material(
         color: Theme.of(context).primaryColor,
-        child: Row(
+        child: GridView(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
           children: <Widget>[
             for (final project in PortfolioData.of(context).projects)
-              Column(
-                children: <Widget>[
-                  for (final link in project.links)
-                    LinkIconButton(
-                      link: link,
-                    )
-                ],
+              ProjectCard(
+                project: project,
               )
           ],
         ),
