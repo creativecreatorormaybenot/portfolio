@@ -57,9 +57,15 @@ class Project {
 
 @JsonSerializable(createToJson: false)
 class Link {
-  final String type, url;
+  @JsonKey(required: true)
+  final String type;
 
-  Link(this.type, this.url);
+  @JsonKey(required: true)
+  final String url;
+
+  final String hint;
+
+  Link(this.type, this.url, this.hint);
 
   factory Link.fromJson(Map<String, dynamic> json) => _$LinkFromJson(json);
 }

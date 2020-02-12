@@ -1,11 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/card.dart';
 import 'package:portfolio/data.dart';
+import 'package:provider/provider.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => MaterialApp(home: const LayoutScaffold());
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  PortfolioData data;
+
+  @override
+  void initState() {
+    super.initState();
+
+    data = portfolioData;
+  }
+
+  @override
+  Widget build(BuildContext context) => MaterialApp(
+        home: Provider.value(
+          value: data,
+          child: const LayoutScaffold(),
+        ),
+      );
 }
 
 class LayoutScaffold extends StatelessWidget {
@@ -16,17 +37,7 @@ class LayoutScaffold extends StatelessWidget {
         color: Theme.of(context).primaryColor,
         child: Row(
           children: <Widget>[
-            for (final image in portfolioData.icons.values)
-              ClipOval(
-                child: Container(
-                  color: Theme.of(context).cardColor,
-                  child: Image(
-                    image: image,
-                    width: 64,
-                    height: 64,
-                  ),
-                ),
-              )
+            LinkIconButton(link: Link('GitHub', 'url', '')),
           ],
         ),
       );

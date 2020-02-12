@@ -41,9 +41,11 @@ Project _$ProjectFromJson(Map<String, dynamic> json) {
 }
 
 Link _$LinkFromJson(Map<String, dynamic> json) {
+  $checkKeys(json, requiredKeys: const ['type', 'url']);
   return Link(
     json['type'] as String,
     json['url'] as String,
+    json['hint'] as String,
   );
 }
 
@@ -113,13 +115,26 @@ final _$portfolioDataJsonLiteral = {
           'type': 'GitHub',
           'url': 'https://github.com/creativecreatorormaybenot/clock'
         },
-        {'type': 'Medium', 'url': 'https://link.medium.com/7AMS0mNUF3'},
+        {
+          'type': 'Medium',
+          'hint': 'Article about the creation process on Medium',
+          'url': 'https://link.medium.com/7AMS0mNUF3'
+        },
+        {
+          'type': 'Web',
+          'hint': 'Clock face running on Flutter web',
+          'url': 'https://github.com/creativecreatorormaybenot/clock'
+        },
         {
           'type': 'Twitter',
           'url':
               'https://twitter.com/creativemaybeno/status/1219433528858959872?s=20'
         },
-        {'type': 'Web', 'url': 'TODO: link to [confidential]'}
+        {
+          'type': 'Web',
+          'hint': 'Announcement of [confidential]',
+          'url': 'TODO: link to [confidential]'
+        }
       ]
     }
   ]
