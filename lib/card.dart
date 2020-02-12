@@ -13,7 +13,7 @@ class LinkIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Tooltip(
-        message: link.type,
+        message: link.hint ?? link.type,
         child: InkResponse(
           onTap: () {
             launch(link.url);
