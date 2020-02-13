@@ -64,8 +64,13 @@
     {
       "tag": "@creativecreatorormaybenot",
       "site": "GitHub",
-      "url": "https://github.com/creativecreatorormaybenot"
-    }
+      "url": "https://github.com/creativecreatorormaybenot/clock"
+    },
+    {
+      "tag": "@creativecreatorormaybenot",
+      "site": "StackOverflow",
+      "url": "https://stackoverflow.com/users/6509751"
+    },
     {
       "tag": "@creativecreatorormaybenot",
       "site": "Medium",
@@ -80,7 +85,7 @@
       "tag": "@creativemaybeno",
       "site": "Reddit",
       "url": "https://reddit.com/u/creativemaybeno"
-    },
+    }
   ],
   "projects": [
     {
