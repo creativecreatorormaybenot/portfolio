@@ -21,10 +21,12 @@ dev_dependencies:
 
 flutter:
   assets:
+    - assets/avatar.png
     - assets/dart_pub.png
     - assets/github.png
     - assets/medium.png
     - assets/play_store.png
+    - assets/reddit.png
     - assets/stackoverflow.png
     - assets/twitter.png
     - assets/web.png

@@ -20,12 +20,13 @@ class PortfolioData {
   @JsonKey(required: true, fromJson: iconsFromJson, toJson: _unimplemented)
   final Map<String, AssetImage> icons;
 
-  final socials;
+  @JsonKey(required: true)
+  final List<Social> socials;
 
   @JsonKey(required: true)
   final List<Project> projects;
 
-  PortfolioData(this.filters, this.colors, this.icons, this.projects);
+  PortfolioData(this.filters, this.colors, this.icons, this.socials, this.projects);
 
   factory PortfolioData.fromJson(Map<String, dynamic> json) => _$PortfolioDataFromJson(json);
 
@@ -47,6 +48,15 @@ class Filter {
   Filter(this.name, this.items);
 
   factory Filter.fromJson(Map<String, dynamic> json) => _$FilterFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
+class Social {
+  final String tag, site, url;
+
+  Social(this.tag, this.site, this.url);
+
+  factory Social.fromJson(Map<String, dynamic> json) => _$SocialFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)
@@ -72,7 +82,7 @@ class Link {
 
   final String hint;
 
-  Link(this.type, this.url, this.hint);
+  Link(this.site, this.url, this.hint);
 
   factory Link.fromJson(Map<String, dynamic> json) => _$LinkFromJson(json);
 }

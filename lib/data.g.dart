@@ -7,8 +7,13 @@ part of 'data.dart';
 // **************************************************************************
 
 PortfolioData _$PortfolioDataFromJson(Map<String, dynamic> json) {
-  $checkKeys(json,
-      requiredKeys: const ['filters', 'colors', 'icons', 'projects']);
+  $checkKeys(json, requiredKeys: const [
+    'filters',
+    'colors',
+    'icons',
+    'socials',
+    'projects'
+  ]);
   return PortfolioData(
     (json['filters'] as List)
         ?.map((e) =>
@@ -16,6 +21,10 @@ PortfolioData _$PortfolioDataFromJson(Map<String, dynamic> json) {
         ?.toList(),
     PortfolioData.colorsFromJson(json['colors'] as Map<String, String>),
     PortfolioData.iconsFromJson(json['icons'] as Map<String, String>),
+    (json['socials'] as List)
+        ?.map((e) =>
+            e == null ? null : Social.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     (json['projects'] as List)
         ?.map((e) =>
             e == null ? null : Project.fromJson(e as Map<String, dynamic>))
@@ -27,6 +36,14 @@ Filter _$FilterFromJson(Map<String, dynamic> json) {
   return Filter(
     json['name'] as String,
     (json['items'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+Social _$SocialFromJson(Map<String, dynamic> json) {
+  return Social(
+    json['tag'] as String,
+    json['site'] as String,
+    json['url'] as String,
   );
 }
 
@@ -43,9 +60,9 @@ Project _$ProjectFromJson(Map<String, dynamic> json) {
 }
 
 Link _$LinkFromJson(Map<String, dynamic> json) {
-  $checkKeys(json, requiredKeys: const ['type', 'url']);
+  $checkKeys(json, requiredKeys: const ['url']);
   return Link(
-    json['type'] as String,
+    json['site'] as String ?? 'Web',
     json['url'] as String,
     json['hint'] as String,
   );
@@ -105,8 +122,36 @@ final _$portfolioDataJsonLiteral = {
     'Medium': 'assets/medium.png',
     'Twitter': 'assets/twitter.png',
     'YouTube': 'assets/youtube.png',
-    'Dart Pub': 'assets/dart_pub.png'
+    'Dart Pub': 'assets/dart_pub.png',
+    'Reddit': 'assets/reddit.png'
   },
+  'socials': [
+    {
+      'tag': '@creativecreatorormaybenot',
+      'site': 'GitHub',
+      'url': 'https://github.com/creativecreatorormaybenot/clock'
+    },
+    {
+      'tag': '@creativecreatorormaybenot',
+      'site': 'StackOverflow',
+      'url': 'https://stackoverflow.com/users/6509751'
+    },
+    {
+      'tag': '@creativecreatorormaybenot',
+      'site': 'Medium',
+      'url': 'https://medium.com/@creativecreatorormaybenot'
+    },
+    {
+      'tag': '@creativemaybeno',
+      'site': 'Twitter',
+      'url': 'https://twitter.com/creativemaybeno'
+    },
+    {
+      'tag': '@creativemaybeno',
+      'site': 'Reddit',
+      'url': 'https://reddit.com/u/creativemaybeno'
+    }
+  ],
   'projects': [
     {
       'title': 'Flutter Clock challenge submission',
@@ -115,26 +160,24 @@ final _$portfolioDataJsonLiteral = {
       'categories': ['Flutter', 'Dart', 'Open source', 'Design', 'Article'],
       'links': [
         {
-          'type': 'GitHub',
+          'site': 'GitHub',
           'url': 'https://github.com/creativecreatorormaybenot/clock'
         },
         {
-          'type': 'Medium',
+          'site': 'Medium',
           'hint': 'Article about the creation process on Medium',
           'url': 'https://link.medium.com/7AMS0mNUF3'
         },
         {
-          'type': 'Web',
           'hint': 'Clock face running on Flutter web',
           'url': 'https://creativecreatorormaybenot.github.io/clock'
         },
         {
-          'type': 'Twitter',
+          'site': 'Twitter',
           'url':
               'https://twitter.com/creativemaybeno/status/1219433528858959872?s=20'
         },
         {
-          'type': 'Web',
           'hint': 'Announcement of [confidential]',
           'url': 'TODO: link to [confidential]'
         }
