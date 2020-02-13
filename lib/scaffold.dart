@@ -27,7 +27,7 @@ class LayoutScaffold extends StatelessWidget {
         textDirection: TextDirection.rtl,
         children: <Widget>[
           Flexible(
-            flex: 13,
+            flex: 11,
             fit: FlexFit.tight,
             child: Material(
               child: GridView(
@@ -37,7 +37,7 @@ class LayoutScaffold extends StatelessWidget {
             ),
           ),
           Flexible(
-            flex: 4,
+            flex: 3,
             fit: FlexFit.tight,
             child: Material(
               elevation: 8,
@@ -81,7 +81,7 @@ class SocialTile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text(social.tag, style: TextStyle(color: Colors.grey[200])),
-              Padding(padding: const EdgeInsets.all(4), child: SiteIcon(social.site)),
+              Padding(padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4), child: SiteIcon(social.site)),
             ],
           ),
         ),

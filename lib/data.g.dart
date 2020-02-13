@@ -206,6 +206,23 @@ final _$portfolioDataJsonLiteral = {
           'url': 'https://pub.dev/packages/feature_discovery'
         }
       ]
+    },
+    {
+      'title': 'Portfolio',
+      'description':
+          'I think we might have some inception going on here, right? Jokes aside, this portfolio is also a Flutter project of mine and the source code is also available on GitHub :) I had some fun with JSON serialization building it because it turns out that this makes adding to the portfolio a blessing (:',
+      'categories': ['Flutter', 'Dart', 'Open source'],
+      'links': [
+        {
+          'type': 'GitHub',
+          'url': 'https://github.com/creativecreatorormaybenot/portfolio'
+        },
+        {
+          'type': 'Web',
+          'hint': 'This portfolio running on Flutter Web',
+          'url': 'https://creativecreatorormaybenot.github.io/portfolio'
+        }
+      ]
     }
   ]
 };
