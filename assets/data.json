@@ -60,6 +60,28 @@
     "YouTube": "assets/youtube.png",
     "Dart Pub": "assets/dart_pub.png"
   },
+  "socials": [
+    {
+      "tag": "@creativecreatorormaybenot",
+      "site": "GitHub",
+      "url": "https://github.com/creativecreatorormaybenot"
+    }
+    {
+      "tag": "@creativecreatorormaybenot",
+      "site": "Medium",
+      "url": "https://medium.com/@creativecreatorormaybenot"
+    },
+    {
+      "tag": "@creativemaybeno",
+      "site": "Twitter",
+      "url": "https://twitter.com/creativemaybeno"
+    },
+    {
+      "tag": "@creativemaybeno",
+      "site": "Reddit",
+      "url": "https://reddit.com/u/creativemaybeno"
+    },
+  ],
   "projects": [
     {
       "title": "Flutter Clock challenge submission",
@@ -73,25 +95,25 @@
       ],
       "links": [
         {
-          "type": "GitHub",
+          "site": "GitHub",
           "url": "https://github.com/creativecreatorormaybenot/clock"
         },
         {
-          "type": "Medium",
+          "site": "Medium",
           "hint": "Article about the creation process on Medium",
           "url": "https://link.medium.com/7AMS0mNUF3"
         },
         {
-          "type": "Web",
+          "site": "Web",
           "hint": "Clock face running on Flutter web",
           "url": "https://creativecreatorormaybenot.github.io/clock"
         },
         {
-          "type": "Twitter",
+          "site": "Twitter",
           "url": "https://twitter.com/creativemaybeno/status/1219433528858959872?s=20"
         },
         {
-          "type": "Web",
+          "site": "Web",
           "hint": "Announcement of [confidential]",
           "url": "TODO: link to [confidential]"
         }
