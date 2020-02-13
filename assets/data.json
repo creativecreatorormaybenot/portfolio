@@ -104,7 +104,6 @@
           "url": "https://link.medium.com/7AMS0mNUF3"
         },
         {
-          "site": "Web",
           "hint": "Clock face running on Flutter web",
           "url": "https://creativecreatorormaybenot.github.io/clock"
         },
@@ -113,7 +112,6 @@
           "url": "https://twitter.com/creativemaybeno/status/1219433528858959872?s=20"
         },
         {
-          "site": "Web",
           "hint": "Announcement of [confidential]",
           "url": "TODO: link to [confidential]"
         }
