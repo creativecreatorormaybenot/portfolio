@@ -20,6 +20,8 @@ class PortfolioData {
   @JsonKey(required: true, fromJson: iconsFromJson, toJson: _unimplemented)
   final Map<String, AssetImage> icons;
 
+  final socials;
+
   @JsonKey(required: true)
   final List<Project> projects;
 
@@ -62,8 +64,8 @@ class Project {
 
 @JsonSerializable(createToJson: false)
 class Link {
-  @JsonKey(required: true)
-  final String type;
+  @JsonKey(defaultValue: 'Web')
+  final String site;
 
   @JsonKey(required: true)
   final String url;
