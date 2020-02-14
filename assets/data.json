@@ -124,8 +124,8 @@
       ]
     },
     {
-      "title": "Material Design Feature Discovery Flutter plugin",
-      "description": "A plugin for Flutter that implements tap target feature discovery from a Material design spec. I am not the author of the plugin - I majorly contributed later.",
+      "title": "Material Design Feature Discovery",
+      "description": "A Flutter package that implements tap target feature discovery from a Material design spec. I am not the author - I majorly contributed later.",
       "categories": [
         "Flutter",
         "Dart",
@@ -135,17 +135,17 @@
       "links": [
         {
           "site": "GitHub",
-          "hint": "Plugin repository on GitHub",
+          "hint": "GitHub repo",
           "url": "https://github.com/ayalma/feature_discovery"
         },
         {
           "site": "GitHub",
-          "hint": "Contributor page of the plugin on GitHub",
+          "hint": "GitHub contributors graph",
           "url": "https://github.com/ayalma/feature_discovery/graphs/contributors"
         },
         {
           "site": "Dart Pub",
-          "hint": "Plugin on Dart Pub",
+          "hint": "Package on Dart Pub",
           "url": "https://pub.dev/packages/feature_discovery"
         }
       ]
