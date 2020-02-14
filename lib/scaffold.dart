@@ -10,7 +10,11 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.light().copyWith(iconTheme: IconThemeData(size: 24)),
+      theme: ThemeData.light().copyWith(
+        iconTheme: IconThemeData(size: 24),
+        primaryColor: const Color(0xff880e4f),
+        primaryColorDark: const Color(0xff616161),
+      ),
       home: Provider(
         create: (context) => portfolioData,
         child: const LayoutScaffold(),
@@ -77,12 +81,19 @@ class SocialTile extends StatelessWidget {
         message: '${social.tag} on ${social.site}',
         child: InkWell(
           onTap: () => launch(social.url),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text(social.tag, style: TextStyle(color: Colors.grey[200])),
-              Padding(padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4), child: SiteIcon(social.site)),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: Wrap(
+              direction: Axis.horizontal,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: <Widget>[
+                Text(social.tag, style: TextStyle(color: ThemeData.dark().textTheme.bodyText2.color)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: SiteIcon(social.site),
+                ),
+              ],
+            ),
           ),
         ),
       );

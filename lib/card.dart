@@ -11,16 +11,30 @@ class ProjectCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Card(
         child: Column(
+          // This centers the title.
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             SelectableText(
               project.title,
               style: Theme.of(context).textTheme.headline5,
             ),
-            SelectableText(project.description),
-            Row(
-              children: <Widget>[
-                for (final link in project.links) LinkIconButton(link),
-              ],
+            SizedBox(
+              // This allows to align the text at start if it does not fill the whole width.
+              width: double.infinity,
+              child: SelectableText(project.description),
+            ),
+            Container(
+              // This allows to align the wrap at start.
+              width: double.infinity,
+              color: Theme.of(context).primaryColorDark,
+              child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: Wrap(
+                  children: <Widget>[
+                    for (final link in project.links) LinkIconButton(link),
+                  ],
+                ),
+              ),
             )
           ],
         ),
@@ -39,7 +53,7 @@ class LinkIconButton extends StatelessWidget {
           onTap: () {
             launch(link.url);
           },
-          child: SiteIcon(link.site),
+          child: Padding(padding: const EdgeInsets.all(2), child: SiteIcon(link.site)),
         ),
       );
 }
