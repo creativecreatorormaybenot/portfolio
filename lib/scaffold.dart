@@ -20,6 +20,7 @@ class App extends StatelessWidget {
         backgroundColor: const Color(0xff333333),
         splashColor: const Color(0xaaffffff),
         highlightColor: const Color(0x88ffffff),
+        focusColor: const Color(0x77ffffff),
       ),
       home: Provider(
         create: (context) => portfolioData,
