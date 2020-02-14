@@ -18,6 +18,8 @@ class App extends StatelessWidget {
         primaryColorDark: const Color(0xff111111),
         accentColor: const Color(0xff999999),
         backgroundColor: const Color(0xff333333),
+        splashColor: const Color(0xaaffffff),
+        highlightColor: const Color(0x88ffffff),
       ),
       home: Provider(
         create: (context) => portfolioData,

@@ -39,7 +39,7 @@ class ProjectCard extends StatelessWidget {
                   ),
                 ),
                 Divider(),
-                Container(
+                SizedBox(
                   // This allows to align the wrap at start.
                   width: double.infinity,
                   child: Padding(
@@ -49,13 +49,16 @@ class ProjectCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: double.infinity,
-                  color: Theme.of(context).primaryColorLight,
-                  child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Wrap(
-                      children: <Widget>[for (final link in project.links) LinkIconButton(link)],
+                  child: Material(
+                    // The Material is needed to apply the splashes from the LinkIconButton's.
+                    color: Theme.of(context).primaryColorLight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Wrap(
+                        children: <Widget>[for (final link in project.links) LinkIconButton(link)],
+                      ),
                     ),
                   ),
                 )
@@ -78,7 +81,10 @@ class LinkIconButton extends StatelessWidget {
           onTap: () {
             launch(link.url);
           },
-          child: Padding(padding: const EdgeInsets.only(top: 3, bottom: 3, right: 4, left: 2), child: SiteIcon(link.site)),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 3, bottom: 3, right: 4, left: 2),
+            child: SiteIcon(link.site),
+          ),
         ),
       );
 }
