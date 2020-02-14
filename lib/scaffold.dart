@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:portfolio/card.dart';
 import 'package:portfolio/data.dart';
 import 'package:provider/provider.dart';
@@ -12,8 +13,11 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData.light().copyWith(
         iconTheme: IconThemeData(size: 24),
-        primaryColor: const Color(0xff880e4f),
-        primaryColorDark: const Color(0xff616161),
+        primaryColor: const Color(0xffad1457),
+        primaryColorLight: const Color(0xffe35183),
+        primaryColorDark: const Color(0xff78002e),
+        accentColor: const Color(0xff546e7a),
+        backgroundColor: const Color(0xff29434e),
       ),
       home: Provider(
         create: (context) => portfolioData,
@@ -28,15 +32,24 @@ class LayoutScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
+        // The items are ordered in reverse so that the elevation from the material of the left section can draw a shadow.
         textDirection: TextDirection.rtl,
         children: <Widget>[
           Flexible(
             flex: 11,
             fit: FlexFit.tight,
             child: Material(
-              child: GridView(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                children: <Widget>[for (final project in PortfolioData.of(context).projects) ProjectCard(project)],
+              color: Theme.of(context).backgroundColor,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: StaggeredGridView.countBuilder(
+                  crossAxisCount: 2,
+                  itemCount: PortfolioData.of(context).projects.length,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 14,
+                  staggeredTileBuilder: (int index) => StaggeredTile.fit(1),
+                  itemBuilder: (context, index) => ProjectCard(PortfolioData.of(context).projects[index]),
+                ),
               ),
             ),
           ),
@@ -50,9 +63,14 @@ class LayoutScaffold extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: ClipOval(
-                      child: Image(image: AssetImage('assets/avatar.png')),
+                    padding: const EdgeInsets.all(32),
+                    child: PhysicalModel(
+                      shape: BoxShape.circle,
+                      elevation: 4,
+                      color: Colors.transparent,
+                      child: ClipOval(
+                        child: Image(image: AssetImage('assets/avatar.png')),
+                      ),
                     ),
                   ),
                   Column(

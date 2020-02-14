@@ -31,7 +31,7 @@ class PortfolioData {
   factory PortfolioData.fromJson(Map<String, dynamic> json) => _$PortfolioDataFromJson(json);
 
   static Map<String, Color> colorsFromJson(Map<String, String> json) {
-    return json.map((key, value) => MapEntry(key, Color(int.parse(value.substring(1), radix: 16))));
+    return json.map((key, value) => MapEntry(key, Color(int.parse(value.substring(1), radix: 16)).withOpacity(1)));
   }
 
   static Map<String, AssetImage> iconsFromJson(Map<String, String> json) {

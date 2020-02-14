@@ -9,34 +9,59 @@ class ProjectCard extends StatelessWidget {
   const ProjectCard(this.project, {Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Card(
-        child: Column(
-          // This centers the title.
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SelectableText(
-              project.title,
-              style: Theme.of(context).textTheme.headline5,
-            ),
-            SizedBox(
-              // This allows to align the text at start if it does not fill the whole width.
-              width: double.infinity,
-              child: SelectableText(project.description),
-            ),
-            Container(
-              // This allows to align the wrap at start.
-              width: double.infinity,
-              color: Theme.of(context).primaryColorDark,
-              child: Padding(
-                padding: const EdgeInsets.all(4),
-                child: Wrap(
-                  children: <Widget>[
-                    for (final link in project.links) LinkIconButton(link),
-                  ],
+  Widget build(BuildContext context) => PhysicalModel(
+        elevation: 4,
+        borderRadius: BorderRadius.circular(8),
+        color: Colors.transparent,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Material(
+            color: Theme.of(context).cardColor,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              // This centers the title.
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: SelectableText(
+                    project.title,
+                    style: Theme.of(context).textTheme.headline5,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-            )
-          ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 8, right: 4, left: 6),
+                  child: SizedBox(
+                    // This allows to align the text at start if it does not fill the whole width.
+                    width: double.infinity,
+                    child: SelectableText(project.description),
+                  ),
+                ),
+                Divider(),
+                Container(
+                  // This allows to align the wrap at start.
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 8, left: 8, right: 4),
+                    child: Wrap(
+                      children: <Widget>[for (final category in project.categories) Category(category)],
+                    ),
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  color: Theme.of(context).primaryColorLight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Wrap(
+                      children: <Widget>[for (final link in project.links) LinkIconButton(link)],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
       );
 }
@@ -81,6 +106,40 @@ class SiteIcon extends StatelessWidget {
             child: Image(image: Provider.of<PortfolioData>(context).icons[site]),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class Category extends StatelessWidget {
+  final String category;
+
+  const Category(this.category, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final dotSize = Theme.of(context).iconTheme.size / 4;
+
+    print(PortfolioData.of(context).colors['Flutter']);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: <Widget>[
+          Container(
+            width: dotSize,
+            height: dotSize,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: PortfolioData.of(context).colors[category],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 4, right: 8),
+            child: Text(category),
+          ),
+        ],
       ),
     );
   }
