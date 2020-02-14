@@ -13,11 +13,11 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData.light().copyWith(
         iconTheme: IconThemeData(size: 24),
-        primaryColor: const Color(0xffad1457),
-        primaryColorLight: const Color(0xffe35183),
-        primaryColorDark: const Color(0xff78002e),
-        accentColor: const Color(0xff546e7a),
-        backgroundColor: const Color(0xff29434e),
+        primaryColor: const Color(0xff444444),
+        primaryColorLight: const Color(0xff777777),
+        primaryColorDark: const Color(0xff111111),
+        accentColor: const Color(0xff999999),
+        backgroundColor: const Color(0xff333333),
       ),
       home: Provider(
         create: (context) => portfolioData,
@@ -41,7 +41,7 @@ class LayoutScaffold extends StatelessWidget {
             child: Material(
               color: Theme.of(context).backgroundColor,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(16),
                 child: StaggeredGridView.countBuilder(
                   crossAxisCount: 2,
                   itemCount: PortfolioData.of(context).projects.length,
@@ -73,12 +73,19 @@ class LayoutScaffold extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Column(
-                    // The socials are wrapped in another column in order to align all of them at a common start point.
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      for (final social in Provider.of<PortfolioData>(context).socials) SocialTile(social),
-                    ],
+                  Card(
+                    color: Theme.of(context).primaryColorLight,
+                    elevation: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Column(
+                        // The socials are wrapped in another column in order to align all of them at a common start point.
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          for (final social in Provider.of<PortfolioData>(context).socials) SocialTile(social),
+                        ],
+                      ),
+                    ),
                   )
                   // todo filters
                 ],
@@ -100,7 +107,7 @@ class SocialTile extends StatelessWidget {
         child: InkWell(
           onTap: () => launch(social.url),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 3),
+            padding: const EdgeInsets.only(top: 3, bottom: 3, left: 5),
             child: Wrap(
               direction: Axis.horizontal,
               crossAxisAlignment: WrapCrossAlignment.center,

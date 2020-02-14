@@ -78,7 +78,7 @@ class LinkIconButton extends StatelessWidget {
           onTap: () {
             launch(link.url);
           },
-          child: Padding(padding: const EdgeInsets.all(2), child: SiteIcon(link.site)),
+          child: Padding(padding: const EdgeInsets.only(top: 3, bottom: 3, right: 4, left: 2), child: SiteIcon(link.site)),
         ),
       );
 }
