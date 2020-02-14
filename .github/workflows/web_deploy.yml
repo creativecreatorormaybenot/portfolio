@@ -24,6 +24,7 @@ jobs:
       - name: Build and deploy app
         run: |
           flutter packages get
+          flutter packages pub run build_runner build
           flutter config --enable-web
           flutter create .
           flutter build web --release

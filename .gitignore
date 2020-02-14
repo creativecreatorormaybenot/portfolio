@@ -43,3 +43,4 @@ web
 ios
 android
 test
+**.g.dart
