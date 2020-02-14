@@ -40,16 +40,14 @@ class LayoutScaffold extends StatelessWidget {
             fit: FlexFit.tight,
             child: Material(
               color: Theme.of(context).backgroundColor,
-              child: Padding(
+              child: StaggeredGridView.countBuilder(
                 padding: const EdgeInsets.all(16),
-                child: StaggeredGridView.countBuilder(
-                  crossAxisCount: 2,
-                  itemCount: PortfolioData.of(context).projects.length,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 14,
-                  staggeredTileBuilder: (int index) => StaggeredTile.fit(1),
-                  itemBuilder: (context, index) => ProjectCard(PortfolioData.of(context).projects[index]),
-                ),
+                crossAxisCount: 2,
+                itemCount: PortfolioData.of(context).projects.length,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 14,
+                staggeredTileBuilder: (int index) => StaggeredTile.fit(1),
+                itemBuilder: (context, index) => ProjectCard(PortfolioData.of(context).projects[index]),
               ),
             ),
           ),
