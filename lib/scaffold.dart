@@ -70,43 +70,48 @@ class LayoutScaffold extends StatelessWidget {
             child: Material(
               elevation: 8,
               color: Theme.of(context).primaryColor,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  LayoutBuilder(
-                    // This allows to size the avatar relatively and apply the same padding vertically (which would not work with a Row).
-                    builder: (context, constraints) {
-                      final padding = constraints.biggest.width / 9.9;
+              child: SizedBox(
+                height: double.infinity,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      LayoutBuilder(
+                        // This allows to size the avatar relatively and apply the same padding vertically (which would not work with a Row).
+                        builder: (context, constraints) {
+                          final padding = constraints.biggest.width / 9.9;
 
-                      return Padding(
-                        padding: EdgeInsets.all(padding),
-                        child: PhysicalModel(
-                          shape: BoxShape.circle,
-                          elevation: 4,
-                          color: Colors.transparent,
-                          child: ClipOval(
-                            child: Image(image: AssetImage('assets/avatar.png')),
+                          return Padding(
+                            padding: EdgeInsets.all(padding),
+                            child: PhysicalModel(
+                              shape: BoxShape.circle,
+                              elevation: 4,
+                              color: Colors.transparent,
+                              child: ClipOval(
+                                child: Image(image: AssetImage('assets/avatar.png')),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      Card(
+                        color: Theme.of(context).primaryColorLight,
+                        elevation: 1,
+                        child: Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: Column(
+                            // The socials are wrapped in another column in order to align all of them at a common start point.
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              for (final social in Provider.of<PortfolioData>(context).socials) SocialTile(social),
+                            ],
                           ),
                         ),
-                      );
-                    },
+                      )
+                      // todo filters
+                    ],
                   ),
-                  Card(
-                    color: Theme.of(context).primaryColorLight,
-                    elevation: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(4),
-                      child: Column(
-                        // The socials are wrapped in another column in order to align all of them at a common start point.
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          for (final social in Provider.of<PortfolioData>(context).socials) SocialTile(social),
-                        ],
-                      ),
-                    ),
-                  )
-                  // todo filters
-                ],
+                ),
               ),
             ),
           ),
