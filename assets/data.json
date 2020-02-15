@@ -1,7 +1,7 @@
 {
   "filters": [
     {
-      "name": "Categories",
+      "title": "Categories",
       "items": [
         "Open source",
         "Flutter",
@@ -11,7 +11,7 @@
       ]
     },
     {
-      "name": "Languages",
+      "title": "Languages",
       "items": [
         "Dart",
         "JavaScript",
@@ -26,7 +26,7 @@
       ]
     },
     {
-      "name": "Platforms",
+      "title": "Platforms",
       "items": [
         "Web",
         "Android",
@@ -217,7 +217,7 @@
     },
     {
       "title": "StackOverflow answers",
-      "description": "I have been active on StackOverflow (and StackExchange in general) for quite a while now. By now, most of my contributions to the network are Flutter related, which is why I included it here. It offers an amazing way to share knowledge with others, which I appreciate a lot. I find article-esque most useful, which is also why some of my answers are very elaborate and could have easily been published as articles.",
+      "description": "I have been active on StackOverflow (and StackExchange in general) for quite a while now. By now, most of my contributions to the network are Flutter related, which is why I included it here. It offers an amazing way to share knowledge with others, which I appreciate a lot. I find article-esque answers most useful, which is also why some of my answers are very elaborate and could have easily been published as articles.",
       "tags": [
         "Article",
         "Flutter",
