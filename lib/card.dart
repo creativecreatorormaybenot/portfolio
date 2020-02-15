@@ -45,7 +45,7 @@ class ProjectCard extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 8, left: 8, right: 4),
                     child: Wrap(
-                      children: <Widget>[for (final category in project.categories) Category(category)],
+                      children: <Widget>[for (final tag in project.tags) Tag(tag)],
                     ),
                   ),
                 ),
@@ -117,10 +117,10 @@ class SiteIcon extends StatelessWidget {
   }
 }
 
-class Category extends StatelessWidget {
-  final String category;
+class Tag extends StatelessWidget {
+  final String tag;
 
-  const Category(this.category, {Key key}) : super(key: key);
+  const Tag(this.tag, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +138,7 @@ class Category extends StatelessWidget {
             height: dotSize,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: PortfolioData.of(context).colors[category],
+              color: PortfolioData.of(context).colors[tag],
             ),
           ),
           Padding(
