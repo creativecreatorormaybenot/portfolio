@@ -143,7 +143,7 @@ class Tag extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 4, right: 8),
-            child: Text(category),
+            child: Text(tag),
           ),
         ],
       ),

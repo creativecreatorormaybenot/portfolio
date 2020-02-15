@@ -20,7 +20,9 @@
         "Java",
         "C++",
         "Go",
-        "Objective-C"
+        "Objective-C",
+        "HTML",
+        "CSS"
       ]
     },
     {
@@ -41,6 +43,8 @@
     "C++": "#6866fb",
     "Go": "#375eab",
     "Objective-C": "#438eff",
+    "HTML": "#e44b23",
+    "CSS": "#563d7c",
     "Web": "#000000",
     "Android": "#3ddc84",
     "iOS": "#fc3d39",
@@ -171,19 +175,75 @@
       ]
     },
     {
-      "title": "wakelock plugin for Flutter"
+      "title": "wakelock plugin for Flutter",
+      "description": "",
+      "tags": [
+        "Flutter",
+        "Dart",
+        "Open source",
+        "Android",
+        "Java",
+        "iOS",
+        "Objective-C"
+      ],
+      "links": []
     },
     {
-      "title": "StackOverflow answers"
+      "title": "StackOverflow answers",
+      "description": "",
+      "tags": [
+        "Flutter",
+        "Firebase",
+        "Android",
+        "Dart",
+        "JavaScript",
+        "Kotlin",
+        "Java",
+        "Python",
+        "Go",
+        "HTML",
+        "CSS"
+      ],
+      "links": []
     },
     {
-      "title": "Aso"
+      "title": "Aso",
+      "description": "",
+      "tags": [
+        "Flutter",
+        "Firebase",
+        "Dart",
+        "C++",
+        "JavaScript",
+        "HTML",
+        "CSS"
+      ],
+      "links": []
     },
     {
-      "title": "Flutter framework contributions"
+      "title": "Flutter framework contributions",
+      "description": "",
+      "tags": [
+        "Open source",
+        "Flutter",
+        "Dart"
+      ],
+      "links": []
     },
     {
-      "title": "Flutter plugins contributions"
+      "title": "Flutter plugins contributions",
+      "description": "",
+      "tags": [
+        "Open source",
+        "Flutter",
+        "Firebase",
+        "Android",
+        "iOS",
+        "Dart",
+        "Java",
+        "Objective-C"
+      ],
+      "links": []
     }
   ]
 }
