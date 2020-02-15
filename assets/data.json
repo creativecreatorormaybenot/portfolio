@@ -20,7 +20,9 @@
         "Java",
         "C++",
         "Go",
-        "Objective-C"
+        "Objective-C",
+        "HTML",
+        "CSS"
       ]
     },
     {
@@ -41,6 +43,8 @@
     "C++": "#6866fb",
     "Go": "#375eab",
     "Objective-C": "#438eff",
+    "HTML": "#e44b23",
+    "CSS": "#563d7c",
     "Web": "#000000",
     "Android": "#3ddc84",
     "iOS": "#fc3d39",
@@ -65,7 +69,7 @@
     {
       "tag": "@creativecreatorormaybenot",
       "site": "GitHub",
-      "url": "https://github.com/creativecreatorormaybenot/clock"
+      "url": "https://github.com/creativecreatorormaybenot"
     },
     {
       "tag": "@creativecreatorormaybenot",
@@ -107,7 +111,7 @@
         {
           "site": "Medium",
           "hint": "Article about the creation process on Medium",
-          "url": "https://link.medium.com/7AMS0mNUF3"
+          "url": "https://medium.com/flutter-community/pure-flutterclock-face-every-line-customly-drawn-with-pixel-perfect-control-c27cba427801"
         },
         {
           "hint": "Clock face running on Flutter web",
@@ -124,8 +128,69 @@
       ]
     },
     {
-      "title": "Material Design Feature Discovery",
-      "description": "A Flutter package that implements tap target feature discovery from a Material design spec. I am not the author - I majorly contributed later.",
+      "title": "Wakelock plugin",
+      "description": "A simple solution to keep the device screen awake in a Flutter app. The plugin is based on another plugin that was no longer maintained. So, I decided to create my own maintained version.",
+      "tags": [
+        "Flutter",
+        "Dart",
+        "Open source",
+        "Android",
+        "Java",
+        "iOS",
+        "Objective-C"
+      ],
+      "links": [
+        {
+          "site": "Dart Pub",
+          "hint": "Plugin on Dart Pub",
+          "url": "https://pub.dev/packages/wakelock"
+        },
+        {
+          "site": "GitHub",
+          "url": "https://github.com/creativecreatorormaybenot/wakelock"
+        }
+      ]
+    },
+    {
+      "title": "Aso",
+      "description": "Developed a Firebase driven Flutter app with a custom editor written in C++ (using dart:ffi) for Incom. The backend is written in JavaScript. Additionally, I created designs and even promotional videos.",
+      "tags": [
+        "Flutter",
+        "Firebase",
+        "Design",
+        "Android",
+        "Web",
+        "Dart",
+        "C++",
+        "Java",
+        "JavaScript",
+        "HTML",
+        "CSS"
+      ],
+      "links": [
+        {
+          "site": "Web",
+          "hint": "Aso website",
+          "url": "https://aso.incom.xyz"
+        },
+        {
+          "site": "Play Store",
+          "url": "https://play.google.com/store/apps/details?id=incom.aso"
+        },
+        {
+          "site": "YouTube",
+          "hint": "Beta trailer on YouTube",
+          "url": "https://youtu.be/OFxJbqVlW_U"
+        },
+        {
+          "site": "Twitter",
+          "url": "https://twitter.com/incom__/status/1163788481149198336?s=20"
+        }
+      ]
+    },
+    {
+      "title": "Material Design feature discovery package",
+      "description": "A Flutter package that implements tap target feature discovery from a Material design spec. I am not the author - I majorly contributed later. This is Flutter-only, i.e. it has no native implementations, only design. However, it is more complex than the wakelock plugin.",
       "tags": [
         "Flutter",
         "Dart",
@@ -151,12 +216,84 @@
       ]
     },
     {
+      "title": "StackOverflow answers",
+      "description": "I have been active on StackOverflow (and StackExchange in general) for quite a while now. By now, most of my contributions to the network are Flutter related, which is why I included it here. It offers an amazing way to share knowledge with others, which I appreciate a lot. I find article-esque most useful, which is also why some of my answers are very elaborate and could have easily been published as articles.",
+      "tags": [
+        "Article",
+        "Flutter",
+        "Firebase",
+        "Android",
+        "Dart",
+        "JavaScript",
+        "Kotlin",
+        "Java",
+        "Python",
+        "Go",
+        "HTML",
+        "CSS"
+      ],
+      "links": [
+        {
+          "site": "StackOverflow",
+          "url": "https://stackoverflow.com/users/6509751"
+        },
+        {
+          "site": "Medium",
+          "hint": "Medium article about SO that might be of interest",
+          "url": "https://medium.com/@creativecreatorormaybenot/sites-shamelessly-ripping-off-stack-overflow-content-4c10597ade57"
+        }
+      ]
+    },
+    {
+      "title": "Flutter plugins contributions",
+      "description": "This is my part to the Flutter plugins officially maintained by the Flutter team. Initially, the Firebase plugins for Flutter were part of flutter/plugins. They were later moved to FirebaseExtended/flutterfire, where I am a frequent contributor. Nevertheless, I have also contributed to other plugins in flutter/plugins :)",
+      "tags": [
+        "Open source",
+        "Flutter",
+        "Firebase",
+        "Android",
+        "iOS",
+        "Dart",
+        "Java",
+        "Objective-C"
+      ],
+      "links": [
+        {
+          "site": "GitHub",
+          "hint": "Commits to flutter/plugins",
+          "url": "https://github.com/flutter/plugins/commits?author=creativecreatorormaybenot"
+        },
+        {
+          "site": "GitHub",
+          "hint": "Commits to FirebaseExtended/flutterfire",
+          "url": "https://github.com/FirebaseExtended/flutterfire/commits?author=creativecreatorormaybenot"
+        }
+      ]
+    },
+    {
+      "title": "Flutter framework contributions",
+      "description": "In terms of the Flutter framework, I mostly committed to flutter/flutter. Furthermore, I have also created some commits in the other Flutter and Dart (dart-lang) repos. However, you can search for these if you really want to :) I only linked to the flutter/flutter commits here and the plugin commits in the other card as contributions to the other repositories are extremely spread out.",
+      "tags": [
+        "Open source",
+        "Flutter",
+        "Dart"
+      ],
+      "links": [
+        {
+          "site": "GitHub",
+          "hint": "Commits to flutter/flutter",
+          "url": "https://github.com/flutter/flutter/commits?author=creativecreatorormaybenot"
+        }
+      ]
+    },
+    {
       "title": "Portfolio",
-      "description": "I think we might have some inception going on here, right? Jokes aside, this portfolio is also a Flutter project of mine and the source code is also available on GitHub :) I had some fun with JSON serialization building it because it turns out that this makes adding to the portfolio a blessing (:",
+      "description": "I think we might have some inception going on here, right? Jokes aside, this portfolio is also a Flutter project of mine and the source code is also available on GitHub :) I had some fun with JSON serialization building it because it turns out that this makes adding to the portfolio a blessing (: In total, this is also a Flutter web demonstration.",
       "tags": [
         "Flutter",
         "Dart",
-        "Open source"
+        "Open source",
+        "Web"
       ],
       "links": [
         {
@@ -169,21 +306,6 @@
           "url": "https://creativecreatorormaybenot.github.io/portfolio"
         }
       ]
-    },
-    {
-      "title": "wakelock plugin for Flutter"
-    },
-    {
-      "title": "StackOverflow answers"
-    },
-    {
-      "title": "Aso"
-    },
-    {
-      "title": "Flutter framework contributions"
-    },
-    {
-      "title": "Flutter plugins contributions"
     }
   ]
 }

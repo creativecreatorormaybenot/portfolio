@@ -126,8 +126,6 @@ class Tag extends StatelessWidget {
   Widget build(BuildContext context) {
     final dotSize = Theme.of(context).iconTheme.size / 4;
 
-    print(PortfolioData.of(context).colors['Flutter']);
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Wrap(
@@ -143,7 +141,7 @@ class Tag extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 4, right: 8),
-            child: Text(category),
+            child: Text(tag),
           ),
         ],
       ),
