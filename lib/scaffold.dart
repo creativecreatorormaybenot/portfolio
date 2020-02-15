@@ -11,7 +11,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'creativecreatorormaybenot\'s portfolio',
+      title: 'creativecreatorormaybenot\'s Flutter portfolio',
       theme: ThemeData.light().copyWith(
         iconTheme: IconThemeData(size: 24),
         primaryColor: const Color(0xff444444),
