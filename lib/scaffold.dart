@@ -33,6 +33,8 @@ class App extends StatelessWidget {
 }
 
 class LayoutScaffold extends StatelessWidget {
+  static double crossAxisTileExtent = 420;
+
   const LayoutScaffold({Key key}) : super(key: key);
 
   @override
@@ -45,14 +47,20 @@ class LayoutScaffold extends StatelessWidget {
             fit: FlexFit.tight,
             child: Material(
               color: Theme.of(context).backgroundColor,
-              child: StaggeredGridView.countBuilder(
-                padding: const EdgeInsets.all(16),
-                crossAxisCount: 2,
-                itemCount: PortfolioData.of(context).projects.length,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                staggeredTileBuilder: (int index) => StaggeredTile.fit(1),
-                itemBuilder: (context, index) => ProjectCard(PortfolioData.of(context).projects[index]),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final count = constraints.biggest.width ~/ crossAxisTileExtent;
+
+                  return StaggeredGridView.countBuilder(
+                    padding: const EdgeInsets.all(16),
+                    crossAxisCount: count,
+                    itemCount: PortfolioData.of(context).projects.length,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
+                    staggeredTileBuilder: (int index) => StaggeredTile.fit(1),
+                    itemBuilder: (context, index) => ProjectCard(PortfolioData.of(context).projects[index]),
+                  );
+                },
               ),
             ),
           ),
