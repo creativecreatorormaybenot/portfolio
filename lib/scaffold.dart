@@ -207,48 +207,50 @@ class Filters extends StatelessWidget {
         // The accent color is used for the expansion tile text and icon when expanded.
         accentColor: const Color(0xff101010),
       ),
-      child: LayoutBuilder(
-        // This is required to align the tags relatively, but all at the same point. ExpansionTile aligns centered by default.
-        builder: (context, constraints) {
-          final padding = constraints.biggest.width / 4;
+      child: Material(
+        color: Theme.of(context).primaryColorLight,
+        child: LayoutBuilder(
+          // This is required to align the tags relatively, but all at the same point. ExpansionTile aligns centered by default.
+          builder: (context, constraints) {
+            final padding = constraints.biggest.width / 4;
 
-          return Column(
-            children: <Widget>[
-              for (final filter in PortfolioData.of(context).filters)
-                ExpansionTile(
-                  title: Text(filter.title),
-                  backgroundColor: Theme.of(context).primaryColorLight,
-                  onExpansionChanged: (expanded) {
-                    if (!expanded) {
-                      // Remove filter when the expansion tile containing the filter is retracted.
+            return Column(
+              children: <Widget>[
+                for (final filter in PortfolioData.of(context).filters)
+                  ExpansionTile(
+                    title: Text(filter.title),
+                    onExpansionChanged: (expanded) {
+                      if (!expanded) {
+                        // Remove filter when the expansion tile containing the filter is retracted.
 
-                      if (selected != null && filter.items.contains(selected)) {
-                        onSelect(selected);
+                        if (selected != null && filter.items.contains(selected)) {
+                          onSelect(selected);
+                        }
                       }
-                    }
-                  },
-                  children: <Widget>[
-                    for (final item in filter.items)
-                      SizedBox(
-                        // Because of the center alignment of the ExpansionTile Column, this is needed.
-                        width: double.infinity,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: padding),
-                          child: DefaultTextStyle(
-                            style: (item == selected ? Theme.of(context).textTheme.button : Theme.of(context).textTheme.bodyText2)
-                                .copyWith(fontSize: item == selected ? 14 : 13),
-                            child: InkWell(
-                              onTap: () => onSelect(item),
-                              child: Tag(item),
+                    },
+                    children: <Widget>[
+                      for (final item in filter.items)
+                        SizedBox(
+                          // Because of the center alignment of the ExpansionTile Column, this is needed.
+                          width: double.infinity,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: padding),
+                            child: DefaultTextStyle(
+                              style: (item == selected ? Theme.of(context).textTheme.button : Theme.of(context).textTheme.bodyText2)
+                                  .copyWith(fontSize: item == selected ? 14 : 13),
+                              child: InkWell(
+                                onTap: () => onSelect(item),
+                                child: Tag(item),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                  ],
-                )
-            ],
-          );
-        },
+                    ],
+                  )
+              ],
+            );
+          },
+        ),
       ),
     );
   }

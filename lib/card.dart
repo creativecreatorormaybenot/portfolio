@@ -45,7 +45,13 @@ class ProjectCard extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 8, left: 8, right: 4),
                     child: Wrap(
-                      children: <Widget>[for (final tag in project.tags) Tag(tag)],
+                      children: <Widget>[
+                        for (final tag in project.tags)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: Tag(tag),
+                          )
+                      ],
                     ),
                   ),
                 ),
@@ -140,7 +146,7 @@ class Tag extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 4, right: 8),
+            padding: const EdgeInsets.only(left: 4),
             child: Text(tag),
           ),
         ],
