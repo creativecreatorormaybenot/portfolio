@@ -63,11 +63,11 @@ class Social {
 class Project {
   final String title, description;
 
-  final List<String> categories;
+  final List<String> tags;
 
   final List<Link> links;
 
-  Project(this.title, this.description, this.categories, this.links);
+  Project(this.title, this.description, this.tags, this.links);
 
   factory Project.fromJson(Map<String, dynamic> json) => _$ProjectFromJson(json);
 }
