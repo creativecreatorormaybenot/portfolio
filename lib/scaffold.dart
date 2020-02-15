@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:portfolio/card.dart';
@@ -49,7 +51,7 @@ class LayoutScaffold extends StatelessWidget {
               color: Theme.of(context).backgroundColor,
               child: LayoutBuilder(
                 builder: (context, constraints) {
-                  final count = constraints.biggest.width ~/ crossAxisTileExtent;
+                  final count = max(1, constraints.biggest.width ~/ crossAxisTileExtent);
 
                   return StaggeredGridView.countBuilder(
                     padding: const EdgeInsets.all(16),
@@ -88,7 +90,11 @@ class LayoutScaffold extends StatelessWidget {
                               elevation: 4,
                               color: Colors.transparent,
                               child: ClipOval(
-                                child: Image(image: AssetImage('assets/avatar.png')),
+                                child: Image(
+                                  image: AssetImage('assets/avatar.png'),
+                                  fit: BoxFit.fitWidth,
+                                  alignment: Alignment.center,
+                                ),
                               ),
                             ),
                           );
