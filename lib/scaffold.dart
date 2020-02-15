@@ -73,16 +73,23 @@ class LayoutScaffold extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(32),
-                    child: PhysicalModel(
-                      shape: BoxShape.circle,
-                      elevation: 4,
-                      color: Colors.transparent,
-                      child: ClipOval(
-                        child: Image(image: AssetImage('assets/avatar.png')),
-                      ),
-                    ),
+                  LayoutBuilder(
+                    // This allows to size the avatar relatively and apply the same padding vertically (which would not work with a Row).
+                    builder: (context, constraints) {
+                      final padding = constraints.biggest.width / 9.9;
+
+                      return Padding(
+                        padding: EdgeInsets.all(padding),
+                        child: PhysicalModel(
+                          shape: BoxShape.circle,
+                          elevation: 4,
+                          color: Colors.transparent,
+                          child: ClipOval(
+                            child: Image(image: AssetImage('assets/avatar.png')),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                   Card(
                     color: Theme.of(context).primaryColorLight,
