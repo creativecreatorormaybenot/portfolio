@@ -16,11 +16,11 @@ class App extends StatelessWidget {
       title: 'creativecreatorormaybenot\'s Flutter portfolio',
       theme: ThemeData.light().copyWith(
         iconTheme: IconThemeData(size: 24),
-        primaryColor: const Color(0xff444444),
-        primaryColorLight: const Color(0xff777777),
-        primaryColorDark: const Color(0xff111111),
-        accentColor: const Color(0xff999999),
-        backgroundColor: const Color(0xff333333),
+        primaryColor: const Color(0xff7f7f7f),
+        primaryColorDark: const Color(0xff4a4a4a),
+        primaryColorLight: const Color(0xffb0b0b0),
+        backgroundColor: const Color(0xff303030),
+        accentColor: const Color(0xffacacac),
         splashColor: const Color(0xaaffffff),
         highlightColor: const Color(0x88ffffff),
         focusColor: const Color(0x77ffffff),
@@ -34,73 +34,89 @@ class App extends StatelessWidget {
   }
 }
 
-class LayoutScaffold extends StatelessWidget {
-  static double crossAxisTileExtent = 420;
+class LayoutScaffold extends StatefulWidget {
+  static double crossAxisTileExtent = 384;
 
   const LayoutScaffold({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Row(
-        // The items are ordered in reverse so that the elevation from the material of the left section can draw a shadow.
-        textDirection: TextDirection.rtl,
-        children: <Widget>[
-          Flexible(
-            flex: 11,
-            fit: FlexFit.tight,
-            child: Material(
-              color: Theme.of(context).backgroundColor,
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  final count = max(1, constraints.biggest.width ~/ crossAxisTileExtent);
+  _LayoutScaffoldState createState() => _LayoutScaffoldState();
+}
 
-                  return StaggeredGridView.countBuilder(
-                    padding: const EdgeInsets.all(16),
-                    crossAxisCount: count,
-                    itemCount: PortfolioData.of(context).projects.length,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
-                    staggeredTileBuilder: (int index) => StaggeredTile.fit(1),
-                    itemBuilder: (context, index) => ProjectCard(PortfolioData.of(context).projects[index]),
-                  );
-                },
-              ),
+class _LayoutScaffoldState extends State<LayoutScaffold> {
+  String filter;
+
+  @override
+  Widget build(BuildContext context) {
+    final projects = List.of(PortfolioData.of(context).projects);
+
+    if (filter != null) {
+      projects.removeWhere((element) => !element.tags.contains(filter));
+    }
+
+    return Row(
+      // The items are ordered in reverse so that the elevation from the material of the left section can draw a shadow.
+      textDirection: TextDirection.rtl,
+      children: <Widget>[
+        Flexible(
+          flex: 11,
+          fit: FlexFit.tight,
+          child: Material(
+            color: Theme.of(context).backgroundColor,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final count = max(1, constraints.biggest.width ~/ LayoutScaffold.crossAxisTileExtent);
+
+                return StaggeredGridView.countBuilder(
+                  padding: const EdgeInsets.all(16),
+                  crossAxisCount: count,
+                  itemCount: projects.length,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  staggeredTileBuilder: (int index) => StaggeredTile.fit(1),
+                  itemBuilder: (context, index) => ProjectCard(projects[index]),
+                );
+              },
             ),
           ),
-          Flexible(
-            flex: 3,
-            fit: FlexFit.tight,
-            child: Material(
-              elevation: 8,
-              color: Theme.of(context).primaryColor,
-              child: SizedBox(
-                height: double.infinity,
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      LayoutBuilder(
-                        // This allows to size the avatar relatively and apply the same padding vertically (which would not work with a Row).
-                        builder: (context, constraints) {
-                          final padding = constraints.biggest.width / 9.9;
+        ),
+        Flexible(
+          flex: 3,
+          fit: FlexFit.tight,
+          child: Material(
+            elevation: 8,
+            color: Theme.of(context).primaryColorDark,
+            child: SizedBox(
+              height: double.infinity,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    LayoutBuilder(
+                      // This allows to size the avatar relatively and apply the same padding vertically (which would not work with a Row).
+                      builder: (context, constraints) {
+                        final padding = constraints.biggest.width / 9.9;
 
-                          return Padding(
-                            padding: EdgeInsets.all(padding),
-                            child: PhysicalModel(
-                              shape: BoxShape.circle,
-                              elevation: 4,
-                              color: Colors.transparent,
-                              child: ClipOval(
-                                child: Image(
-                                  image: AssetImage('assets/avatar.png'),
-                                  fit: BoxFit.fitWidth,
-                                  alignment: Alignment.center,
-                                ),
+                        return Padding(
+                          padding: EdgeInsets.all(padding),
+                          child: PhysicalModel(
+                            shape: BoxShape.circle,
+                            elevation: 4,
+                            color: Colors.transparent,
+                            child: ClipOval(
+                              child: Image(
+                                image: AssetImage('assets/avatar.png'),
+                                fit: BoxFit.fitWidth,
+                                alignment: Alignment.center,
                               ),
                             ),
-                          );
-                        },
-                      ),
-                      Card(
+                          ),
+                        );
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 4),
+                      child: Card(
                         color: Theme.of(context).primaryColorLight,
                         elevation: 1,
                         child: Padding(
@@ -113,16 +129,36 @@ class LayoutScaffold extends StatelessWidget {
                             ],
                           ),
                         ),
-                      )
-                      // todo filters
-                    ],
-                  ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Card(
+                        color: Theme.of(context).primaryColorLight,
+                        elevation: 1,
+                        child: Filters(
+                          selected: filter,
+                          onSelect: (tag) {
+                            setState(() {
+                              if (filter == tag) {
+                                filter = null;
+                              } else {
+                                filter = tag;
+                              }
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
 }
 
 class SocialTile extends StatelessWidget {
@@ -141,7 +177,7 @@ class SocialTile extends StatelessWidget {
               direction: Axis.horizontal,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: <Widget>[
-                Text(social.tag, style: TextStyle(color: ThemeData.dark().textTheme.bodyText2.color)),
+                Text(social.tag),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: SiteIcon(social.site),
@@ -151,4 +187,69 @@ class SocialTile extends StatelessWidget {
           ),
         ),
       );
+}
+
+class Filters extends StatelessWidget {
+  final void Function(String tag) onSelect;
+
+  final String selected;
+
+  const Filters({
+    Key key,
+    this.onSelect,
+    this.selected,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      data: Theme.of(context).copyWith(
+        // The accent color is used for the expansion tile text and icon when expanded.
+        accentColor: const Color(0xff101010),
+      ),
+      child: LayoutBuilder(
+        // This is required to align the tags relatively, but all at the same point. ExpansionTile aligns centered by default.
+        builder: (context, constraints) {
+          final padding = constraints.biggest.width / 4;
+
+          return Column(
+            children: <Widget>[
+              for (final filter in PortfolioData.of(context).filters)
+                ExpansionTile(
+                  title: Text(filter.title),
+                  backgroundColor: Theme.of(context).primaryColorLight,
+                  onExpansionChanged: (expanded) {
+                    if (!expanded) {
+                      // Remove filter when the expansion tile containing the filter is retracted.
+
+                      if (selected != null && filter.items.contains(selected)) {
+                        onSelect(selected);
+                      }
+                    }
+                  },
+                  children: <Widget>[
+                    for (final item in filter.items)
+                      SizedBox(
+                        // Because of the center alignment of the ExpansionTile Column, this is needed.
+                        width: double.infinity,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: padding),
+                          child: DefaultTextStyle(
+                            style: (item == selected ? Theme.of(context).textTheme.button : Theme.of(context).textTheme.bodyText2)
+                                .copyWith(fontSize: item == selected ? 14 : 13),
+                            child: InkWell(
+                              onTap: () => onSelect(item),
+                              child: Tag(item),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                )
+            ],
+          );
+        },
+      ),
+    );
+  }
 }

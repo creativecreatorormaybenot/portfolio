@@ -41,11 +41,11 @@ class PortfolioData {
 
 @JsonSerializable(createToJson: false)
 class Filter {
-  final String name;
+  final String title;
 
   final List<String> items;
 
-  Filter(this.name, this.items);
+  Filter(this.title, this.items);
 
   factory Filter.fromJson(Map<String, dynamic> json) => _$FilterFromJson(json);
 }

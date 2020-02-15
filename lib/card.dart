@@ -53,7 +53,7 @@ class ProjectCard extends StatelessWidget {
                   width: double.infinity,
                   child: Material(
                     // The Material is needed to apply the splashes from the LinkIconButton's.
-                    color: Theme.of(context).primaryColorLight,
+                    color: Theme.of(context).primaryColor,
                     child: Padding(
                       padding: const EdgeInsets.all(4),
                       child: Wrap(

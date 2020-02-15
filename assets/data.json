@@ -1,7 +1,7 @@
 {
   "filters": [
     {
-      "name": "Categories",
+      "title": "Categories",
       "items": [
         "Open source",
         "Flutter",
@@ -11,7 +11,7 @@
       ]
     },
     {
-      "name": "Languages",
+      "title": "Languages",
       "items": [
         "Dart",
         "JavaScript",
@@ -26,7 +26,7 @@
       ]
     },
     {
-      "name": "Platforms",
+      "title": "Platforms",
       "items": [
         "Web",
         "Android",
