@@ -33,6 +33,8 @@ class App extends StatelessWidget {
 }
 
 class LayoutScaffold extends StatelessWidget {
+  static double crossAxisTileExtent = 420;
+
   const LayoutScaffold({Key key}) : super(key: key);
 
   @override
@@ -45,14 +47,20 @@ class LayoutScaffold extends StatelessWidget {
             fit: FlexFit.tight,
             child: Material(
               color: Theme.of(context).backgroundColor,
-              child: StaggeredGridView.countBuilder(
-                padding: const EdgeInsets.all(16),
-                crossAxisCount: 2,
-                itemCount: PortfolioData.of(context).projects.length,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                staggeredTileBuilder: (int index) => StaggeredTile.fit(1),
-                itemBuilder: (context, index) => ProjectCard(PortfolioData.of(context).projects[index]),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final count = constraints.biggest.width ~/ crossAxisTileExtent;
+
+                  return StaggeredGridView.countBuilder(
+                    padding: const EdgeInsets.all(16),
+                    crossAxisCount: count,
+                    itemCount: PortfolioData.of(context).projects.length,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
+                    staggeredTileBuilder: (int index) => StaggeredTile.fit(1),
+                    itemBuilder: (context, index) => ProjectCard(PortfolioData.of(context).projects[index]),
+                  );
+                },
               ),
             ),
           ),
@@ -62,36 +70,48 @@ class LayoutScaffold extends StatelessWidget {
             child: Material(
               elevation: 8,
               color: Theme.of(context).primaryColor,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(32),
-                    child: PhysicalModel(
-                      shape: BoxShape.circle,
-                      elevation: 4,
-                      color: Colors.transparent,
-                      child: ClipOval(
-                        child: Image(image: AssetImage('assets/avatar.png')),
+              child: SizedBox(
+                height: double.infinity,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      LayoutBuilder(
+                        // This allows to size the avatar relatively and apply the same padding vertically (which would not work with a Row).
+                        builder: (context, constraints) {
+                          final padding = constraints.biggest.width / 9.9;
+
+                          return Padding(
+                            padding: EdgeInsets.all(padding),
+                            child: PhysicalModel(
+                              shape: BoxShape.circle,
+                              elevation: 4,
+                              color: Colors.transparent,
+                              child: ClipOval(
+                                child: Image(image: AssetImage('assets/avatar.png')),
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                    ),
+                      Card(
+                        color: Theme.of(context).primaryColorLight,
+                        elevation: 1,
+                        child: Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: Column(
+                            // The socials are wrapped in another column in order to align all of them at a common start point.
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              for (final social in Provider.of<PortfolioData>(context).socials) SocialTile(social),
+                            ],
+                          ),
+                        ),
+                      )
+                      // todo filters
+                    ],
                   ),
-                  Card(
-                    color: Theme.of(context).primaryColorLight,
-                    elevation: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(4),
-                      child: Column(
-                        // The socials are wrapped in another column in order to align all of them at a common start point.
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          for (final social in Provider.of<PortfolioData>(context).socials) SocialTile(social),
-                        ],
-                      ),
-                    ),
-                  )
-                  // todo filters
-                ],
+                ),
               ),
             ),
           ),
