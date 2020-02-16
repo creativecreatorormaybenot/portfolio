@@ -35,7 +35,7 @@ class App extends StatelessWidget {
 }
 
 class LayoutScaffold extends StatefulWidget {
-  static double crossAxisTileExtent = 384;
+  static double crossAxisTileExtent = 360;
 
   const LayoutScaffold({Key key}) : super(key: key);
 
@@ -72,7 +72,7 @@ class _LayoutScaffoldState extends State<LayoutScaffold> {
                   crossAxisCount: count,
                   itemCount: projects.length,
                   mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
+                  crossAxisSpacing: 14,
                   staggeredTileBuilder: (int index) => StaggeredTile.fit(1),
                   itemBuilder: (context, index) => ProjectCard(projects[index]),
                 );
@@ -212,7 +212,7 @@ class Filters extends StatelessWidget {
         children: <Widget>[
           for (final filter in PortfolioData.of(context).filters)
             SizedBox(
-              width: 142,
+              width: 128,
               child: Material(
                 color: Theme.of(context).primaryColorLight,
                 child: ExpansionTile(
@@ -243,6 +243,8 @@ class Filters extends StatelessWidget {
                           ),
                         ),
                       ),
+                    // End padding
+                    SizedBox(height: 8),
                   ],
                 ),
               ),
