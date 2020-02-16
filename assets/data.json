@@ -72,6 +72,11 @@
       "url": "https://github.com/creativecreatorormaybenot"
     },
     {
+      "tag": "@creativemaybeno",
+      "site": "Twitter",
+      "url": "https://twitter.com/creativemaybeno"
+    },
+    {
       "tag": "@creativecreatorormaybenot",
       "site": "StackOverflow",
       "url": "https://stackoverflow.com/users/6509751"
@@ -83,24 +88,19 @@
     },
     {
       "tag": "@creativemaybeno",
-      "site": "Twitter",
-      "url": "https://twitter.com/creativemaybeno"
-    },
-    {
-      "tag": "@creativemaybeno",
       "site": "Reddit",
       "url": "https://reddit.com/u/creativemaybeno"
     }
   ],
   "projects": [
     {
-      "title": "Flutter Clock challenge submission",
-      "description": "Created a clock face for the Flutter Clock challenge and [confidential]. In this project, I made use of custom render objects to achieve full layout control - I also wrote an article about that.",
+      "title": "Flutter Clock",
+      "description": "Created a custom clock face for the Flutter Clock challenge. In this project, I made use of custom render objects to achieve full layout control - I also wrote an article about that. Moreover, everything was done in code, i.e. all animations and all design elements. I was able to achieve quite good skeuomorphism with the help of some custom fonts (:",
       "tags": [
         "Flutter",
         "Dart",
-        "Open source",
         "Design",
+        "Open source",
         "Article"
       ],
       "links": [
@@ -120,10 +120,6 @@
         {
           "site": "Twitter",
           "url": "https://twitter.com/creativemaybeno/status/1219433528858959872?s=20"
-        },
-        {
-          "hint": "Announcement of [confidential]",
-          "url": "TODO: link to [confidential]"
         }
       ]
     },
@@ -131,12 +127,12 @@
       "title": "Wakelock plugin",
       "description": "A simple solution to keep the device screen awake in a Flutter app. The plugin is based on another plugin that was no longer maintained. So, I decided to create my own maintained version.",
       "tags": [
-        "Flutter",
-        "Dart",
         "Open source",
+        "Flutter",
         "Android",
-        "Java",
         "iOS",
+        "Dart",
+        "Java",
         "Objective-C"
       ],
       "links": [
@@ -153,15 +149,15 @@
     },
     {
       "title": "Aso",
-      "description": "Developed a Firebase driven Flutter app with a custom editor written in C++ (using dart:ffi) for Incom. The backend is written in JavaScript. Additionally, I created designs and even promotional videos.",
+      "description": "Developed a Firebase driven Flutter app with a custom animation editor written in C++ (using dart:ffi) for Incom. The backend is written in JavaScript. Additionally, I created designs and even promotional videos.",
       "tags": [
         "Flutter",
         "Firebase",
         "Design",
-        "Android",
-        "Web",
         "Dart",
         "C++",
+        "Android",
+        "Web",
         "Java",
         "JavaScript",
         "HTML",
