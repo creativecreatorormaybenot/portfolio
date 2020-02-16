@@ -44,14 +44,14 @@ class LayoutScaffold extends StatefulWidget {
 }
 
 class _LayoutScaffoldState extends State<LayoutScaffold> {
-  String filter;
+  String _filter;
 
   @override
   Widget build(BuildContext context) {
     final projects = List.of(PortfolioData.of(context).projects);
 
-    if (filter != null) {
-      projects.removeWhere((element) => !element.tags.contains(filter));
+    if (_filter != null) {
+      projects.removeWhere((element) => !element.tags.contains(_filter));
     }
 
     return Row(
@@ -137,13 +137,13 @@ class _LayoutScaffoldState extends State<LayoutScaffold> {
                         color: Theme.of(context).primaryColorLight,
                         elevation: 1,
                         child: Filters(
-                          selected: filter,
+                          selected: _filter,
                           onSelect: (tag) {
                             setState(() {
-                              if (filter == tag) {
-                                filter = null;
+                              if (_filter == tag) {
+                                _filter = null;
                               } else {
-                                filter = tag;
+                                _filter = tag;
                               }
                             });
                           },
@@ -209,47 +209,94 @@ class Filters extends StatelessWidget {
       ),
       child: Material(
         color: Theme.of(context).primaryColorLight,
-        child: LayoutBuilder(
-          // This is required to align the tags relatively, but all at the same point. ExpansionTile aligns centered by default.
-          builder: (context, constraints) {
-            final padding = constraints.biggest.width / 4;
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            for (final filter in PortfolioData.of(context).filters)
+              IntrinsicWidth(
+                child: ExpansionTile(
+                  title: Text(filter.title),
+                  onExpansionChanged: (expanded) {
+                    if (!expanded) {
+                      // Remove filter when the expansion tile containing the filter is retracted.
 
-            return Column(
-              children: <Widget>[
-                for (final filter in PortfolioData.of(context).filters)
-                  ExpansionTile(
-                    title: Text(filter.title),
-                    onExpansionChanged: (expanded) {
-                      if (!expanded) {
-                        // Remove filter when the expansion tile containing the filter is retracted.
-
-                        if (selected != null && filter.items.contains(selected)) {
-                          onSelect(selected);
-                        }
+                      if (selected != null && filter.items.contains(selected)) {
+                        onSelect(selected);
                       }
-                    },
-                    children: <Widget>[
-                      for (final item in filter.items)
-                        SizedBox(
-                          // Because of the center alignment of the ExpansionTile Column, this is needed.
-                          width: double.infinity,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: padding),
-                            child: DefaultTextStyle(
-                              style: (item == selected ? Theme.of(context).textTheme.button : Theme.of(context).textTheme.bodyText2)
-                                  .copyWith(fontSize: item == selected ? 14 : 13),
-                              child: InkWell(
-                                onTap: () => onSelect(item),
-                                child: Tag(item),
-                              ),
-                            ),
+                    }
+                  },
+                  children: <Widget>[
+                    for (final item in filter.items)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: DefaultTextStyle(
+                          style: (item == selected ? Theme.of(context).textTheme.button : Theme.of(context).textTheme.bodyText2)
+                              .copyWith(fontSize: item == selected ? 14 : 13),
+                          child: InkWell(
+                            onTap: () => onSelect(item),
+                            child: Tag(item),
                           ),
                         ),
-                    ],
-                  )
-              ],
-            );
-          },
+                      ),
+                  ],
+                ),
+              )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ExpandableTile extends StatefulWidget {
+  final Widget title;
+
+  final List<Widget> children;
+
+  final void Function(bool expanded) onExpansionChanged;
+
+  const ExpandableTile({
+    Key key,
+    this.title,
+    this.children,
+    this.onExpansionChanged,
+  }) : super(key: key);
+
+  @override
+  State createState() => _ExpandableTileState();
+}
+
+class _ExpandableTileState extends State<ExpandableTile> {
+  bool _expanded;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _expanded = true;
+  }
+
+  void _toggle() {
+    setState(() {
+      _expanded = !_expanded;
+    });
+
+    widget.onExpansionChanged(_expanded);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: _toggle,
+      canRequestFocus: true,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            widget.title,
+            if (_expanded) ...widget.children,
+          ],
         ),
       ),
     );

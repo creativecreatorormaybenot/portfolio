@@ -45,13 +45,7 @@ class ProjectCard extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 8, left: 8, right: 4),
                     child: Wrap(
-                      children: <Widget>[
-                        for (final tag in project.tags)
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: Tag(tag),
-                          )
-                      ],
+                      children: <Widget>[for (final tag in project.tags) Tag(tag)],
                     ),
                   ),
                 ),
@@ -133,7 +127,7 @@ class Tag extends StatelessWidget {
     final dotSize = Theme.of(context).iconTheme.size / 4;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
       child: Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
         children: <Widget>[
