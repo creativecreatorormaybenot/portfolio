@@ -127,7 +127,7 @@ class Tag extends StatelessWidget {
     final dotSize = Theme.of(context).iconTheme.size / 4;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
       child: Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
         children: <Widget>[
@@ -140,7 +140,7 @@ class Tag extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 4, right: 8),
+            padding: const EdgeInsets.only(left: 4),
             child: Text(tag),
           ),
         ],

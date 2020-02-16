@@ -32,5 +32,3 @@ flutter:
     - assets/twitter.png
     - assets/web.png
     - assets/youtube.png
-
-  uses-material-design: true
