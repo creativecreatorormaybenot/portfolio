@@ -72,6 +72,11 @@
       "url": "https://github.com/creativecreatorormaybenot"
     },
     {
+      "tag": "@creativemaybeno",
+      "site": "Twitter",
+      "url": "https://twitter.com/creativemaybeno"
+    },
+    {
       "tag": "@creativecreatorormaybenot",
       "site": "StackOverflow",
       "url": "https://stackoverflow.com/users/6509751"
@@ -83,24 +88,19 @@
     },
     {
       "tag": "@creativemaybeno",
-      "site": "Twitter",
-      "url": "https://twitter.com/creativemaybeno"
-    },
-    {
-      "tag": "@creativemaybeno",
       "site": "Reddit",
       "url": "https://reddit.com/u/creativemaybeno"
     }
   ],
   "projects": [
     {
-      "title": "Flutter Clock challenge submission",
-      "description": "Created a clock face for the Flutter Clock challenge and [confidential]. In this project, I made use of custom render objects to achieve full layout control - I also wrote an article about that.",
+      "title": "Flutter Clock",
+      "description": "Created a custom clock face for the Flutter Clock challenge. In this project, I made use of custom render objects to achieve full layout control - I also wrote an article about that. Moreover, everything was done in code, i.e. all animations and all design elements. I was able to achieve quite good skeuomorphism with the help of some custom fonts (:",
       "tags": [
         "Flutter",
         "Dart",
-        "Open source",
         "Design",
+        "Open source",
         "Article"
       ],
       "links": [
@@ -120,10 +120,6 @@
         {
           "site": "Twitter",
           "url": "https://twitter.com/creativemaybeno/status/1219433528858959872?s=20"
-        },
-        {
-          "hint": "Announcement of [confidential]",
-          "url": "TODO: link to [confidential]"
         }
       ]
     },
@@ -131,12 +127,12 @@
       "title": "Wakelock plugin",
       "description": "A simple solution to keep the device screen awake in a Flutter app. The plugin is based on another plugin that was no longer maintained. So, I decided to create my own maintained version.",
       "tags": [
-        "Flutter",
-        "Dart",
         "Open source",
+        "Flutter",
         "Android",
-        "Java",
         "iOS",
+        "Dart",
+        "Java",
         "Objective-C"
       ],
       "links": [
@@ -153,15 +149,15 @@
     },
     {
       "title": "Aso",
-      "description": "Developed a Firebase driven Flutter app with a custom editor written in C++ (using dart:ffi) for Incom. The backend is written in JavaScript. Additionally, I created designs and even promotional videos.",
+      "description": "Developed a Firebase driven Flutter app with a custom animation editor written in C++ (using dart:ffi) for Incom. The backend is written in JavaScript. Additionally, I created designs and even promotional videos.",
       "tags": [
         "Flutter",
         "Firebase",
         "Design",
-        "Android",
-        "Web",
         "Dart",
         "C++",
+        "Android",
+        "Web",
         "Java",
         "JavaScript",
         "HTML",
@@ -189,13 +185,13 @@
       ]
     },
     {
-      "title": "Material Design feature discovery package",
-      "description": "A Flutter package that implements tap target feature discovery from a Material design spec. I am not the author - I majorly contributed later. This is Flutter-only, i.e. it has no native implementations, only design. However, it is more complex than the wakelock plugin.",
+      "title": "Feature discovery package",
+      "description": "A Flutter package that implements tap target feature discovery from a Material design spec. I am not the original author but majorly contributed later. This is Flutter-only, i.e. it has no native implementations, only design. However, it is more complex than the wakelock plugin.",
       "tags": [
-        "Flutter",
-        "Dart",
         "Open source",
-        "Design"
+        "Design",
+        "Flutter",
+        "Dart"
       ],
       "links": [
         {
@@ -205,7 +201,7 @@
         },
         {
           "site": "GitHub",
-          "hint": "GitHub contributors graph",
+          "hint": "Contributors on GitHub",
           "url": "https://github.com/ayalma/feature_discovery/graphs/contributors"
         },
         {
@@ -217,15 +213,15 @@
     },
     {
       "title": "StackOverflow answers",
-      "description": "I have been active on StackOverflow (and StackExchange in general) for quite a while now. By now, most of my contributions to the network are Flutter related, which is why I included it here. It offers an amazing way to share knowledge with others, which I appreciate a lot. I find article-esque answers most useful, which is also why some of my answers are very elaborate and could have easily been published as articles.",
+      "description": "I have been active on StackOverflow for quite a while. By now, most of my contributions to the network are Flutter related, which is why I included it in here. It offers an amazing way to share knowledge with others, which I appreciate a lot. I find (concise) article-esque answers most useful, which is also why some of my answers are very elaborate and could have easily been published as articles. The highest voted answers should be of decent quality, however, the votes do not exactly match how well an answer was written. Thus, I will share highlights going forward (example Twitter post linked).",
       "tags": [
         "Article",
         "Flutter",
-        "Firebase",
-        "Android",
         "Dart",
-        "JavaScript",
+        "Firebase",
         "Kotlin",
+        "Android",
+        "JavaScript",
         "Java",
         "Python",
         "Go",
@@ -241,12 +237,17 @@
           "site": "Medium",
           "hint": "Medium article about SO that might be of interest",
           "url": "https://medium.com/@creativecreatorormaybenot/sites-shamelessly-ripping-off-stack-overflow-content-4c10597ade57"
+        },
+        {
+          "site": "Twitter",
+          "hint": "Example highlight post",
+          "url": "https://twitter.com/creativemaybeno/status/1224895128059482112?s=20"
         }
       ]
     },
     {
       "title": "Flutter plugins contributions",
-      "description": "This is my part to the Flutter plugins officially maintained by the Flutter team. Initially, the Firebase plugins for Flutter were part of flutter/plugins. They were later moved to FirebaseExtended/flutterfire, where I am a frequent contributor. Nevertheless, I have also contributed to other plugins in flutter/plugins :)",
+      "description": "This is my part to the plugins officially maintained by the Flutter team. Initially, the Firebase plugins for Flutter were part of flutter/plugins. They were later moved to FirebaseExtended/flutterfire, where I am a frequent contributor. Nevertheless, I have also contributed to other plugins in flutter/plugins :)",
       "tags": [
         "Open source",
         "Flutter",
@@ -288,12 +289,12 @@
     },
     {
       "title": "Portfolio",
-      "description": "I think we might have some inception going on here, right? Jokes aside, this portfolio is also a Flutter project of mine and the source code is also available on GitHub :) I had some fun with JSON serialization building it because it turns out that this makes adding to the portfolio a blessing (: In total, this is also a Flutter web demonstration.",
+      "description": "I think we might have some inception going on here, right? Jokes aside, this portfolio is also a Flutter project of mine and the source code is available on GitHub :) I had some fun with JSON serialization building it because it turns out that this makes maintaining the portfolio a blessing (: In total, this is also a Flutter web demonstration.",
       "tags": [
         "Flutter",
-        "Dart",
+        "Web",
         "Open source",
-        "Web"
+        "Dart"
       ],
       "links": [
         {

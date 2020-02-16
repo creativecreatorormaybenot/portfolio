@@ -35,7 +35,7 @@ class App extends StatelessWidget {
 }
 
 class LayoutScaffold extends StatefulWidget {
-  static double crossAxisTileExtent = 360;
+  static double crossAxisTileExtent = 4e2;
 
   const LayoutScaffold({Key key}) : super(key: key);
 
