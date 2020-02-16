@@ -35,7 +35,7 @@ class App extends StatelessWidget {
 }
 
 class LayoutScaffold extends StatefulWidget {
-  static double crossAxisTileExtent = 384;
+  static double crossAxisTileExtent = 360;
 
   const LayoutScaffold({Key key}) : super(key: key);
 
@@ -72,7 +72,7 @@ class _LayoutScaffoldState extends State<LayoutScaffold> {
                   crossAxisCount: count,
                   itemCount: projects.length,
                   mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
+                  crossAxisSpacing: 14,
                   staggeredTileBuilder: (int index) => StaggeredTile.fit(1),
                   itemBuilder: (context, index) => ProjectCard(projects[index]),
                 );
