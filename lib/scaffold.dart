@@ -207,15 +207,17 @@ class Filters extends StatelessWidget {
         // The accent color is used for the expansion tile text and icon when expanded.
         accentColor: const Color(0xff101010),
       ),
-      child: Material(
-        color: Theme.of(context).primaryColorLight,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            for (final filter in PortfolioData.of(context).filters)
-              IntrinsicWidth(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          for (final filter in PortfolioData.of(context).filters)
+            SizedBox(
+              width: 142,
+              child: Material(
+                color: Theme.of(context).primaryColorLight,
                 child: ExpansionTile(
-                  title: Text(filter.title),
+                  title: Text(filter.title, maxLines: 1),
+                  trailing: SizedBox(width: 0),
                   onExpansionChanged: (expanded) {
                     if (!expanded) {
                       // Remove filter when the expansion tile containing the filter is retracted.
@@ -227,22 +229,25 @@ class Filters extends StatelessWidget {
                   },
                   children: <Widget>[
                     for (final item in filter.items)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
+                      SizedBox(
+                        width: double.infinity,
                         child: DefaultTextStyle(
                           style: (item == selected ? Theme.of(context).textTheme.button : Theme.of(context).textTheme.bodyText2)
                               .copyWith(fontSize: item == selected ? 14 : 13),
                           child: InkWell(
                             onTap: () => onSelect(item),
-                            child: Tag(item),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: Tag(item),
+                            ),
                           ),
                         ),
                       ),
                   ],
                 ),
-              )
-          ],
-        ),
+              ),
+            )
+        ],
       ),
     );
   }
