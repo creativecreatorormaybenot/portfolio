@@ -216,7 +216,7 @@ class Filters extends StatelessWidget {
               child: Material(
                 color: Theme.of(context).primaryColorLight,
                 child: ExpansionTile(
-                  title: Text(filter.title, maxLines: 1),
+                  title: Text(filter.title),
                   trailing: SizedBox(width: 0),
                   onExpansionChanged: (expanded) {
                     if (!expanded) {
