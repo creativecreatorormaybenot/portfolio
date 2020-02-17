@@ -305,6 +305,10 @@
           "site": "Web",
           "hint": "This portfolio running on Flutter Web",
           "url": "https://creativecreatorormaybenot.github.io/portfolio"
+        },
+        {
+          "site": "Twitter",
+          "url": "https://twitter.com/creativemaybeno/status/1229191827707899906?s=20"
         }
       ]
     }
