@@ -246,7 +246,7 @@
       ]
     },
     {
-      "title": "Official Flutter plugins & packages",
+      "title": "flutter/plugins & more",
       "description": "This is my part to the plugins and packages officially maintained by the Flutter team. That would be flutter/plugins and flutter/packages contributions. Initially, the Firebase plugins for Flutter were also part of flutter/plugins. They were later moved to FirebaseExtended/flutterfire, where I am a frequent contributor. Nevertheless, I have also contributed to other plugins in flutter/plugins :)",
       "tags": [
         "Open source",
