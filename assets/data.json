@@ -246,8 +246,8 @@
       ]
     },
     {
-      "title": "Flutter plugins contributions",
-      "description": "This is my part to the plugins officially maintained by the Flutter team. Initially, the Firebase plugins for Flutter were part of flutter/plugins. They were later moved to FirebaseExtended/flutterfire, where I am a frequent contributor. Nevertheless, I have also contributed to other plugins in flutter/plugins :)",
+      "title": "Official Flutter plugins & packages",
+      "description": "This is my part to the plugins and packages officially maintained by the Flutter team. That would be flutter/plugins and flutter/packages contributions. Initially, the Firebase plugins for Flutter were also part of flutter/plugins. They were later moved to FirebaseExtended/flutterfire, where I am a frequent contributor. Nevertheless, I have also contributed to other plugins in flutter/plugins :)",
       "tags": [
         "Open source",
         "Flutter",
@@ -268,6 +268,11 @@
           "site": "GitHub",
           "hint": "Commits to FirebaseExtended/flutterfire",
           "url": "https://github.com/FirebaseExtended/flutterfire/commits?author=creativecreatorormaybenot"
+        },
+        {
+          "site": "GitHub",
+          "hint": "Commits to flutter/packages",
+          "url": "https://github.com/flutter/packages/commits?author=creativecreatorormaybenot"
         }
       ]
     },
