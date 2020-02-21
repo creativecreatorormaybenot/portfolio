@@ -278,7 +278,7 @@
     },
     {
       "title": "Flutter framework contributions",
-      "description": "In terms of the Flutter framework, I mostly committed to flutter/flutter. Furthermore, I have also created some commits in the other Flutter and Dart (dart-lang) repos. However, you can search for these if you really want to :) I only linked to the flutter/flutter commits here and the plugin commits in the other card as contributions to the other repositories are extremely spread out.",
+      "description": "In terms of the Flutter framework, I mostly committed to flutter/flutter. Furthermore, I have also created some commits in the other Flutter and Dart (dart-lang) repos. However, you can search for these if you really want to :) I only linked to the flutter/flutter commits here and the plugin and packages commits in the other card. Contributions to the other repositories are extremely spread out.",
       "tags": [
         "Open source",
         "Flutter",
