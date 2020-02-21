@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:portfolio/card.dart';
@@ -46,14 +47,17 @@ class LayoutScaffold extends StatefulWidget {
 class _LayoutScaffoldState extends State<LayoutScaffold> {
   String _filter;
 
+  List<Project> projects;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    projects ??= List.of(PortfolioData.of(context).projects);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final projects = List.of(PortfolioData.of(context).projects);
-
-    if (_filter != null) {
-      projects.removeWhere((element) => !element.tags.contains(_filter));
-    }
-
     return Row(
       // The items are ordered in reverse so that the elevation from the material of the left section can draw a shadow.
       textDirection: TextDirection.rtl,
@@ -61,22 +65,33 @@ class _LayoutScaffoldState extends State<LayoutScaffold> {
         Flexible(
           flex: 11,
           fit: FlexFit.tight,
-          child: Material(
-            color: Theme.of(context).backgroundColor,
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                final count = max(1, constraints.biggest.width ~/ LayoutScaffold.crossAxisTileExtent);
-
-                return StaggeredGridView.countBuilder(
-                  padding: const EdgeInsets.all(16),
-                  crossAxisCount: count,
-                  itemCount: projects.length,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 14,
-                  staggeredTileBuilder: (int index) => StaggeredTile.fit(1),
-                  itemBuilder: (context, index) => ProjectCard(projects[index]),
+          child: Theme(
+            // The FadeThroughTransition uses the canvas color for the background.
+            data: Theme.of(context).copyWith(canvasColor: Theme.of(context).backgroundColor),
+            child: PageTransitionSwitcher(
+              transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
+                return FadeThroughTransition(
+                  animation: primaryAnimation,
+                  secondaryAnimation: secondaryAnimation,
+                  child: child,
                 );
               },
+              child: LayoutBuilder(
+                key: ValueKey(projects),
+                builder: (context, constraints) {
+                  final count = max(1, constraints.biggest.width ~/ LayoutScaffold.crossAxisTileExtent);
+
+                  return StaggeredGridView.countBuilder(
+                    padding: const EdgeInsets.all(16),
+                    crossAxisCount: count,
+                    itemCount: projects.length,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 14,
+                    staggeredTileBuilder: (int index) => StaggeredTile.fit(1),
+                    itemBuilder: (context, index) => ProjectCard(projects[index]),
+                  );
+                },
+              ),
             ),
           ),
         ),
@@ -139,11 +154,17 @@ class _LayoutScaffoldState extends State<LayoutScaffold> {
                         child: Filters(
                           selected: _filter,
                           onSelect: (tag) {
+                            if (_filter == tag) {
+                              _filter = null;
+                            } else {
+                              _filter = tag;
+                            }
+
                             setState(() {
-                              if (_filter == tag) {
-                                _filter = null;
-                              } else {
-                                _filter = tag;
+                              projects = List.of(PortfolioData.of(context, false).projects);
+
+                              if (_filter != null) {
+                                projects.removeWhere((element) => !element.tags.contains(_filter));
                               }
                             });
                           },

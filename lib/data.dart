@@ -9,7 +9,7 @@ part 'data.g.dart';
 
 @JsonSerializable(createToJson: false)
 class PortfolioData {
-  static PortfolioData of(BuildContext context) => Provider.of<PortfolioData>(context);
+  static PortfolioData of(BuildContext context, [bool listen = true]) => Provider.of<PortfolioData>(context, listen: listen);
 
   @JsonKey(required: true)
   final List<Filter> filters;
