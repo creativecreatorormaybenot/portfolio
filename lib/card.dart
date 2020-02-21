@@ -23,7 +23,7 @@ class ProjectCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(top: 8),
+                  padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
                   child: SelectableText(
                     project.title,
                     style: Theme.of(context).textTheme.headline5,
@@ -31,7 +31,7 @@ class ProjectCard extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8, right: 4, left: 6),
+                  padding: const EdgeInsets.only(top: 8, bottom: 4, left: 12, right: 8),
                   child: SizedBox(
                     // This allows to align the text at start if it does not fill the whole width.
                     width: double.infinity,
@@ -43,7 +43,7 @@ class ProjectCard extends StatelessWidget {
                   // This allows to align the wrap at start.
                   width: double.infinity,
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 8, left: 8, right: 4),
+                    padding: const EdgeInsets.only(bottom: 8, left: 10, right: 8),
                     child: Wrap(
                       children: <Widget>[for (final tag in project.tags) Tag(tag)],
                     ),
@@ -55,7 +55,7 @@ class ProjectCard extends StatelessWidget {
                     // The Material is needed to apply the splashes from the LinkIconButton's.
                     color: Theme.of(context).primaryColor,
                     child: Padding(
-                      padding: const EdgeInsets.all(4),
+                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                       child: Wrap(
                         children: <Widget>[for (final link in project.links) LinkIconButton(link)],
                       ),
@@ -82,7 +82,7 @@ class LinkIconButton extends StatelessWidget {
             launch(link.url);
           },
           child: Padding(
-            padding: const EdgeInsets.only(top: 3, bottom: 3, right: 4, left: 2),
+            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
             child: SiteIcon(link.site),
           ),
         ),
