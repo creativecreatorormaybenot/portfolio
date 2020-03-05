@@ -100,7 +100,7 @@
   "projects": [
     {
       "title": "Flutter Clock",
-      "description": "Created a custom clock face for the Flutter Clock challenge. It was selected as the winner in Code Quality out of over 850 unique submissions 🚀 In this project, I made use of custom render objects to achieve full layout control - I also wrote an article about that. Moreover, everything was done in code, i.e. all animations and all design elements. I was able to achieve quite good skeuomorphism with the help of some custom fonts (:",
+      "description": "Created a custom clock face for the Flutter Clock challenge. It was selected as the winner for Code Quality out of over 850 unique submissions 🚀 In this project, I made use of custom render objects to achieve full layout control - I also wrote an article about that. Moreover, everything was done in code, i.e. all animations and all design elements. I was able to achieve quite good skeuomorphism with the help of some custom fonts (:",
       "tags": [
         "Flutter",
         "Dart",
