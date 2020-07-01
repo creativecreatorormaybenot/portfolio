@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 class ProjectCard extends StatelessWidget {
   final Project project;
 
-  const ProjectCard(this.project, {Key key}) : super(key: key);
+  const ProjectCard(this.project, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => PhysicalModel(
@@ -23,7 +23,11 @@ class ProjectCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
+                  padding: const EdgeInsets.only(
+                    top: 8,
+                    left: 16,
+                    right: 16,
+                  ),
                   child: SelectableText(
                     project.title,
                     style: Theme.of(context).textTheme.headline5,
@@ -32,9 +36,14 @@ class ProjectCard extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                      top: 8, bottom: 4, left: 12, right: 8),
+                    top: 8,
+                    bottom: 4,
+                    left: 12,
+                    right: 8,
+                  ),
                   child: SizedBox(
-                    // This allows to align the text at start if it does not fill the whole width.
+                    // This allows to align the text at start if it does
+                    // not fill the whole width.
                     width: double.infinity,
                     child: SelectableText(project.description),
                   ),
@@ -44,8 +53,11 @@ class ProjectCard extends StatelessWidget {
                   // This allows to align the wrap at start.
                   width: double.infinity,
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(bottom: 8, left: 10, right: 8),
+                    padding: const EdgeInsets.only(
+                      bottom: 8,
+                      left: 10,
+                      right: 8,
+                    ),
                     child: Wrap(
                       children: <Widget>[
                         for (final tag in project.tags) Tag(tag)
@@ -56,11 +68,14 @@ class ProjectCard extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: Material(
-                    // The Material is needed to apply the splashes from the LinkIconButton's.
+                    // The Material is needed to apply the splashes
+                    // from the LinkIconButton's.
                     color: Theme.of(context).primaryColor,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 4, horizontal: 8),
+                        vertical: 4,
+                        horizontal: 8,
+                      ),
                       child: Wrap(
                         children: <Widget>[
                           for (final link in project.links) LinkIconButton(link)
@@ -79,7 +94,7 @@ class ProjectCard extends StatelessWidget {
 class LinkIconButton extends StatelessWidget {
   final Link link;
 
-  const LinkIconButton(this.link, {Key key}) : super(key: key);
+  const LinkIconButton(this.link, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Tooltip(
@@ -89,7 +104,10 @@ class LinkIconButton extends StatelessWidget {
             launch(link.url);
           },
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+            padding: const EdgeInsets.symmetric(
+              vertical: 4,
+              horizontal: 4,
+            ),
             child: SiteIcon(link.site),
           ),
         ),
@@ -99,7 +117,7 @@ class LinkIconButton extends StatelessWidget {
 class SiteIcon extends StatelessWidget {
   final String site;
 
-  const SiteIcon(this.site, {Key key}) : super(key: key);
+  const SiteIcon(this.site, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -112,12 +130,16 @@ class SiteIcon extends StatelessWidget {
           width: iconSize,
           height: iconSize,
           child: OverflowBox(
-            // The overflow of .7 pixels in both axes (.35 on each side) removes some white artifacts that are caused by some
-            // round icons that were clipped a tiny bit differently than ClipOval clips, i.e. the size of the circle is off by a few pixels.
+            // The overflow of .7 pixels in both axes (.35 on each side)
+            // removes some white artifacts that are caused by some
+            // round icons that were clipped a tiny bit differently than
+            // ClipOval clips, i.e. the size of the circle is off by a
+            // few pixels.
             maxWidth: iconSize + .7,
             maxHeight: iconSize + .7,
-            child:
-                Image(image: Provider.of<PortfolioData>(context).icons[site]),
+            child: Image(
+              image: Provider.of<PortfolioData>(context).icons[site]!,
+            ),
           ),
         ),
       ),
@@ -128,14 +150,17 @@ class SiteIcon extends StatelessWidget {
 class Tag extends StatelessWidget {
   final String tag;
 
-  const Tag(this.tag, {Key key}) : super(key: key);
+  const Tag(this.tag, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final dotSize = Theme.of(context).iconTheme.size / 4;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+      padding: const EdgeInsets.symmetric(
+        vertical: 4,
+        horizontal: 4,
+      ),
       child: Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
         children: <Widget>[
@@ -144,11 +169,13 @@ class Tag extends StatelessWidget {
             height: dotSize,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: PortfolioData.of(context).colors[tag],
+              color: PortfolioData.of(context).colors[tag]!,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 4),
+            padding: const EdgeInsets.only(
+              left: 4,
+            ),
             child: Text(tag),
           ),
         ],

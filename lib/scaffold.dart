@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class App extends StatelessWidget {
-  const App({Key key}) : super(key: key);
+  const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,16 +38,16 @@ class App extends StatelessWidget {
 class LayoutScaffold extends StatefulWidget {
   static double crossAxisTileExtent = 4e2;
 
-  const LayoutScaffold({Key key}) : super(key: key);
+  const LayoutScaffold({Key? key}) : super(key: key);
 
   @override
   _LayoutScaffoldState createState() => _LayoutScaffoldState();
 }
 
 class _LayoutScaffoldState extends State<LayoutScaffold> {
-  String _filter;
+  String? _filter;
 
-  List<Project> projects;
+  List<Project>? projects;
 
   @override
   void didChangeDependencies() {
@@ -59,16 +59,19 @@ class _LayoutScaffoldState extends State<LayoutScaffold> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      // The items are ordered in reverse so that the elevation from the material of the left section can draw a shadow.
+      // The items are ordered in reverse so that the elevation from the
+      // material of the left section can draw a shadow.
       textDirection: TextDirection.rtl,
       children: <Widget>[
         Flexible(
           flex: 11,
           fit: FlexFit.tight,
           child: Theme(
-            // The FadeThroughTransition uses the canvas color for the background.
-            data: Theme.of(context)
-                .copyWith(canvasColor: Theme.of(context).backgroundColor),
+            // The FadeThroughTransition uses the canvas color for the
+            // background.
+            data: Theme.of(context).copyWith(
+              canvasColor: Theme.of(context).backgroundColor,
+            ),
             child: PageTransitionSwitcher(
               transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
                 return FadeThroughTransition(
@@ -89,12 +92,12 @@ class _LayoutScaffoldState extends State<LayoutScaffold> {
                   return StaggeredGridView.countBuilder(
                     padding: const EdgeInsets.all(16),
                     crossAxisCount: count,
-                    itemCount: projects.length,
+                    itemCount: projects!.length,
                     mainAxisSpacing: 16,
                     crossAxisSpacing: 14,
                     staggeredTileBuilder: (int index) => StaggeredTile.fit(1),
                     itemBuilder: (context, index) => ProjectCard(
-                      projects[index],
+                      projects![index],
                     ),
                   );
                 },
@@ -115,7 +118,9 @@ class _LayoutScaffoldState extends State<LayoutScaffold> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     LayoutBuilder(
-                      // This allows to size the avatar relatively and apply the same padding vertically (which would not work with a Row).
+                      // This allows to size the avatar relatively and apply
+                      // the same padding vertically
+                      // (which would not work with a Row).
                       builder: (context, constraints) {
                         final padding = constraints.biggest.width / 9.9;
 
@@ -137,14 +142,17 @@ class _LayoutScaffoldState extends State<LayoutScaffold> {
                       },
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
+                      padding: const EdgeInsets.only(
+                        bottom: 4,
+                      ),
                       child: Card(
                         color: Theme.of(context).primaryColorLight,
                         elevation: 1,
                         child: Padding(
                           padding: const EdgeInsets.all(4),
                           child: Column(
-                            // The socials are wrapped in another column in order to align all of them at a common start point.
+                            // The socials are wrapped in another column in
+                            // order to align all of them at a common start point.
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               for (final social
@@ -175,7 +183,7 @@ class _LayoutScaffoldState extends State<LayoutScaffold> {
                                   PortfolioData.of(context, false).projects);
 
                               if (_filter != null) {
-                                projects.removeWhere((element) =>
+                                projects!.removeWhere((element) =>
                                     !element.tags.contains(_filter));
                               }
                             });
@@ -197,23 +205,29 @@ class _LayoutScaffoldState extends State<LayoutScaffold> {
 class SocialTile extends StatelessWidget {
   final Social social;
 
-  const SocialTile(this.social, {Key key}) : super(key: key);
+  const SocialTile(this.social, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Tooltip(
         message: '${social.tag} on ${social.site}',
         child: InkWell(
-          onTap: () => launch(social.url),
+          onTap: () => launch(social.url!),
           child: Padding(
-            padding: const EdgeInsets.only(top: 3, bottom: 3, left: 5),
+            padding: const EdgeInsets.only(
+              top: 3,
+              bottom: 3,
+              left: 5,
+            ),
             child: Wrap(
               direction: Axis.horizontal,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: <Widget>[
-                Text(social.tag),
+                Text(social.tag!),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: SiteIcon(social.site),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 5,
+                  ),
+                  child: SiteIcon(social.site!),
                 ),
               ],
             ),
@@ -225,11 +239,11 @@ class SocialTile extends StatelessWidget {
 class Filters extends StatelessWidget {
   final void Function(String tag) onSelect;
 
-  final String selected;
+  final String? selected;
 
   const Filters({
-    Key key,
-    this.onSelect,
+    Key? key,
+    required this.onSelect,
     this.selected,
   }) : super(key: key);
 
@@ -237,7 +251,8 @@ class Filters extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(
-        // The accent color is used for the expansion tile text and icon when expanded.
+        // The accent color is used for the expansion
+        // tile text and icon when expanded.
         accentColor: const Color(0xff101010),
       ),
       child: Column(
@@ -253,10 +268,11 @@ class Filters extends StatelessWidget {
                   trailing: SizedBox(width: 0),
                   onExpansionChanged: (expanded) {
                     if (!expanded) {
-                      // Remove filter when the expansion tile containing the filter is retracted.
+                      // Remove filter when the expansion tile
+                      // containing the filter is retracted.
 
                       if (selected != null && filter.items.contains(selected)) {
-                        onSelect(selected);
+                        onSelect(selected!);
                       }
                     }
                   },
@@ -272,8 +288,9 @@ class Filters extends StatelessWidget {
                           child: InkWell(
                             onTap: () => onSelect(item),
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                              ),
                               child: Tag(item),
                             ),
                           ),
@@ -299,10 +316,10 @@ class ExpandableTile extends StatefulWidget {
   final void Function(bool expanded) onExpansionChanged;
 
   const ExpandableTile({
-    Key key,
-    this.title,
-    this.children,
-    this.onExpansionChanged,
+    Key? key,
+    required this.onExpansionChanged,
+    required this.title,
+    required this.children,
   }) : super(key: key);
 
   @override
@@ -310,14 +327,7 @@ class ExpandableTile extends StatefulWidget {
 }
 
 class _ExpandableTileState extends State<ExpandableTile> {
-  bool _expanded;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _expanded = true;
-  }
+  bool _expanded = true;
 
   void _toggle() {
     setState(() {
@@ -333,7 +343,9 @@ class _ExpandableTileState extends State<ExpandableTile> {
       onTap: _toggle,
       canRequestFocus: true,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 8,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

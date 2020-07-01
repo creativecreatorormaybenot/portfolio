@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:provider/provider.dart';
 
-/// Build using `flutter packages pub run build_runner build` in the project directory.
+/// Build using `flutter packages pub run build_runner build`
+/// in the project directory.
 part 'data.g.dart';
 
 @JsonSerializable(createToJson: false)
@@ -56,7 +57,7 @@ class Filter {
 
 @JsonSerializable(createToJson: false)
 class Social {
-  final String tag, site, url;
+  final String? tag, site, url;
 
   Social(this.tag, this.site, this.url);
 
@@ -85,7 +86,7 @@ class Link {
   @JsonKey(required: true)
   final String url;
 
-  final String hint;
+  final String? hint;
 
   Link(this.site, this.url, this.hint);
 

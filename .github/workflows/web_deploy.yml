@@ -28,11 +28,13 @@ jobs:
           flutter-version: '1.20.0-2.0.pre'
 
       - name: Build web app
+        # Need to include the manually edited (migrated to non-nullable) generated file until
+        # the generation package has been migrated to non-nullable.
+        #          flutter packages pub run build_runner build
         run: |
           flutter pub get
-          flutter packages pub run build_runner build
           flutter config --enable-web
-          flutter build web --release
+          flutter build web --release --enable-experiment=non-nullable --no-sound-null-safety
           cd build/web
           touch ".nojekyll"
 
