@@ -99,6 +99,34 @@
   ],
   "projects": [
     {
+      "title": "CaTeX",
+      "description": "Created a Dart-native Flutter TeX renderer for simpleclub. This includes a TeX parser and a widget + rendering setup that I came up with on my own (: The implementation is quite low-level (as far as sensible Flutter implementations go), which also makes it extremely fast. It terms of performance and flexibility, it is superior to any other TeX plugin for Flutter that came before that.",
+      "tags": [
+        "Flutter",
+        "Dart",
+        "Open source",
+        "Article"
+      ],
+      "links": [
+        {
+          "site": "GitHub",
+          "url": "https://github.com/simpleclub/CaTeX"
+        },
+        {
+          "hint": "Flutter web demo application for CaTeX",
+          "url": "https://simpleclub.github.io/CaTeX"
+        },
+        {
+          "site": "Twitter",
+          "url": "https://twitter.com/creativemaybeno/status/1277981413657079809?s=20"
+        },
+        {
+          "hint": "Article coming soon!",
+          "url": ""
+        }
+      ]
+    },
+    {
       "title": "Flutter Clock",
       "description": "Created a custom clock face for the Flutter Clock challenge. It was selected as the winner for Code Quality out of over 850 unique submissions 🚀 In this project, I made use of custom render objects to achieve full layout control - I also wrote an article about that. Moreover, everything was done in code, i.e. all animations and all design elements. I was able to achieve quite good skeuomorphism with the help of some custom fonts (:",
       "tags": [

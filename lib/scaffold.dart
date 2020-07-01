@@ -67,7 +67,8 @@ class _LayoutScaffoldState extends State<LayoutScaffold> {
           fit: FlexFit.tight,
           child: Theme(
             // The FadeThroughTransition uses the canvas color for the background.
-            data: Theme.of(context).copyWith(canvasColor: Theme.of(context).backgroundColor),
+            data: Theme.of(context)
+                .copyWith(canvasColor: Theme.of(context).backgroundColor),
             child: PageTransitionSwitcher(
               transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
                 return FadeThroughTransition(
@@ -79,7 +80,11 @@ class _LayoutScaffoldState extends State<LayoutScaffold> {
               child: LayoutBuilder(
                 key: ValueKey(projects),
                 builder: (context, constraints) {
-                  final count = max(1, constraints.biggest.width ~/ LayoutScaffold.crossAxisTileExtent);
+                  final count = max(
+                    1,
+                    constraints.biggest.width ~/
+                        LayoutScaffold.crossAxisTileExtent,
+                  );
 
                   return StaggeredGridView.countBuilder(
                     padding: const EdgeInsets.all(16),
@@ -88,7 +93,9 @@ class _LayoutScaffoldState extends State<LayoutScaffold> {
                     mainAxisSpacing: 16,
                     crossAxisSpacing: 14,
                     staggeredTileBuilder: (int index) => StaggeredTile.fit(1),
-                    itemBuilder: (context, index) => ProjectCard(projects[index]),
+                    itemBuilder: (context, index) => ProjectCard(
+                      projects[index],
+                    ),
                   );
                 },
               ),
@@ -140,7 +147,10 @@ class _LayoutScaffoldState extends State<LayoutScaffold> {
                             // The socials are wrapped in another column in order to align all of them at a common start point.
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              for (final social in Provider.of<PortfolioData>(context).socials) SocialTile(social),
+                              for (final social
+                                  in Provider.of<PortfolioData>(context)
+                                      .socials)
+                                SocialTile(social),
                             ],
                           ),
                         ),
@@ -161,10 +171,12 @@ class _LayoutScaffoldState extends State<LayoutScaffold> {
                             }
 
                             setState(() {
-                              projects = List.of(PortfolioData.of(context, false).projects);
+                              projects = List.of(
+                                  PortfolioData.of(context, false).projects);
 
                               if (_filter != null) {
-                                projects.removeWhere((element) => !element.tags.contains(_filter));
+                                projects.removeWhere((element) =>
+                                    !element.tags.contains(_filter));
                               }
                             });
                           },
@@ -233,7 +245,7 @@ class Filters extends StatelessWidget {
         children: <Widget>[
           for (final filter in PortfolioData.of(context).filters)
             SizedBox(
-              width: 128,
+              width: 142,
               child: Material(
                 color: Theme.of(context).primaryColorLight,
                 child: ExpansionTile(
@@ -253,12 +265,15 @@ class Filters extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: DefaultTextStyle(
-                          style: (item == selected ? Theme.of(context).textTheme.button : Theme.of(context).textTheme.bodyText2)
+                          style: (item == selected
+                                  ? Theme.of(context).textTheme.button
+                                  : Theme.of(context).textTheme.bodyText2)
                               .copyWith(fontSize: item == selected ? 14 : 13),
                           child: InkWell(
                             onTap: () => onSelect(item),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
                               child: Tag(item),
                             ),
                           ),
