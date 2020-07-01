@@ -1,0 +1,18 @@
+{
+    "name": "creativecreatorormaybenot's Flutter portfolio",
+    "short_name": "creativecreatorormaybenot's portfolio",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#0175C2",
+    "theme_color": "#0175C2",
+    "description": "creativecreatorormaybenot's Flutter web portfolio showing public work that I think is relevant to what I currently do.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "favicon.png",
+            "sizes": "420x420",
+            "type": "image/png"
+        }
+    ]
+}

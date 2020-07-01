@@ -30,6 +30,7 @@ jobs:
       - name: Build web app
         run: |
           flutter pub get
+          flutter packages pub run build_runner build
           flutter config --enable-web
           flutter build web --release
           cd build/web
