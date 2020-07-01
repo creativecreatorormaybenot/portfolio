@@ -9,7 +9,8 @@ part 'data.g.dart';
 
 @JsonSerializable(createToJson: false)
 class PortfolioData {
-  static PortfolioData of(BuildContext context, [bool listen = true]) => Provider.of<PortfolioData>(context, listen: listen);
+  static PortfolioData of(BuildContext context, [bool listen = true]) =>
+      Provider.of<PortfolioData>(context, listen: listen);
 
   @JsonKey(required: true)
   final List<Filter> filters;
@@ -26,12 +27,15 @@ class PortfolioData {
   @JsonKey(required: true)
   final List<Project> projects;
 
-  PortfolioData(this.filters, this.colors, this.icons, this.socials, this.projects);
+  PortfolioData(
+      this.filters, this.colors, this.icons, this.socials, this.projects);
 
-  factory PortfolioData.fromJson(Map<String, dynamic> json) => _$PortfolioDataFromJson(json);
+  factory PortfolioData.fromJson(Map<String, dynamic> json) =>
+      _$PortfolioDataFromJson(json);
 
   static Map<String, Color> colorsFromJson(Map<String, String> json) {
-    return json.map((key, value) => MapEntry(key, Color(int.parse(value.substring(1), radix: 16)).withOpacity(1)));
+    return json.map((key, value) => MapEntry(
+        key, Color(int.parse(value.substring(1), radix: 16)).withOpacity(1)));
   }
 
   static Map<String, AssetImage> iconsFromJson(Map<String, String> json) {
@@ -69,7 +73,8 @@ class Project {
 
   Project(this.title, this.description, this.tags, this.links);
 
-  factory Project.fromJson(Map<String, dynamic> json) => _$ProjectFromJson(json);
+  factory Project.fromJson(Map<String, dynamic> json) =>
+      _$ProjectFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)
@@ -90,4 +95,5 @@ class Link {
 Map _unimplemented(dynamic value) => throw UnimplementedError();
 
 @JsonLiteral('../assets/data.json')
-PortfolioData get portfolioData => PortfolioData.fromJson(_$portfolioDataJsonLiteral);
+PortfolioData get portfolioData =>
+    PortfolioData.fromJson(_$portfolioDataJsonLiteral);

@@ -11,30 +11,36 @@ on:
 
 jobs:
   build:
+    timeout-minutes: 6
     runs-on: ubuntu-latest
-
-    env:
-      deploy_secret: ${{ secrets.web_deploy }}
+    name: Web app deployment
 
     steps:
       - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1.1.1
         with:
+          persist-credentials: false
+
+      - uses: subosito/flutter-action@v1.3.2
+        with:
+          # Using the dev channel for now as Flutter web is not supported on stable yet.
           channel: 'dev'
-      - name: Build and deploy app
+          # Make sure to keep this up-to-date.
+          flutter-version: '1.20.0-2.0.pre'
+
+      - name: Build web app
         run: |
-          flutter packages get
-          flutter packages pub run build_runner build
+          flutter pub get
           flutter config --enable-web
-          flutter create .
           flutter build web --release
           cd build/web
-          git init
-          git config user.email "19204050+creativecreatorormaybenot@users.noreply.github.com"
-          git config user.name creativecreatorormaybenot
-          git remote add origin https://${{ secrets.web_deploy }}@github.com/creativecreatorormaybenot/portfolio.git
-          git checkout -b gh-pages
           touch ".nojekyll"
-          git add .
-          git commit -am "Web deployment"
-          git push origin gh-pages --force
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: build/web
+          GIT_CONFIG_NAME: creativecreatorormaybenot
+          GIT_CONFIG_EMAIL: creativecreatorormaybenot@gmail.com
+          COMMIT_MESSAGE: Deploy web app

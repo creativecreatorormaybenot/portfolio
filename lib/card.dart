@@ -31,7 +31,8 @@ class ProjectCard extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8, bottom: 4, left: 12, right: 8),
+                  padding: const EdgeInsets.only(
+                      top: 8, bottom: 4, left: 12, right: 8),
                   child: SizedBox(
                     // This allows to align the text at start if it does not fill the whole width.
                     width: double.infinity,
@@ -43,9 +44,12 @@ class ProjectCard extends StatelessWidget {
                   // This allows to align the wrap at start.
                   width: double.infinity,
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 8, left: 10, right: 8),
+                    padding:
+                        const EdgeInsets.only(bottom: 8, left: 10, right: 8),
                     child: Wrap(
-                      children: <Widget>[for (final tag in project.tags) Tag(tag)],
+                      children: <Widget>[
+                        for (final tag in project.tags) Tag(tag)
+                      ],
                     ),
                   ),
                 ),
@@ -55,9 +59,12 @@ class ProjectCard extends StatelessWidget {
                     // The Material is needed to apply the splashes from the LinkIconButton's.
                     color: Theme.of(context).primaryColor,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 8),
                       child: Wrap(
-                        children: <Widget>[for (final link in project.links) LinkIconButton(link)],
+                        children: <Widget>[
+                          for (final link in project.links) LinkIconButton(link)
+                        ],
                       ),
                     ),
                   ),
@@ -109,7 +116,8 @@ class SiteIcon extends StatelessWidget {
             // round icons that were clipped a tiny bit differently than ClipOval clips, i.e. the size of the circle is off by a few pixels.
             maxWidth: iconSize + .7,
             maxHeight: iconSize + .7,
-            child: Image(image: Provider.of<PortfolioData>(context).icons[site]),
+            child:
+                Image(image: Provider.of<PortfolioData>(context).icons[site]),
           ),
         ),
       ),
