@@ -41,4 +41,3 @@ lib/generated_plugin_registrant.dart
 ios
 android
 test
-**.g.dart
