@@ -90,11 +90,11 @@ class _LayoutScaffoldState extends State<LayoutScaffold> {
                   );
 
                   return StaggeredGridView.countBuilder(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(32),
                     crossAxisCount: count,
                     itemCount: projects!.length,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 14,
+                    mainAxisSpacing: 32,
+                    crossAxisSpacing: 28,
                     staggeredTileBuilder: (int index) => StaggeredTile.fit(1),
                     itemBuilder: (context, index) => ProjectCard(
                       projects![index],
