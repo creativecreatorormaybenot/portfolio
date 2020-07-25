@@ -3,24 +3,24 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
-  "main.dart.js": "307edaa57cd2f644e292c165faddf259",
-"favicon.png": "f106a5cbc8c59640a851646b83e632d2",
-"manifest.json": "a66670d9dce212c5f4ee815430a8acad",
-"assets/FontManifest.json": "d751713988987e9331980363e24189ce",
-"assets/NOTICES": "6f63ec0f693448464f4e9a687a4e7ec7",
-"assets/assets/medium.png": "45140ce1eb5fe8d0caed749229873cca",
-"assets/assets/twitter.png": "fba3a2dc663db92a2a02cb4fb1870ad3",
-"assets/assets/play_store.png": "fb481c44958bd1d21e52d0a856286fc4",
+  "manifest.json": "a66670d9dce212c5f4ee815430a8acad",
+"assets/NOTICES": "b750e1e05a57d1f65272d2381e5a3752",
+"assets/assets/dart_pub.png": "0f2d957830ec863d7d22eb4fc19e76be",
 "assets/assets/youtube.png": "eb3072f91cb01f5b1f7c6ac76c404c61",
 "assets/assets/web.png": "a98add2dfc3ba7af22c34cec4ad73767",
-"assets/assets/avatar.png": "f106a5cbc8c59640a851646b83e632d2",
-"assets/assets/stackoverflow.png": "6b99b3bbe6bc99a25625f112a43953bd",
-"assets/assets/dart_pub.png": "0f2d957830ec863d7d22eb4fc19e76be",
 "assets/assets/github.png": "ef7a02b69836dc8b6a732a54c4200dcb",
+"assets/assets/stackoverflow.png": "6b99b3bbe6bc99a25625f112a43953bd",
+"assets/assets/avatar.png": "f106a5cbc8c59640a851646b83e632d2",
+"assets/assets/play_store.png": "fb481c44958bd1d21e52d0a856286fc4",
+"assets/assets/twitter.png": "fba3a2dc663db92a2a02cb4fb1870ad3",
 "assets/assets/reddit.png": "f062fad2fbb0e11e82eb988d2b0647d1",
+"assets/assets/medium.png": "45140ce1eb5fe8d0caed749229873cca",
 "assets/AssetManifest.json": "7c03e6fed6e4c3fa8ad3edc957ececa9",
+"assets/FontManifest.json": "d751713988987e9331980363e24189ce",
+"favicon.png": "f106a5cbc8c59640a851646b83e632d2",
 "index.html": "35f213744283d71b8bfc9499f40e5556",
-"/": "35f213744283d71b8bfc9499f40e5556"
+"/": "35f213744283d71b8bfc9499f40e5556",
+"main.dart.js": "edb2fea662ed243110b5d5cae8e77aa4"
 };
 
 // The application shell files that are downloaded before a service worker can
@@ -111,7 +111,7 @@ self.addEventListener("fetch", (event) => {
   if (event.request.url == origin || event.request.url.startsWith(origin + '/#')) {
     key = '/';
   }
-  // If the URL is not the the RESOURCE list, skip the cache.
+  // If the URL is not the RESOURCE list, skip the cache.
   if (!RESOURCES[key]) {
     return event.respondWith(fetch(event.request));
   }
@@ -134,11 +134,11 @@ self.addEventListener("fetch", (event) => {
 self.addEventListener('message', (event) => {
   // SkipWaiting can be used to immediately activate a waiting service worker.
   // This will also require a page refresh triggered by the main worker.
-  if (event.data == 'skipWaiting') {
+  if (event.data === 'skipWaiting') {
     return self.skipWaiting();
   }
 
-  if (event.message = 'downloadOffline') {
+  if (event.message === 'downloadOffline') {
     downloadOffline();
   }
 });
