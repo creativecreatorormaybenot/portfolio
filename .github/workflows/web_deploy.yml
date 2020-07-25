@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - '.github/workflows/web_deploy.yaml'
+      - '.github/workflows/web_deploy.yml'
       - 'lib/**'
       - 'assets/**'
       - 'pubspec.yaml'
