@@ -26,7 +26,7 @@ jobs:
           # Using the dev channel for now as Flutter web is not supported on stable yet.
           channel: 'dev'
           # Make sure to keep this up-to-date.
-          flutter-version: '1.21.0-1.0.pre'
+          flutter-version: '1.21.0-7.0.pre'
 
       - name: Build web app
         # Need to include the manually edited (migrated to non-nullable) generated file until
