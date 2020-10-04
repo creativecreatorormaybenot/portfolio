@@ -169,9 +169,11 @@
         "Flutter",
         "Android",
         "iOS",
+        "Web",
         "Dart",
         "Kotlin",
-        "Objective-C"
+        "Objective-C",
+        "JavaScript"
       ],
       "links": [
         {
