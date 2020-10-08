@@ -121,7 +121,7 @@ class SiteIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconSize = Theme.of(context).iconTheme.size;
+    final iconSize = Theme.of(context).iconTheme.size!;
 
     return ClipOval(
       child: Container(
@@ -154,7 +154,7 @@ class Tag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dotSize = Theme.of(context).iconTheme.size / 4;
+    final dotSize = Theme.of(context).iconTheme.size! / 4;
 
     return Padding(
       padding: const EdgeInsets.symmetric(

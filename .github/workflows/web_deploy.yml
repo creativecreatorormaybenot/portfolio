@@ -21,12 +21,10 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: subosito/flutter-action@v1.3.2
+      - uses: subosito/flutter-action@v1.4.0
         with:
           # Using the dev channel for now as Flutter web is not supported on stable yet.
           channel: 'dev'
-          # Make sure to keep this up-to-date.
-          flutter-version: '1.21.0-7.0.pre'
 
       - name: Build web app
         # Need to include the manually edited (migrated to non-nullable) generated file until

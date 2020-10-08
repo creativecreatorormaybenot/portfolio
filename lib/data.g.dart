@@ -38,9 +38,9 @@ Filter _$FilterFromJson(Map<String, dynamic> json) {
 
 Social _$SocialFromJson(Map<String, dynamic> json) {
   return Social(
-    json['tag'] as String?,
-    json['site'] as String?,
-    json['url'] as String?,
+    json['tag'] as String,
+    json['site'] as String,
+    json['url'] as String,
   );
 }
 
@@ -60,7 +60,7 @@ Link _$LinkFromJson(Map<String, dynamic> json) {
   return Link(
     json['site'] as String? ?? 'Web',
     json['url'] as String,
-    json['hint'] as String?,
+    json['hint'] as String,
   );
 }
 
@@ -219,9 +219,11 @@ final _$portfolioDataJsonLiteral = {
         'Flutter',
         'Android',
         'iOS',
+        'Web',
         'Dart',
         'Kotlin',
-        'Objective-C'
+        'Objective-C',
+        'JavaScript'
       ],
       'links': [
         {
