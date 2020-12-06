@@ -33,7 +33,7 @@ jobs:
         run: |
           flutter pub get
           flutter config --enable-web
-          flutter build web --release
+          flutter build web --no-sound-null-safety
           cd build/web
           touch ".nojekyll"
 
