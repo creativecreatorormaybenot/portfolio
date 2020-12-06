@@ -23,8 +23,8 @@ jobs:
 
       - uses: subosito/flutter-action@v1.4.0
         with:
-          # Using the dev channel for now as Flutter web is not supported on stable yet.
-          channel: 'dev'
+          # Using the beta channel for Flutter web.
+          channel: 'beta'
 
       - name: Build web app
         # Need to include the manually edited (migrated to non-nullable) generated file until
@@ -33,7 +33,7 @@ jobs:
         run: |
           flutter pub get
           flutter config --enable-web
-          flutter build web --release --enable-experiment=non-nullable --no-sound-null-safety
+          flutter build web --release
           cd build/web
           touch ".nojekyll"
 

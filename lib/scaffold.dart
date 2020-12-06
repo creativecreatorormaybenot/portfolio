@@ -282,8 +282,8 @@ class Filters extends StatelessWidget {
                         width: double.infinity,
                         child: DefaultTextStyle(
                           style: (item == selected
-                                  ? Theme.of(context).textTheme.button
-                                  : Theme.of(context).textTheme.bodyText2)
+                                  ? Theme.of(context).textTheme.button!
+                                  : Theme.of(context).textTheme.bodyText2!)
                               .copyWith(fontSize: item == selected ? 14 : 13),
                           child: InkWell(
                             onTap: () => onSelect(item),
