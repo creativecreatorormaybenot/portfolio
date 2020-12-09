@@ -41,3 +41,6 @@ lib/generated_plugin_registrant.dart
 ios
 android
 test
+
+# Code gen
+**.g.dart

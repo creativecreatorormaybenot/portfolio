@@ -27,12 +27,10 @@ jobs:
           channel: 'beta'
 
       - name: Build web app
-        # Need to include the manually edited (migrated to non-nullable) generated file until
-        # the generation package has been migrated to non-nullable.
-        #          flutter packages pub run build_runner build
         run: |
           flutter pub get
           flutter config --enable-web
+          flutter packages pub run build_runner build
           flutter build web --no-sound-null-safety
           cd build/web
           touch ".nojekyll"
