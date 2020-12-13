@@ -31,7 +31,7 @@ jobs:
           flutter pub get
           flutter config --enable-web
           flutter packages pub run build_runner build
-          flutter build web --no-sound-null-safety
+          flutter build web --no-sound-null-safety --dart-define=FLUTTER_WEB_AUTO_DETECT=true
           cd build/web
           touch ".nojekyll"
 
