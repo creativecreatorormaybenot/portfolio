@@ -15,6 +15,7 @@
       "items": [
         "Dart",
         "JavaScript",
+        "TypeScript",
         "Python",
         "Kotlin",
         "Java",
@@ -37,6 +38,7 @@
   "colors": {
     "Dart": "#00b4ab",
     "JavaScript": "#f1e05a",
+    "TypeScript": "#2b7489",
     "Python": "#3572a5",
     "Kotlin": "#f18e33",
     "Java": "#b07219",
@@ -99,6 +101,36 @@
   ],
   "projects": [
     {
+      "title": "Funvas",
+      "description": "Time-based canvas animations in Flutter. Inspired by Dwitter, using some simple trigonometric functions and a time-based draw function, I was able to create some nice animations ✨ In order to simplify the process, I created the funvas package.",
+      "tags": [
+        "Flutter",
+        "Open source",
+        "Dart"
+      ],
+      "links": [
+        {
+          "site": "GitHub",
+          "url": "https://github.com/creativecreatorormaybenot/funvas"
+        },
+        {
+          "site": "Twitter",
+          "hint": "Pendulum example animation",
+          "url": "https://twitter.com/creativemaybeno/status/1327309901270560769?s=20"
+        },
+        {
+          "site": "Twitter",
+          "hint": "Arrows example animation",
+          "url": "https://twitter.com/creativemaybeno/status/1328261273922973696?s=20"
+        },
+        {
+          "site": "Twitter",
+          "hint": "Julia sets example animation",
+          "url": "https://twitter.com/creativemaybeno/status/1333757489670746112?s=20"
+        }
+      ]
+    },
+    {
       "title": "CaTeX",
       "description": "Created a Dart-native Flutter TeX renderer for simpleclub. This includes a TeX parser and a widget + rendering setup that I came up with on my own (: The implementation is quite low-level (as far as sensible Flutter implementations go), which also makes it extremely fast. It terms of performance and flexibility, it is superior to any other TeX plugin for Flutter that came before that.",
       "tags": [
@@ -119,10 +151,6 @@
         {
           "site": "Twitter",
           "url": "https://twitter.com/creativemaybeno/status/1277981413657079809?s=20"
-        },
-        {
-          "hint": "Article coming soon!",
-          "url": ""
         }
       ]
     },
