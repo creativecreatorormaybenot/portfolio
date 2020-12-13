@@ -16,11 +16,11 @@ const RESOURCES = {
 "assets/assets/dart_pub.png": "0f2d957830ec863d7d22eb4fc19e76be",
 "assets/AssetManifest.json": "7c03e6fed6e4c3fa8ad3edc957ececa9",
 "assets/FontManifest.json": "d751713988987e9331980363e24189ce",
-"assets/NOTICES": "db5da9ebe18e653844ebd4aea2b38380",
-"main.dart.js": "5f3ead1a9e33af1623391ff97362e42d",
+"assets/NOTICES": "df3599e5327858384ffbbdcd4b7bb725",
+"main.dart.js": "9b9da3d8a5c2b22adc390bc7f6d7c8ed",
 "favicon.png": "f106a5cbc8c59640a851646b83e632d2",
-"index.html": "96c64ae5a59c260b02b26b60e7542052",
-"/": "96c64ae5a59c260b02b26b60e7542052",
+"index.html": "310ec8995d52b004a012e62a5b9ac05b",
+"/": "310ec8995d52b004a012e62a5b9ac05b",
 "manifest.json": "a66670d9dce212c5f4ee815430a8acad"
 };
 
