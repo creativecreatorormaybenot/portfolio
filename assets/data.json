@@ -114,6 +114,10 @@
           "url": "https://github.com/creativecreatorormaybenot/funvas"
         },
         {
+          "hint": "Live demo",
+          "url": "https://funvas.creativemaybeno.dev"
+        },
+        {
           "site": "Twitter",
           "hint": "Pendulum example animation",
           "url": "https://twitter.com/creativemaybeno/status/1327309901270560769?s=20"
@@ -170,13 +174,13 @@
           "url": "https://github.com/creativecreatorormaybenot/clock"
         },
         {
+          "hint": "Clock face running on Flutter web",
+          "url": "https://clock.creativemaybeno.dev"
+        },
+        {
           "site": "Medium",
           "hint": "Article about the creation process on Medium",
           "url": "https://medium.com/flutter-community/pure-flutterclock-face-every-line-customly-drawn-with-pixel-perfect-control-c27cba427801"
-        },
-        {
-          "hint": "Clock face running on Flutter web",
-          "url": "https://creativecreatorormaybenot.github.io/clock"
         },
         {
           "site": "Medium",
@@ -377,7 +381,7 @@
         {
           "site": "Web",
           "hint": "This portfolio running on Flutter Web",
-          "url": "https://creativecreatorormaybenot.github.io/portfolio"
+          "url": "https://portfolio.creativemaybeno.dev"
         },
         {
           "site": "Twitter",
