@@ -1,4 +1,4 @@
-name: web app
+name: Web app
 
 on:
   push:
@@ -7,23 +7,22 @@ on:
     paths:
       - '.github/workflows/web_deploy.yml'
       - 'lib/**'
+      - 'web/**'
       - 'assets/**'
       - 'pubspec.yaml'
 
 jobs:
-  build:
+  deploy:
     timeout-minutes: 6
     runs-on: ubuntu-latest
     name: Web app deployment
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.3.4
         with:
           persist-credentials: false
-
       - uses: subosito/flutter-action@v1.4.0
         with:
-          # Using the beta channel for Flutter web.
           channel: 'beta'
 
       - name: Build web app
@@ -31,12 +30,13 @@ jobs:
           flutter pub get
           flutter config --enable-web
           flutter packages pub run build_runner build
-          flutter build web --no-sound-null-safety --dart-define=FLUTTER_WEB_AUTO_DETECT=true
+          flutter build web --no-sound-null-safety --web-renderer auto
           cd build/web
           touch ".nojekyll"
+          echo "portfolio.creativemaybeno.dev" > CNAME
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+        uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
