@@ -1,4 +1,4 @@
-name: Web app
+name: web app
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
   deploy:
     timeout-minutes: 6
     runs-on: ubuntu-latest
-    name: Web app deployment
+    name: deployment
 
     steps:
       - uses: actions/checkout@v2.3.4
@@ -23,14 +23,13 @@ jobs:
           persist-credentials: false
       - uses: subosito/flutter-action@v1.4.0
         with:
-          channel: 'beta'
+          channel: 'stable'
 
       - name: Build web app
         run: |
           flutter pub get
-          flutter config --enable-web
           flutter packages pub run build_runner build
-          flutter build web --no-sound-null-safety --web-renderer auto
+          flutter build web
           cd build/web
           touch ".nojekyll"
           echo "portfolio.creativemaybeno.dev" > CNAME

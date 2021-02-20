@@ -101,6 +101,95 @@
   ],
   "projects": [
     {
+      "title": "Math(s) keyboard",
+      "description": "For simpleclub, I helped to create and come up with a fully fledged math keyboard package that allows editing any math expressions. The UI is typeset using TeX and the expressions can be evaluated in converted formats. All of it is fully integrated into Flutter, from physical keyboard input to framework-esque styling and focus tree support 🚀",
+      "tags": [
+        "Flutter",
+        "Open source",
+        "Dart"
+      ],
+      "links": [
+        {
+          "site": "GitHub",
+          "url": "https://github.com/simpleclub/math_keyboard"
+        },
+        {
+          "hint": "Live demo",
+          "url": "https://simpleclub.github.io/math_keyboard"
+        },
+        {
+          "site": "Twitter",
+          "url": "https://twitter.com/creativemaybeno/status/1372301340676853761?s=20"
+        },
+        {
+          "site": "Dart Pub",
+          "hint": "Package on Dart Pub",
+          "url": "https://pub.dev/packages/math_keyboard"
+        }
+      ]
+    },
+    {
+      "title": "URL strategy",
+      "description": "For simpleclub, I created a convenience plugin for Flutter web apps that easily allows everyone to use the path URL strategy.",
+      "tags": [
+        "Flutter",
+        "Open source",
+        "Dart",
+        "Web"
+      ],
+      "links": [
+        {
+          "site": "GitHub",
+          "url": "https://github.com/simpleclub/url_strategy"
+        },
+        {
+          "site": "Twitter",
+          "url": "https://twitter.com/creativemaybeno/status/1349720161524314112?s=20"
+        },
+        {
+          "site": "Dart Pub",
+          "hint": "Package on Dart Pub",
+          "url": "https://pub.dev/packages/url_strategy"
+        }
+      ]
+    },
+    {
+      "title": "Fireworks",
+      "description": "2D canvas-based fireworks animations in Flutter. Made available as a web app, with customization options. Additionally, built it as a system that allowed incredibly easy integration into e.g. the Flutter starter app, the counter app :)",
+      "tags": [
+        "Flutter",
+        "Open source",
+        "Dart",
+        "Web",
+        "Design"
+      ],
+      "links": [
+        {
+          "site": "GitHub",
+          "url": "https://github.com/creativecreatorormaybenot/fireworks"
+        },
+        {
+          "hint": "Live demo",
+          "url": "https://fireworks.creativemaybeno.dev"
+        },
+        {
+          "site": "Twitter",
+          "hint": "Demo on web",
+          "url": "https://twitter.com/creativemaybeno/status/1344848563264770048?s=20"
+        },
+        {
+          "site": "Twitter",
+          "hint": "Counter app remix",
+          "url": "https://twitter.com/creativemaybeno/status/1345338801867157504?s=20"
+        },
+        {
+          "site": "Twitter",
+          "hint": "Demo on desktop",
+          "url": "https://twitter.com/creativemaybeno/status/1344825861791481856?s=20"
+        }
+      ]
+    },
+    {
       "title": "Funvas",
       "description": "Time-based canvas animations in Flutter. Inspired by Dwitter, using some simple trigonometric functions and a time-based draw function, I was able to create some nice animations ✨ In order to simplify the process, I created the funvas package.",
       "tags": [
@@ -131,6 +220,11 @@
           "site": "Twitter",
           "hint": "Julia sets example animation",
           "url": "https://twitter.com/creativemaybeno/status/1333757489670746112?s=20"
+        },
+        {
+          "site": "Dart Pub",
+          "hint": "Package on Dart Pub",
+          "url": "https://pub.dev/packages/funvas"
         }
       ]
     },
@@ -155,6 +249,11 @@
         {
           "site": "Twitter",
           "url": "https://twitter.com/creativemaybeno/status/1277981413657079809?s=20"
+        },
+        {
+          "site": "Dart Pub",
+          "hint": "Package on Dart Pub",
+          "url": "https://pub.dev/packages/catex"
         }
       ]
     },
