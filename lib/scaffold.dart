@@ -260,7 +260,7 @@ class Filters extends StatelessWidget {
         children: <Widget>[
           for (final filter in PortfolioData.of(context).filters)
             SizedBox(
-              width: 142,
+              width: 150,
               child: Material(
                 color: Theme.of(context).primaryColorLight,
                 child: ExpansionTile(
