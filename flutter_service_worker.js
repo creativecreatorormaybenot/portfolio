@@ -17,8 +17,8 @@ const RESOURCES = {
 "assets/assets/play_store.png": "fb481c44958bd1d21e52d0a856286fc4",
 "assets/AssetManifest.json": "7c03e6fed6e4c3fa8ad3edc957ececa9",
 "assets/FontManifest.json": "d751713988987e9331980363e24189ce",
-"index.html": "5cc41fccbc1b9f306e9c5f10b0b8e6bb",
-"/": "5cc41fccbc1b9f306e9c5f10b0b8e6bb",
+"index.html": "6c1a1eabc661fb53f41dec6f4b45e9e7",
+"/": "6c1a1eabc661fb53f41dec6f4b45e9e7",
 "main.dart.js": "8eabcdb1d1f6882f37da4861b5dfc20c",
 "version.json": "426313f2f3133c2f20415344c4a22df3",
 "favicon.png": "f106a5cbc8c59640a851646b83e632d2"
