@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 /// in the project directory.
 part 'data.g.dart';
 
+typedef JsonMap = Map<String, Object?>;
+
 @JsonSerializable(createToJson: false)
 class PortfolioData {
   static PortfolioData of(BuildContext context, [bool listen = true]) =>
@@ -31,7 +33,7 @@ class PortfolioData {
   PortfolioData(
       this.filters, this.colors, this.icons, this.socials, this.projects);
 
-  factory PortfolioData.fromJson(Map<String, dynamic> json) =>
+  factory PortfolioData.fromJson(JsonMap json) =>
       _$PortfolioDataFromJson(json);
 
   static Map<String, Color> colorsFromJson(Map<String, String> json) {
@@ -52,7 +54,7 @@ class Filter {
 
   Filter(this.title, this.items);
 
-  factory Filter.fromJson(Map<String, dynamic> json) => _$FilterFromJson(json);
+  factory Filter.fromJson(JsonMap json) => _$FilterFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)
@@ -61,7 +63,7 @@ class Social {
 
   Social(this.tag, this.site, this.url);
 
-  factory Social.fromJson(Map<String, dynamic> json) => _$SocialFromJson(json);
+  factory Social.fromJson(JsonMap json) => _$SocialFromJson(json);
 }
 
 @JsonSerializable(createToJson: false)
@@ -74,7 +76,7 @@ class Project {
 
   Project(this.title, this.description, this.tags, this.links);
 
-  factory Project.fromJson(Map<String, dynamic> json) =>
+  factory Project.fromJson(JsonMap json) =>
       _$ProjectFromJson(json);
 }
 
@@ -90,7 +92,7 @@ class Link {
 
   Link(this.site, this.url, this.hint);
 
-  factory Link.fromJson(Map<String, dynamic> json) => _$LinkFromJson(json);
+  factory Link.fromJson(JsonMap json) => _$LinkFromJson(json);
 }
 
 Map _unimplemented(dynamic value) => throw UnimplementedError();
