@@ -101,6 +101,33 @@
   ],
   "projects": [
     {
+      "title": "GitHub Tracker",
+      "description": "Open source application that keeps track of the top 100 software repos on GitHub. This includes a Flutter web app for looking up stars development and a TypeScript backend with a Twitter bot for posting about milestones.",
+      "tags": [
+        "TypeScript",
+        "Open source",
+        "Web",
+        "Flutter",
+        "Dart",
+        "Firebase"
+      ],
+      "links": [
+        {
+          "site": "GitHub",
+          "url": "https://github.com/creativecreatorormaybenot/github-tracker"
+        },
+        {
+          "hint": "Web app",
+          "url": "https://ght.creativemaybeno.dev"
+        },
+        {
+          "site": "Twitter",
+          "hint": "Twitter bot",
+          "url": "https://twitter.com/github_tracker"
+        }
+      ]
+    },
+    {
       "title": "Math(s) keyboard",
       "description": "For simpleclub, I helped to create and come up with a fully fledged math keyboard package that allows editing any math expressions. The UI is typeset using TeX and the expressions can be evaluated in converted formats. All of it is fully integrated into Flutter, from physical keyboard input to framework-esque styling and focus tree support 🚀",
       "tags": [
