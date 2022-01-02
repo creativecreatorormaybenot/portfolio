@@ -3,7 +3,7 @@ name: web app
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - '.github/workflows/web_deploy.yml'
       - 'lib/**'
@@ -21,9 +21,9 @@ jobs:
       - uses: actions/checkout@v2.3.4
         with:
           persist-credentials: false
-      - uses: subosito/flutter-action@v1.4.0
+      - uses: subosito/flutter-action@v1.5.3
         with:
-          channel: 'dev'
+          channel: 'beta'
 
       - name: Build web app
         run: |
