@@ -2,27 +2,27 @@ name: portfolio
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.13.0-0 <3.0.0'
+  sdk: '>=2.16.0-0 <3.0.0'
   flutter: '>=2.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
 
-  json_annotation: ^4.0.0
-  provider: ^5.0.0
+  json_annotation: ^4.4.0
+  provider: ^6.0.2
 
-  flutter_staggered_grid_view: ^0.4.0-nullsafety.3
-  animations: ^2.0.0
+  flutter_staggered_grid_view: ^0.6.0
+  animations: ^2.0.2
 
   url_launcher: ^6.0.2
   url_strategy: ^0.2.0
 
 dev_dependencies:
-  pedantic: ^1.11.0
+  flutter_lints: ^1.0.4
 
-  json_serializable: ^4.0.0
-  build_runner: ^1.12.2
+  json_serializable: ^6.1.3
+  build_runner: ^2.1.7
 
 flutter:
   assets:
