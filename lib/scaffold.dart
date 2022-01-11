@@ -89,21 +89,14 @@ class _LayoutScaffoldState extends State<LayoutScaffold> {
                         LayoutScaffold.crossAxisTileExtent,
                   );
 
-                  return Padding(
+                  return MasonryGridView.count(
                     padding: const EdgeInsets.all(32),
-                    child: StaggeredGrid.count(
-                      crossAxisCount: count,
-                      mainAxisSpacing: 32,
-                      crossAxisSpacing: 28,
-                      children: [
-                        for (var i = 0; i < count; i++)
-                          StaggeredGridTile.fit(
-                            crossAxisCellCount: 1,
-                            child: ProjectCard(
-                              projects![i],
-                            ),
-                          ),
-                      ],
+                    crossAxisCount: count,
+                    mainAxisSpacing: 32,
+                    crossAxisSpacing: 28,
+                    itemCount: projects!.length,
+                    itemBuilder: (context, index) => ProjectCard(
+                      projects![index],
                     ),
                   );
                 },
