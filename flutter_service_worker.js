@@ -3,24 +3,28 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
-  "manifest.json": "a66670d9dce212c5f4ee815430a8acad",
-"assets/NOTICES": "e1765938e5da921191b928f54ad38eb1",
-"assets/assets/github.png": "ef7a02b69836dc8b6a732a54c4200dcb",
-"assets/assets/twitter.png": "fba3a2dc663db92a2a02cb4fb1870ad3",
-"assets/assets/youtube.png": "eb3072f91cb01f5b1f7c6ac76c404c61",
-"assets/assets/dart_pub.png": "0f2d957830ec863d7d22eb4fc19e76be",
-"assets/assets/web.png": "a98add2dfc3ba7af22c34cec4ad73767",
-"assets/assets/medium.png": "45140ce1eb5fe8d0caed749229873cca",
-"assets/assets/stackoverflow.png": "6b99b3bbe6bc99a25625f112a43953bd",
-"assets/assets/reddit.png": "f062fad2fbb0e11e82eb988d2b0647d1",
-"assets/assets/avatar.png": "efb67af6464aef37a7711002635d43aa",
-"assets/assets/play_store.png": "fb481c44958bd1d21e52d0a856286fc4",
+  "canvaskit/canvaskit.js": "62b9906717d7215a6ff4cc24efbd1b5c",
+"canvaskit/profiling/canvaskit.js": "3783918f48ef691e230156c251169480",
+"canvaskit/profiling/canvaskit.wasm": "6d1b0fc1ec88c3110db88caa3393c580",
+"canvaskit/canvaskit.wasm": "b179ba02b7a9f61ebc108f82c5a1ecdb",
+"main.dart.js": "fc6d3a7c21742a2031e32b6b4992ca2f",
+"version.json": "009c9e65172e010890f7f65fde438006",
+"manifest.json": "a66670d9dce212c5f4ee815430a8acad",
+"assets/NOTICES": "9ba8560e76b634d1511c74879ecfd5a6",
 "assets/AssetManifest.json": "7c03e6fed6e4c3fa8ad3edc957ececa9",
 "assets/FontManifest.json": "d751713988987e9331980363e24189ce",
-"index.html": "6c1a1eabc661fb53f41dec6f4b45e9e7",
-"/": "6c1a1eabc661fb53f41dec6f4b45e9e7",
-"main.dart.js": "8eabcdb1d1f6882f37da4861b5dfc20c",
-"version.json": "426313f2f3133c2f20415344c4a22df3",
+"assets/assets/web.png": "a98add2dfc3ba7af22c34cec4ad73767",
+"assets/assets/youtube.png": "eb3072f91cb01f5b1f7c6ac76c404c61",
+"assets/assets/reddit.png": "f062fad2fbb0e11e82eb988d2b0647d1",
+"assets/assets/play_store.png": "fb481c44958bd1d21e52d0a856286fc4",
+"assets/assets/dart_pub.png": "0f2d957830ec863d7d22eb4fc19e76be",
+"assets/assets/stackoverflow.png": "6b99b3bbe6bc99a25625f112a43953bd",
+"assets/assets/github.png": "ef7a02b69836dc8b6a732a54c4200dcb",
+"assets/assets/avatar.png": "efb67af6464aef37a7711002635d43aa",
+"assets/assets/medium.png": "45140ce1eb5fe8d0caed749229873cca",
+"assets/assets/twitter.png": "fba3a2dc663db92a2a02cb4fb1870ad3",
+"index.html": "b2018c3e1c5afb32800e71d165a46854",
+"/": "b2018c3e1c5afb32800e71d165a46854",
 "favicon.png": "f106a5cbc8c59640a851646b83e632d2"
 };
 
@@ -39,7 +43,7 @@ self.addEventListener("install", (event) => {
   return event.waitUntil(
     caches.open(TEMP).then((cache) => {
       return cache.addAll(
-        CORE.map((value) => new Request(value + '?revision=' + RESOURCES[value], {'cache': 'reload'})));
+        CORE.map((value) => new Request(value, {'cache': 'reload'})));
     })
   );
 });
