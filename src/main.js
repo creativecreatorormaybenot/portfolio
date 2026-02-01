@@ -761,7 +761,7 @@ function updateCamera(time) {
   }
 
   // Smooth interpolation of camera look-at target
-  const lookLerpFactor = 0.06; // Slightly faster for more responsive feel
+  const lookLerpFactor = 0.02; // Slightly faster for more responsive feel
   currentLookAtX = lerp(currentLookAtX, targetLookAtX, lookLerpFactor);
   currentLookAtY = lerp(currentLookAtY, targetLookAtY, lookLerpFactor);
 
