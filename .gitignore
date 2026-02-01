@@ -18,7 +18,6 @@ npm-debug.log*
 *.iml
 *.ipr
 *.iws
-.vscode/
 *.swp
 *.swo
 *~
