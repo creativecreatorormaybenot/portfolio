@@ -16,7 +16,7 @@ jobs:
   deploy:
     timeout-minutes: 10
     runs-on: ubuntu-latest
-    name: Build and Deploy
+    name: deployment
 
     steps:
       - name: Checkout
