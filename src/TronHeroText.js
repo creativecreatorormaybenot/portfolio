@@ -29,8 +29,8 @@ const LETTER_SHAPES = {
     holes: []
   },
   'i': {
-    outer: [[0.25, 0], [0.55, 0], [0.55, 0.7], [0.25, 0.7]],
-    dot: [[0.25, 0.85], [0.55, 0.85], [0.55, 1], [0.25, 1]]
+    outer: [[0.25, 0], [0.55, 0], [0.55, 0.78], [0.25, 0.78]],
+    dot: [[0.25, 0.88], [0.55, 0.88], [0.55, 1], [0.25, 1]]
   },
   'v': {
     outer: [[0, 1], [0.35, 0], [0.5, 0], [0.85, 1], [0.7, 1], [0.425, 0.25], [0.15, 1]],
@@ -169,10 +169,10 @@ function createLetterMesh(letter, scale, color) {
     dotGeometry.center();
 
     // Calculate the offset needed to position dot above the stem
-    // Original stem was at Y: 0-0.7, centered means stem center is at Y=0
-    // Original dot was at Y: 0.85-1, so dot center was at Y=0.925
-    // Relative to the centered stem (center at Y=0.35), dot should be at Y = 0.925 - 0.35 = 0.575
-    const dotYOffset = scale * 0.575;
+    // Stem at Y: 0-0.78, center at 0.39
+    // Dot at Y: 0.88-1, center at 0.94
+    // Offset: 0.94 - 0.39 = 0.55
+    const dotYOffset = scale * 0.55;
 
     const dotMainMaterial = mainMaterial.clone();
     const dotMesh = new THREE.Mesh(dotGeometry, dotMainMaterial);
@@ -200,6 +200,13 @@ function createLetterMesh(letter, scale, color) {
   group.userData.coreMesh = coreMesh;
   group.userData.mainMaterial = mainMaterial;
   group.userData.coreMaterial = coreMaterial;
+
+  // Adjust 'i' position so its baseline aligns with other letters
+  // Other letters have center at 0.5, 'i' stem center is at 0.39
+  // Shift down by (0.5 - 0.39) * scale to align baselines
+  if (letter === 'i') {
+    group.position.y = -0.11 * scale;
+  }
 
   return group;
 }
