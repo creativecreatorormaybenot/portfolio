@@ -67,11 +67,11 @@ const LETTER_WIDTHS = {
   'r': 0.8,
   'e': 0.8,
   'a': 1.0,
-  't': 0.85,
+  't': 0.7,
   'i': 0.55,
   'v': 0.85,
   'm': 0.9,
-  'y': 0.75,
+  'y': 0.6,
   'b': 0.8,
   'n': 0.8,
   'o': 0.85
@@ -292,20 +292,39 @@ export function createTronHeroText(text, options = {}) {
   // Create each letter
   let currentX = -totalWidth / 2;
 
+  // Curve parameters - how much the edges come toward the camera
+  const curveDepth = totalWidth * 0.12; // Z offset at edges
+  const curveRadius = totalWidth * 0.8; // Radius for rotation calculation
+
   letters.forEach((letter, letterIndex) => {
     const letterMesh = createLetterMesh(letter, scale, color);
     if (!letterMesh) return;
 
     const width = (LETTER_WIDTHS[letter] || 0.7) * scale;
 
-    // Position letter
-    letterMesh.position.x = currentX + width / 2;
+    // Position letter in X
+    const xPos = currentX + width / 2;
+    letterMesh.position.x = xPos;
+
+    // Calculate curve: letters at edges come forward (higher Z)
+    // Use a parabolic curve: z = curveDepth * (x/halfWidth)^2
+    const normalizedX = xPos / (totalWidth / 2); // -1 to 1
+    const zOffset = curveDepth * (normalizedX * normalizedX);
+    letterMesh.position.z = zOffset;
+
+    // Rotate letter to face camera (tangent to the curve)
+    // Angle based on position along the arc
+    const rotationAngle = -normalizedX * 0.25; // Subtle rotation toward center
+    letterMesh.rotation.y = rotationAngle;
+
     letterMesh.userData.letterIndex = letterIndex;
     letterMesh.userData.totalLetters = letters.length;
 
-    // Add glow plane behind letter
+    // Add glow plane behind letter (also curved)
     const glowPlane = createGlowPlane(width, scale, color);
-    glowPlane.position.x = currentX + width / 2;
+    glowPlane.position.x = xPos;
+    glowPlane.position.z = zOffset - 0.1; // Slightly behind the letter
+    glowPlane.rotation.y = rotationAngle;
     letterMesh.userData.glowPlane = glowPlane;
     group.add(glowPlane);
 

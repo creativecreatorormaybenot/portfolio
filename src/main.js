@@ -23,21 +23,23 @@ let isMobile = false;
 let touchStartY = 0;
 let lastTouchY = 0;
 
-// Camera look-at state for smooth transitions
-let currentLookAtX = 0;
-let currentLookAtY = 8;
-let targetLookAtX = 0;
-let targetLookAtY = 8;
-
-const animatedObjects = [];
-const clickableObjects = [];
-const contentSections = [];
-
 // Camera path configuration
 const TOTAL_SCROLL_DISTANCE = 4500; // Virtual scroll distance - increased for more content
 const CAMERA_PATH_LENGTH = 260; // Actual 3D world distance
 const CONTENT_START_Z = -30; // Project cards start position (visible in background)
+const CAMERA_BASE_Y = 5; // Base camera height (modified by floating effect)
+const TARGET_LOOK_AT_Y = 6; // Base height the camera looks at
 const CONTENT_SPACING = 12;
+
+// Camera look-at state for smooth transitions
+let currentLookAtX = 0;
+let currentLookAtY = TARGET_LOOK_AT_Y;
+let targetLookAtX = 0;
+let targetLookAtY = TARGET_LOOK_AT_Y;
+
+const animatedObjects = [];
+const clickableObjects = [];
+const contentSections = [];
 
 // Effective scroll limit (calculated after content is created)
 let effectiveMaxScroll = TOTAL_SCROLL_DISTANCE;
@@ -66,8 +68,8 @@ function init() {
     0.1,
     1000
   );
-  camera.position.set(0, 8, 15);  // Camera position to match project tiles
-  camera.lookAt(0, 8, 0);  // Look at point matching project tile height
+  camera.position.set(0, CAMERA_BASE_Y, 15);  // Camera position to match project tiles
+  camera.lookAt(0, TARGET_LOOK_AT_Y, 0);  // Look at point matching project tile height
 
   // Renderer setup
   renderer = new THREE.WebGLRenderer({
@@ -724,7 +726,7 @@ function updateCamera(time) {
     if (targetSection.isEndSection || nearEndSection) {
       // End section or near it: always look straight ahead
       targetLookAtX = 0;
-      targetLookAtY = 8;
+      targetLookAtY = TARGET_LOOK_AT_Y;
     } else if (targetSection.isLeft !== null) {
       // Project tiles: look towards the tile
       // Full strength when within viewing range
@@ -746,16 +748,16 @@ function updateCamera(time) {
 
       // Look towards the tile's X offset
       targetLookAtX = targetSection.xOffset * 0.6 * lookStrength;
-      targetLookAtY = 8;
+      targetLookAtY = TARGET_LOOK_AT_Y;
     } else {
       // Hero section: look straight
       targetLookAtX = 0;
-      targetLookAtY = 8;
+      targetLookAtY = TARGET_LOOK_AT_Y;
     }
   } else {
     // Mobile or no section: look straight
     targetLookAtX = 0;
-    targetLookAtY = 8;
+    targetLookAtY = TARGET_LOOK_AT_Y;
   }
 
   // Smooth interpolation of camera look-at target
@@ -765,7 +767,7 @@ function updateCamera(time) {
 
   // Smooth camera position movement (keep camera centered on the path)
   const targetCameraX = 0; // Camera stays centered
-  const targetCameraY = 8;
+  const targetCameraY = CAMERA_BASE_Y; // Camera stays at base height
 
   camera.position.x = lerp(camera.position.x, targetCameraX, 0.03);
   camera.position.y = lerp(camera.position.y, targetCameraY, 0.03);
