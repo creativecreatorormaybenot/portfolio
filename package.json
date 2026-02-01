@@ -1,0 +1,18 @@
+{
+  "name": "portfolio",
+  "version": "2.0.0",
+  "description": "creativecreatorormaybenot's Three.js portfolio with Tron: Legacy aesthetic",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "puppeteer": "^24.36.1",
+    "vite": "^5.0.0"
+  }
+}

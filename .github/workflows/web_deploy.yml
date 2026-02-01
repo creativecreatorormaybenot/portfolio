@@ -1,4 +1,4 @@
-name: web app
+name: Deploy Portfolio
 
 on:
   push:
@@ -6,40 +6,46 @@ on:
       - main
     paths:
       - '.github/workflows/web_deploy.yml'
-      - 'lib/**'
-      - 'web/**'
+      - 'src/**'
+      - 'index.html'
+      - 'package.json'
+      - 'vite.config.js'
       - 'assets/**'
-      - 'pubspec.yaml'
 
 jobs:
   deploy:
-    timeout-minutes: 6
+    timeout-minutes: 10
     runs-on: ubuntu-latest
-    name: deployment
+    name: Build and Deploy
 
     steps:
-      - uses: actions/checkout@v2.3.4
-        with:
-          persist-credentials: false
-      - uses: subosito/flutter-action@v1.5.3
-        with:
-          channel: 'beta'
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Build web app
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Prepare for deployment
         run: |
-          flutter pub get
-          flutter packages pub run build_runner build --enable-experiment=nonfunction-type-aliases
-          flutter build web --enable-experiment=nonfunction-type-aliases
-          cd build/web
+          cd dist
           touch ".nojekyll"
           echo "portfolio.creativemaybeno.dev" > CNAME
+          cp -r ../assets ./assets 2>/dev/null || true
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: build/web
-          GIT_CONFIG_NAME: creativecreatorormaybenot
-          GIT_CONFIG_EMAIL: creativecreatorormaybenot@gmail.com
-          COMMIT_MESSAGE: Deploy web app
+          branch: gh-pages
+          folder: dist
+          git-config-name: creativecreatorormaybenot
+          git-config-email: creativecreatorormaybenot@gmail.com
+          commit-message: Deploy portfolio
