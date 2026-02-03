@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { portfolioData } from './data.js';
-import { createNeonText, createNeonLink, createProjectCard } from './NeonText.js';
+import { createNeonText, createNeonLink, createProjectCard, layoutButtonsHorizontally } from './NeonText.js';
 import { createTronHeroSection } from './TronHeroText.js';
 import {
   createGridFloor,
@@ -231,21 +231,17 @@ function createContent() {
   tagline.renderOrder = 200; // Ensure it renders after title
   heroGroup.add(tagline);
 
-  // Social links in hero - use simple fixed spacing between button centers
+  // Social links in hero - create all buttons first, then layout with equal edge spacing
   const socialFontSize = isMobile ? 11 : 13;
-  const buttonSpacing = isMobile ? 2.8 : 3.5;  // Fixed spacing between button centers
-  const numButtons = portfolioData.socials.length;
-  const totalSpan = (numButtons - 1) * buttonSpacing;
-
-  portfolioData.socials.forEach((social, i) => {
+  const socialButtons = portfolioData.socials.map((social) => {
     const socialLink = createNeonLink(social.site, social.url, {
       fontSize: socialFontSize,
       color: '#88ccff'
     });
 
-    // Position buttons evenly from left to right
-    const xPos = -totalSpan / 2 + i * buttonSpacing;
-    socialLink.position.set(xPos, isMobile ? 1.5 : 1.5, 5);
+    // Set Y and Z position (X will be set by layoutButtonsHorizontally)
+    socialLink.position.y = isMobile ? 1.5 : 1.5;
+    socialLink.position.z = 5;
 
     // Propagate renderOrder to mesh children
     socialLink.traverse(child => {
@@ -253,7 +249,11 @@ function createContent() {
     });
     heroGroup.add(socialLink);
     clickableObjects.push(socialLink);
+    return socialLink;
   });
+
+  // Layout buttons with equal edge-to-edge spacing
+  layoutButtonsHorizontally(socialButtons, 0.3);
 
   heroGroup.position.set(0, 2, -5);  // Position hero section to match camera Y=8
   scene.add(heroGroup);
@@ -647,6 +647,13 @@ function animate() {
 
   // Animate objects
   animatedObjects.forEach(obj => {
+    if (obj.userData && obj.userData.animate) {
+      obj.userData.animate(time);
+    }
+  });
+
+  // Animate clickable objects (buttons with hover effects)
+  clickableObjects.forEach(obj => {
     if (obj.userData && obj.userData.animate) {
       obj.userData.animate(time);
     }

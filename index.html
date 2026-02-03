@@ -128,13 +128,13 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: #000;
+      background: #000a12;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       z-index: 10000;
-      transition: opacity 1s ease;
+      transition: opacity 0.8s ease;
     }
 
     #loading-screen.fade-out {
@@ -142,42 +142,40 @@
       pointer-events: none;
     }
 
+    .loading-circuit {
+      position: relative;
+      width: 200px;
+      height: 120px;
+      margin-bottom: 30px;
+    }
+
+    #circuit-canvas {
+      width: 100%;
+      height: 100%;
+    }
+
     .loading-text {
       font-family: 'Orbitron', sans-serif;
-      font-size: 24px;
+      font-size: 18px;
       color: #00d4ff;
+      text-transform: uppercase;
+      letter-spacing: 8px;
       text-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff;
-      animation: loadingPulse 1.5s infinite;
+      animation: loadingPulse 2s infinite ease-in-out;
     }
 
     @keyframes loadingPulse {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
+      0%, 100% { opacity: 0.6; text-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff; }
+      50% { opacity: 1; text-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff, 0 0 60px #00d4ff; }
     }
 
-    .loading-bar {
-      width: 200px;
-      height: 4px;
-      background: rgba(0, 212, 255, 0.2);
-      margin-top: 30px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .loading-bar::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, #00d4ff, transparent);
-      animation: loadingSlide 1.5s infinite;
-    }
-
-    @keyframes loadingSlide {
-      0% { left: -100%; }
-      100% { left: 100%; }
+    .loading-subtitle {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 11px;
+      color: #446688;
+      letter-spacing: 4px;
+      margin-top: 15px;
+      text-transform: uppercase;
     }
 
     /* Clickable link styles */
@@ -194,9 +192,112 @@
 </head>
 <body>
   <div id="loading-screen">
-    <div class="loading-text">INITIALIZING</div>
-    <div class="loading-bar"></div>
+    <div class="loading-circuit">
+      <canvas id="circuit-canvas"></canvas>
+    </div>
+    <div class="loading-text">Loading</div>
+    <div class="loading-subtitle">Initializing Grid</div>
   </div>
+
+  <script>
+    // Tron-style circuit trace loading animation
+    (function() {
+      const canvas = document.getElementById('circuit-canvas');
+      const ctx = canvas.getContext('2d');
+
+      // Set canvas size with device pixel ratio for sharpness
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+
+      const width = rect.width;
+      const height = rect.height;
+      const padding = 20;
+      const hw = (width - padding * 2) / 2;
+      const hh = (height - padding * 2) / 2;
+      const cx = width / 2;
+      const cy = height / 2;
+
+      let tracePosition = 0;
+      const traceCount = 12;
+      const trailSpacing = 0.025;
+      const speed = 0.008;
+
+      // Get position along border (t = 0 to 1)
+      function getBorderPos(t) {
+        t = ((t % 1) + 1) % 1;
+        const topLen = hw * 2;
+        const rightLen = hh * 2;
+        const bottomLen = hw * 2;
+        const leftLen = hh * 2;
+        const total = topLen + rightLen + bottomLen + leftLen;
+        const d = t * total;
+
+        let x, y;
+        if (d < topLen) {
+          x = cx - hw + d;
+          y = cy - hh;
+        } else if (d < topLen + rightLen) {
+          x = cx + hw;
+          y = cy - hh + (d - topLen);
+        } else if (d < topLen + rightLen + bottomLen) {
+          x = cx + hw - (d - topLen - rightLen);
+          y = cy + hh;
+        } else {
+          x = cx - hw;
+          y = cy + hh - (d - topLen - rightLen - bottomLen);
+        }
+        return { x, y };
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, width, height);
+
+        // Draw border rectangle (dim)
+        ctx.strokeStyle = 'rgba(0, 212, 255, 0.2)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(cx - hw, cy - hh, hw * 2, hh * 2);
+
+        // Draw corner accents
+        const cornerSize = 8;
+        ctx.fillStyle = 'rgba(0, 212, 255, 0.5)';
+        [[cx - hw, cy - hh], [cx + hw, cy - hh], [cx + hw, cy + hh], [cx - hw, cy + hh]].forEach(([x, y]) => {
+          ctx.beginPath();
+          ctx.arc(x, y, 3, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        // Draw circuit trace trail
+        for (let i = 0; i < traceCount; i++) {
+          const t = tracePosition - i * trailSpacing;
+          const pos = getBorderPos(t);
+          const alpha = 1 - (i / traceCount);
+          const size = 4 - (i / traceCount) * 2;
+
+          // Glow
+          ctx.beginPath();
+          ctx.arc(pos.x, pos.y, size + 4, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(0, 212, 255, ${alpha * 0.3})`;
+          ctx.fill();
+
+          // Core
+          ctx.beginPath();
+          ctx.arc(pos.x, pos.y, size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.9})`;
+          ctx.fill();
+        }
+
+        // Advance trace
+        tracePosition = (tracePosition + speed) % 1;
+
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    })();
+  </script>
 
   <div id="progress-bar"></div>
 
