@@ -153,7 +153,7 @@ export function createNeonLink(text, url, options = {}) {
     map: texture,
     transparent: true,
     depthTest: true,
-    depthWrite: false,
+    depthWrite: true,  // Enable depth writing to occlude objects behind
     side: THREE.DoubleSide
   });
 
@@ -363,8 +363,9 @@ export function createNeonLink(text, url, options = {}) {
   group.userData.setRenderOrder = (order) => {
     mesh.renderOrder = order;
     borderMesh.renderOrder = order + 1;
-    cornerMesh.renderOrder = order + 2;
-    traceMesh.renderOrder = order + 3;
+    brackets.forEach((b, i) => b.renderOrder = order + 2);
+    cornerMesh.renderOrder = order + 3;
+    traceMesh.renderOrder = order + 4;
   };
 
   return group;
