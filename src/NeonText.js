@@ -75,6 +75,9 @@ export function createNeonText(text, options = {}) {
   // Create texture and plane mesh (instead of sprite for stationary text)
   const texture = new THREE.CanvasTexture(canvas);
   texture.needsUpdate = true;
+  // Use nearest filter to avoid edge artifacts with alphaTest
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
 
   const scale = fontSize / 50;
   const planeWidth = canvas.width / fontSize * scale;
@@ -85,7 +88,8 @@ export function createNeonText(text, options = {}) {
     map: texture,
     transparent: true,
     depthTest: true,
-    depthWrite: false,
+    depthWrite: true,   // Write to depth buffer so text occludes content behind
+    alphaTest: 0.1,     // Discard transparent pixels to avoid depth artifacts
     side: THREE.DoubleSide
   });
 
@@ -144,6 +148,8 @@ export function createNeonLink(text, url, options = {}) {
   ctx.fillText(text, canvas.width / 2, canvas.height / 2);
 
   const texture = new THREE.CanvasTexture(canvas);
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
   const scale = fontSize / 40;
   const planeWidth = canvas.width / fontSize * scale;
   const planeHeight = canvas.height / fontSize * scale;
@@ -153,12 +159,12 @@ export function createNeonLink(text, url, options = {}) {
     map: texture,
     transparent: true,
     depthTest: true,
-    depthWrite: true,  // Enable depth writing to occlude objects behind
+    depthWrite: true,  // Write depth so buttons occlude content behind
+    alphaTest: 0.1,    // Discard transparent pixels
     side: THREE.DoubleSide
   });
 
   const mesh = new THREE.Mesh(geometry, material);
-  mesh.renderOrder = 200;
   group.add(mesh);
 
   // === TRON-STYLE GEOMETRIC BORDER & EFFECTS ===
@@ -397,17 +403,19 @@ export function layoutButtonsHorizontally(buttons, gap = 0.5) {
 function createCardBackingBoard(width, height, color) {
   const group = new THREE.Group();
 
-  // Main backing panel
+  // Main backing panel - depthWrite: false so it doesn't block text from other cards
+  // Text has depthWrite: true, so it will properly occlude this backing board
   const panelGeo = new THREE.PlaneGeometry(width, height);
   const panelMat = new THREE.MeshBasicMaterial({
     color: 0x000a12,
     transparent: true,
     opacity: 0.75,
     side: THREE.DoubleSide,
-    depthWrite: false // Prevent depth-fighting with other transparent objects
+    depthWrite: false,  // Critical: don't write depth so we don't block text
+    depthTest: true     // But still test depth so we're hidden by closer objects
   });
   const panel = new THREE.Mesh(panelGeo, panelMat);
-  panel.position.z = -1.0; // Push further back to avoid clipping with content
+  panel.position.z = -0.5; // Behind content
   group.add(panel);
 
   // Glowing border
@@ -415,10 +423,11 @@ function createCardBackingBoard(width, height, color) {
   const borderMat = new THREE.LineBasicMaterial({
     color: new THREE.Color(color),
     transparent: true,
-    opacity: 0.5
+    opacity: 0.5,
+    depthWrite: false
   });
   const border = new THREE.LineSegments(borderGeo, borderMat);
-  border.position.z = -0.9;
+  border.position.z = -0.4;
   group.add(border);
 
   // Corner accents
@@ -436,10 +445,11 @@ function createCardBackingBoard(width, height, color) {
     const cornerMat = new THREE.LineBasicMaterial({
       color: 0xff6600,
       transparent: true,
-      opacity: 0.6
+      opacity: 0.6,
+      depthWrite: false
     });
     const corner = new THREE.LineSegments(cornerEdges, cornerMat);
-    corner.position.set(pos.x, pos.y, -0.8);
+    corner.position.set(pos.x, pos.y, -0.3);
     group.add(corner);
   });
 

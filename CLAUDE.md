@@ -95,6 +95,71 @@ The end section is positioned at `endZ = CONTENT_START_Z - projects.length * CON
 - Border/frame lines: `renderOrder = 1-2`
 - Text content: `renderOrder = 10`
 
+## Three.js Transparency & Depth - Critical Knowledge
+
+**IMPORTANT**: This section documents hard-won knowledge about transparent object rendering. Read carefully before modifying any material settings.
+
+### The Core Problem
+
+Three.js struggles with overlapping transparent objects. By default:
+- Transparent objects are sorted by their center-to-camera distance
+- Objects with `depthWrite: false` don't write to the depth buffer
+- This causes unpredictable rendering when transparent objects overlap in screen space
+
+### The Solution Pattern for This Codebase
+
+**Text elements** (neon text, buttons) should use:
+```javascript
+{
+  transparent: true,
+  depthWrite: true,    // WRITE to depth buffer
+  depthTest: true,
+  alphaTest: 0.1       // Discard transparent pixels
+}
+```
+
+**Background panels** (card backing boards, wall backgrounds) should use:
+```javascript
+{
+  transparent: true,
+  depthWrite: false,   // Do NOT write to depth buffer
+  depthTest: true      // But still TEST against depth
+}
+```
+
+### Why This Works
+
+1. **Text writes depth** → Text properly occludes objects behind it
+2. **Backgrounds don't write depth** → They can't incorrectly block text from other objects
+3. **Both test depth** → Proper front-to-back ordering is respected
+4. **alphaTest on text** → Semi-transparent glow pixels don't create depth artifacts
+
+### Common Mistakes to Avoid
+
+1. **DON'T use invisible depth-only planes** (`colorWrite: false, depthWrite: true`)
+   - These block ALL content behind them, including things that should be visible
+
+2. **DON'T use opaque backdrops** to fix transparency issues
+   - They create harsh visual cuts and block intended background visibility
+
+3. **DON'T rely solely on `renderOrder`** for transparent objects
+   - It only changes draw order, not actual depth testing
+   - Transparent pixels still show through regardless of renderOrder
+
+4. **DON'T set `depthWrite: true` on large background panels**
+   - This causes them to incorrectly occlude content from other objects
+
+5. **DON'T use `polygonOffset`** as a fix for transparent sorting
+   - It only affects depth buffer writing, useless with `depthWrite: false`
+
+### When You See Transparency Issues
+
+If content is "bleeding through" or being "cut off":
+1. Check if background panels have `depthWrite: false` ✓
+2. Check if text/content has `depthWrite: true` with `alphaTest` ✓
+3. Verify Z-positions make sense (closer objects at higher Z values)
+4. Test with multiple animation frames to catch intermittent issues
+
 ## Tron Legacy Design Principles
 
 Based on GMUNK's work (https://gmunk.com/TRON-Legacy):

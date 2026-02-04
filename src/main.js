@@ -220,36 +220,23 @@ function createContent() {
   // === HERO SECTION: Tron Legacy style "creativemaybeno" with draw-in animation ===
   const heroGroup = new THREE.Group();
 
-  // Add subtle dark backdrop to separate hero from background
-  const backdropSize = isMobile ? 30 : 45;
-  const backdropGeometry = new THREE.PlaneGeometry(backdropSize, backdropSize * 0.6);
-
-  // Create radial gradient texture for smooth fade
-  const backdropCanvas = document.createElement('canvas');
-  backdropCanvas.width = 256;
-  backdropCanvas.height = 256;
-  const bCtx = backdropCanvas.getContext('2d');
-
-  const gradient = bCtx.createRadialGradient(128, 128, 0, 128, 128, 128);
-  gradient.addColorStop(0, 'rgba(0, 3, 8, 0.5)');
-  gradient.addColorStop(0.4, 'rgba(0, 3, 8, 0.3)');
-  gradient.addColorStop(0.7, 'rgba(0, 3, 8, 0.1)');
-  gradient.addColorStop(1, 'rgba(0, 3, 8, 0)');
-
-  bCtx.fillStyle = gradient;
-  bCtx.fillRect(0, 0, 256, 256);
-
-  const backdropTexture = new THREE.CanvasTexture(backdropCanvas);
+  // Subtle backdrop behind tagline/buttons to improve legibility
+  // Semi-transparent so content tiles remain faintly visible but don't compete for contrast
+  const backdropWidth = isMobile ? 26 : 38;
+  const backdropHeight = isMobile ? 4 : 4.5;
+  const backdropGeometry = new THREE.PlaneGeometry(backdropWidth, backdropHeight);
   const backdropMaterial = new THREE.MeshBasicMaterial({
-    map: backdropTexture,
+    color: 0x000308,      // Scene background color
     transparent: true,
-    depthWrite: false,
+    opacity: 0.5,         // Semi-transparent - dims background without blocking
+    depthWrite: false,    // Don't write depth to avoid occlusion issues
+    depthTest: true,
     side: THREE.DoubleSide
   });
 
   const backdrop = new THREE.Mesh(backdropGeometry, backdropMaterial);
-  backdrop.position.set(0, 5, -2);  // Behind hero content
-  backdrop.renderOrder = -1;  // Render first
+  // Position behind tagline (y=3) and buttons (y=1.5), centered around y=2.25
+  backdrop.position.set(0, 2.25, 5.5);  // Slightly behind tagline/buttons at z=6
   heroGroup.add(backdrop);
 
   // Create the new Tron-style hero with outline letters and draw-in animation
@@ -272,8 +259,8 @@ function createContent() {
     fontWeight: '400',
     maxWidth: isMobile ? 600 : 1200  // Much wider to prevent truncation
   });
-  tagline.position.set(0, isMobile ? 3.5 : 3, 5); // Move forward in Z to render in front
-  tagline.renderOrder = 200; // Ensure it renders after title
+  tagline.position.set(0, isMobile ? 3.5 : 3, 6); // Move forward in Z to render in front
+  tagline.renderOrder = 500; // High renderOrder to draw on top of project cards behind
   heroGroup.add(tagline);
 
   // Social links in hero - create all buttons first, then layout with equal edge spacing
@@ -286,11 +273,11 @@ function createContent() {
 
     // Set Y and Z position (X will be set by layoutButtonsHorizontally)
     socialLink.position.y = isMobile ? 1.5 : 1.5;
-    socialLink.position.z = 5;
+    socialLink.position.z = 6;
 
-    // Propagate renderOrder to mesh children
+    // High renderOrder to draw on top of project cards behind
     socialLink.traverse(child => {
-      if (child.isMesh) child.renderOrder = 200;
+      if (child.isMesh || child.isLine || child.isPoints) child.renderOrder = 500;
     });
     heroGroup.add(socialLink);
     clickableObjects.push(socialLink);
@@ -317,11 +304,7 @@ function createContent() {
     if (tronHero.userData.animate) {
       tronHero.userData.animate(time);
     }
-    // Subtle tagline pulse - only after transition reveals it
-    // Check if transition is complete before animating opacity
-    if (transitionOrchestrator?.isComplete) {
-      tagline.material.opacity = 0.85 + Math.sin(time * 2) * 0.15;
-    }
+    // Tagline has constant opacity (no animation needed)
   };
   animatedObjects.push(heroGroup);
 
