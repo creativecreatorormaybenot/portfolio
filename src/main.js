@@ -10,6 +10,7 @@ import {
   createEndWall,
   createBackingBoard
 } from './TronEnvironment.js';
+import { TransitionOrchestrator } from './transition/TransitionOrchestrator.js';
 
 // ============================================================================
 // GLOBAL STATE
@@ -22,6 +23,11 @@ let scrollSpeed = 0;
 let isMobile = false;
 let touchStartY = 0;
 let lastTouchY = 0;
+
+// Transition system
+let transitionOrchestrator = null;
+let clock = null;
+let scrollEnabled = false; // Scroll disabled until transition allows it
 
 // Camera path configuration
 const TOTAL_SCROLL_DISTANCE = 4500; // Virtual scroll distance - increased for more content
@@ -51,9 +57,12 @@ const lerp = (start, end, factor) => start + (end - start) * factor;
 // INITIALIZATION
 // ============================================================================
 
-function init() {
+async function init() {
   // Detect mobile
   isMobile = window.innerWidth < 768 || 'ontouchstart' in window;
+
+  // Create clock for delta time
+  clock = new THREE.Clock();
 
   // Scene setup
   scene = new THREE.Scene();
@@ -82,22 +91,49 @@ function init() {
 
   document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-  // Create the environment
-  createEnvironment();
+  // Create the environment (stores references for transition)
+  const { floor, corridor } = createEnvironment();
 
-  // Create content
-  createContent();
+  // Create content (stores reference to hero for transition)
+  const { heroGroup, tronHero } = createContent();
 
   // Setup event listeners
   setupEventListeners();
 
+  // Listen for interaction-ready event from transition
+  window.addEventListener('transitionInteractive', () => {
+    scrollEnabled = true;
+    console.log('Scroll interaction enabled');
+  });
+
+  // Initialize transition orchestrator
+  transitionOrchestrator = new TransitionOrchestrator(renderer, scene, camera);
+  await transitionOrchestrator.init({
+    gridFloor: floor,
+    corridor: corridor,
+    heroGroup: heroGroup,
+    heroText: tronHero
+  });
+
+  // Set callbacks
+  transitionOrchestrator.setOnHeroStart(() => {
+    console.log('Starting hero text draw');
+    if (tronHero?.userData?.startDraw) {
+      tronHero.userData.startDraw();
+    }
+  });
+
+  transitionOrchestrator.setOnComplete(() => {
+    console.log('Transition complete!');
+  });
+
   // Start animation loop
   animate();
 
-  // Hide loading screen
+  // Start transition after brief delay for scene to settle
   setTimeout(() => {
-    document.getElementById('loading-screen').classList.add('fade-out');
-  }, 1500);
+    transitionOrchestrator.start();
+  }, 300);
 }
 
 // ============================================================================
@@ -109,12 +145,14 @@ function createEnvironment() {
   const floor = createGridFloor(500, 100);
   scene.add(floor);
 
-  // Corridor
-  const corridor = createCorridor(200, 40, 25);
+  // Corridor - length 280 extends floor lines well past end section (z=-218)
+  // so they fade naturally into fog/darkness rather than ending abruptly
+  // (vertical wall lines at x=±20 are outside the main view area)
+  const corridor = createCorridor(280, 40, 25);
   scene.add(corridor);
 
-  // Particles
-  const particles = createParticleSystem(800, { x: 60, y: 25, z: 200 });
+  // Particles - extended to cover full scene depth including past end section
+  const particles = createParticleSystem(800, { x: 60, y: 25, z: 300 });
   scene.add(particles);
   animatedObjects.push(particles);
 
@@ -169,6 +207,9 @@ function createEnvironment() {
   // Ambient light (subtle)
   const ambientLight = new THREE.AmbientLight(0x001133, 0.5);
   scene.add(ambientLight);
+
+  // Return references for transition system
+  return { floor, corridor };
 }
 
 // ============================================================================
@@ -212,10 +253,14 @@ function createContent() {
   heroGroup.add(backdrop);
 
   // Create the new Tron-style hero with outline letters and draw-in animation
+  // autoStart: false - wait for transition to trigger
+  // drawSpeed: 0.033 - 500ms draw-in (Material Design compliant)
   const tronHero = createTronHeroSection('creativemaybeno', portfolioData.tagline, portfolioData.socials, {
     isMobile,
     mainColor: 0x00d4ff,
-    accentColor: 0xff6600
+    accentColor: 0xff6600,
+    autoStart: false,
+    drawSpeed: 0.033
   });
   tronHero.position.set(0, -4, 0);
   heroGroup.add(tronHero);
@@ -272,8 +317,11 @@ function createContent() {
     if (tronHero.userData.animate) {
       tronHero.userData.animate(time);
     }
-    // Subtle tagline pulse
-    tagline.material.opacity = 0.85 + Math.sin(time * 2) * 0.15;
+    // Subtle tagline pulse - only after transition reveals it
+    // Check if transition is complete before animating opacity
+    if (transitionOrchestrator?.isComplete) {
+      tagline.material.opacity = 0.85 + Math.sin(time * 2) * 0.15;
+    }
   };
   animatedObjects.push(heroGroup);
 
@@ -327,16 +375,18 @@ function createContent() {
   const endGroup = new THREE.Group();
 
   const endWall = createEndWall(portfolioData.endSection);
-  endWall.position.set(0, 10, 0);
+  // Wall is 36x18, centered at Y=9.5 puts bottom at Y=0.5 (just above floor)
+  endWall.position.set(0, 9.5, 0);
   endGroup.add(endWall);
 
-  // Services title
+  // Services title - positioned within the new wall dimensions
   const servicesTitle = createNeonText('SERVICES', {
     fontSize: 56,
     color: '#ff6600',
     fontWeight: '800'
   });
-  servicesTitle.position.set(0, 16, 1);
+  servicesTitle.position.set(0, 15, 2);
+  servicesTitle.renderOrder = 10;
   endGroup.add(servicesTitle);
 
   const comingSoon = createNeonText('Coming Soon', {
@@ -344,7 +394,8 @@ function createContent() {
     color: '#666699',
     fontWeight: '500'
   });
-  comingSoon.position.set(0, 12, 1);
+  comingSoon.position.set(0, 11.5, 2);
+  comingSoon.renderOrder = 10;
   endGroup.add(comingSoon);
 
   // Contact section
@@ -353,26 +404,30 @@ function createContent() {
     color: '#00d4ff',
     fontWeight: '700'
   });
-  contactTitle.position.set(0, 8, 1);
+  contactTitle.position.set(0, 7.5, 2);
+  contactTitle.renderOrder = 10;
   endGroup.add(contactTitle);
 
   const emailLink = createNeonLink(
     portfolioData.endSection.email,
     `mailto:${portfolioData.endSection.email}`,
-    { fontSize: 20, color: '#00ff88' }
+    { fontSize: 22, color: '#00ff88' }  // Slightly larger for readability
   );
-  emailLink.position.set(0, 5, 1);
+  emailLink.position.set(0, 4.5, 2);
+  emailLink.renderOrder = 10;
   endGroup.add(emailLink);
   clickableObjects.push(emailLink);
 
   const calendlyNote = createNeonText(portfolioData.endSection.calendlyNote, {
-    fontSize: 16,
-    color: '#666666',
+    fontSize: 18,  // Increased from 16 for better readability
+    color: '#777788',  // Slightly brighter for visibility
     fontWeight: '400'
   });
-  calendlyNote.position.set(0, 2, 1);
+  calendlyNote.position.set(0, 2, 2);
+  calendlyNote.renderOrder = 10;
   endGroup.add(calendlyNote);
 
+  // Position endGroup at Y=0 with wall bottom just above floor
   endGroup.position.set(0, 0, endZ);
   scene.add(endGroup);
 
@@ -385,12 +440,16 @@ function createContent() {
   });
 
   // Calculate the effective max scroll based on where the camera should stop
-  // Camera starts at Z=15 and should stop at endZ + 25 (25 units in front of the wall)
+  // Camera starts at Z=15 and should stop at endZ + 22 (22 units in front of the wall)
+  // Close enough to read text, far enough to see full tile with new shorter wall height
   // scrollRatio = (15 - targetZ) / CAMERA_PATH_LENGTH
-  // So maxScrollRatio = (15 - (endZ + 25)) / CAMERA_PATH_LENGTH
-  const minCameraZ = endZ + 25;
+  // So maxScrollRatio = (15 - (endZ + 22)) / CAMERA_PATH_LENGTH
+  const minCameraZ = endZ + 22;
   const maxScrollRatio = (15 - minCameraZ) / CAMERA_PATH_LENGTH;
   effectiveMaxScroll = Math.min(TOTAL_SCROLL_DISTANCE, maxScrollRatio * TOTAL_SCROLL_DISTANCE);
+
+  // Return references for transition system
+  return { heroGroup, tronHero };
 }
 
 // ============================================================================
@@ -428,10 +487,18 @@ function onWindowResize() {
   camera.updateProjectionMatrix();
 
   renderer.setSize(window.innerWidth, window.innerHeight);
+
+  // Update transition orchestrator
+  if (transitionOrchestrator) {
+    transitionOrchestrator.onResize(window.innerWidth, window.innerHeight);
+  }
 }
 
 function onWheel(event) {
   event.preventDefault();
+
+  // Check if scroll is enabled (transition allows interaction)
+  if (!scrollEnabled) return;
 
   const delta = event.deltaY * 0.5;
   scrollSpeed = delta;
@@ -442,7 +509,9 @@ function onWheel(event) {
 
   // Hide scroll indicator after first scroll
   if (targetScrollProgress > 100) {
-    document.getElementById('scroll-indicator').classList.add('hidden');
+    const scrollIndicator = document.getElementById('scroll-indicator');
+    scrollIndicator.classList.add('hidden');
+    scrollIndicator.style.opacity = ''; // Clear inline style so CSS class takes effect
   }
 }
 
@@ -454,6 +523,9 @@ function onTouchStart(event) {
 function onTouchMove(event) {
   event.preventDefault();
 
+  // Check if scroll is enabled (transition allows interaction)
+  if (!scrollEnabled) return;
+
   const currentY = event.touches[0].clientY;
   const delta = (lastTouchY - currentY) * 3;
   lastTouchY = currentY;
@@ -464,17 +536,25 @@ function onTouchMove(event) {
 
   // Hide scroll indicator
   if (targetScrollProgress > 100) {
-    document.getElementById('scroll-indicator').classList.add('hidden');
+    const scrollIndicator = document.getElementById('scroll-indicator');
+    scrollIndicator.classList.add('hidden');
+    scrollIndicator.style.opacity = ''; // Clear inline style so CSS class takes effect
   }
 }
 
 function onTouchEnd() {
+  // Check if scroll is enabled (transition allows interaction)
+  if (!scrollEnabled) return;
+
   // Add momentum
   targetScrollProgress += scrollSpeed * 10;
   targetScrollProgress = Math.max(0, Math.min(effectiveMaxScroll, targetScrollProgress));
 }
 
 function onKeyDown(event) {
+  // Check if scroll is enabled (transition allows interaction)
+  if (!scrollEnabled) return;
+
   const scrollAmount = 200;
 
   switch (event.key) {
@@ -502,7 +582,9 @@ function onKeyDown(event) {
   targetScrollProgress = Math.max(0, Math.min(effectiveMaxScroll, targetScrollProgress));
 
   if (targetScrollProgress > 100) {
-    document.getElementById('scroll-indicator').classList.add('hidden');
+    const scrollIndicator = document.getElementById('scroll-indicator');
+    scrollIndicator.classList.add('hidden');
+    scrollIndicator.style.opacity = ''; // Clear inline style so CSS class takes effect
   }
 }
 
@@ -633,6 +715,12 @@ function animate() {
   requestAnimationFrame(animate);
 
   const time = performance.now() * 0.001;
+  const delta = clock ? clock.getDelta() : 0.016;
+
+  // Update transition if active
+  if (transitionOrchestrator) {
+    transitionOrchestrator.update(time, delta);
+  }
 
   // Smooth scroll interpolation
   scrollProgress = lerp(scrollProgress, targetScrollProgress, 0.08);
@@ -653,14 +741,20 @@ function animate() {
   });
 
   // Animate clickable objects (buttons with hover effects)
-  clickableObjects.forEach(obj => {
-    if (obj.userData && obj.userData.animate) {
-      obj.userData.animate(time);
-    }
-  });
+  // Only animate after transition is complete to avoid overriding hidden state
+  if (transitionOrchestrator?.isComplete) {
+    clickableObjects.forEach(obj => {
+      if (obj.userData && obj.userData.animate) {
+        obj.userData.animate(time);
+      }
+    });
+  }
 
-  // Render
-  renderer.render(scene, camera);
+  // Render - use orchestrator's render if shader is active, otherwise normal render
+  const handledByOrchestrator = transitionOrchestrator?.render();
+  if (!handledByOrchestrator) {
+    renderer.render(scene, camera);
+  }
 }
 
 function updateCamera(time) {
@@ -672,8 +766,8 @@ function updateCamera(time) {
   const endWallZ = endSection ? endSection.position : -200;
 
   // Stop camera before it would pass through the Services wall
-  // Camera should stop when the wall fills the screen (about 25 units in front of it)
-  const minCameraZ = endWallZ + 25;
+  // Camera should stop close enough to read text (about 22 units in front of it)
+  const minCameraZ = endWallZ + 22;
   const maxCameraZ = 15;
 
   // Calculate target Z with scroll limit
@@ -812,7 +906,7 @@ async function waitForFonts() {
   // Small delay to ensure font rendering is stable
   await new Promise(resolve => setTimeout(resolve, 100));
 
-  init();
+  await init();
 }
 
 waitForFonts();

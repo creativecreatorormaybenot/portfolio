@@ -263,18 +263,29 @@ export function createTronHeroText(text, options = {}) {
     glowIntensity = 0.6,          // Glow strength
     drawDuration = 3.0,           // Time to draw all letters
     electricInterval = 2.0,       // Time between electric pulses
-    isMobile = false
+    isMobile = false,
+    autoStart = true,             // Whether to auto-start draw animation
+    drawSpeed = 0.012             // Draw speed per frame (0.033 = ~500ms, 0.012 = ~1400ms)
   } = options;
 
   const group = new THREE.Group();
   group.userData.letterGroups = [];
   group.userData.electricParticles = [];
-  group.userData.drawProgress = 0;
+  // -1 means "waiting for external trigger", 0 means "animating"
+  group.userData.drawProgress = autoStart ? 0 : -1;
   group.userData.drawDuration = drawDuration;
+  group.userData.drawSpeed = drawSpeed;
   group.userData.electricInterval = electricInterval;
   group.userData.lastElectricTime = 0;
   group.userData.color = color;
   group.userData.glowIntensity = glowIntensity;
+
+  // Method to externally trigger draw start
+  group.userData.startDraw = function() {
+    if (group.userData.drawProgress < 0) {
+      group.userData.drawProgress = 0;
+    }
+  };
 
   const scale = letterHeight;
   const letters = text.toLowerCase().split('');
@@ -385,11 +396,17 @@ function animateTronHeroText(group, time) {
   const {
     letterGroups,
     glowIntensity,
-    color
+    color,
+    drawSpeed
   } = group.userData;
 
-  // Calculate draw progress (0 to 1)
-  group.userData.drawProgress = Math.min(1, group.userData.drawProgress + 0.012);
+  // Skip if waiting for external trigger
+  if (group.userData.drawProgress < 0) return;
+
+  // Calculate draw progress (0 to 1) using configurable speed
+  // Default 0.012 = ~1400ms, 0.033 = ~500ms for Material Design compliance
+  const speed = drawSpeed || 0.012;
+  group.userData.drawProgress = Math.min(1, group.userData.drawProgress + speed);
   const drawProgress = group.userData.drawProgress;
 
   // Animate each letter's draw-in
@@ -579,7 +596,9 @@ export function createTronHeroSection(text, tagline, socials, options = {}) {
   const {
     isMobile = false,
     mainColor = 0x00d4ff,
-    accentColor = 0xff6600
+    accentColor = 0xff6600,
+    autoStart = true,
+    drawSpeed = 0.012
   } = options;
 
   const group = new THREE.Group();
@@ -592,13 +611,22 @@ export function createTronHeroSection(text, tagline, socials, options = {}) {
     glowIntensity: 1.0,
     drawDuration: 2.5,
     electricInterval: 3.0,
-    isMobile
+    isMobile,
+    autoStart,
+    drawSpeed
   });
   mainTitle.position.set(0, isMobile ? 8 : 10, 0);
   group.add(mainTitle);
 
   // Store reference for animation
   group.userData.mainTitle = mainTitle;
+
+  // Expose startDraw method on the group
+  group.userData.startDraw = function() {
+    if (mainTitle.userData.startDraw) {
+      mainTitle.userData.startDraw();
+    }
+  };
 
   // Animation function
   group.userData.animate = (time) => {

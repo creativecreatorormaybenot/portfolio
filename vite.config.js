@@ -8,6 +8,7 @@ export default defineConfig({
     assetsDir: 'assets',
   },
   server: {
-    open: true,
+    // Opens browser by default, but can be disabled with VITE_NO_OPEN=true
+    open: process.env.VITE_NO_OPEN !== 'true',
   },
 });

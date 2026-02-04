@@ -5,11 +5,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Build Commands
 
 ```bash
-npm install       # Install dependencies
-npm run dev       # Start development server (auto-opens browser)
-npm run build     # Production build to dist/
-npm run preview   # Preview production build locally
+npm install                    # Install dependencies
+VITE_NO_OPEN=true npm run dev  # Start dev server (preferred - no browser popup)
+npm run build                  # Production build to dist/
+npm run preview                # Preview production build locally
 ```
+
+**IMPORTANT for Claude**: ALWAYS use `VITE_NO_OPEN=true npm run dev` when starting the development server. NEVER use plain `npm run dev` as it auto-opens the browser which is disruptive to the user.
+
+**Note**: The `--open false` CLI flag does NOT work in Vite (the string 'false' is truthy). Use the `VITE_NO_OPEN=true` environment variable instead, which is checked in vite.config.js.
 
 ## Architecture Overview
 
@@ -51,6 +55,63 @@ This is a Three.js 3D portfolio with a Tron: Legacy aesthetic. The entire experi
 **Change theme colors**: Primary cyan is `#00d4ff`, accent orange is `#ff6600`. These appear throughout NeonText.js and TronEnvironment.js.
 
 **Adjust scroll speed**: Decrease `TOTAL_SCROLL_DISTANCE` for faster scrolling, or adjust the lerp factor in `animate()`.
+
+## UI Testing & Screenshot Validation
+
+When taking screenshots with Puppeteer for validation:
+
+```bash
+# Check if server is already running, if not start without auto-opening browser
+curl -s http://localhost:5173 > /dev/null 2>&1 || VITE_NO_OPEN=true npm run dev &
+sleep 3  # Wait for server to start
+```
+
+Then use Puppeteer in headless mode to scroll and capture:
+```javascript
+const browser = await puppeteer.launch({ headless: 'new' });
+// ... scroll with page.mouse.wheel({ deltaY: 500 }) in a loop
+// ... take screenshots with page.screenshot()
+```
+
+**Important**: Do NOT use `npm run dev -- --open false` - it doesn't work (opens `/false` route instead). The `VITE_NO_OPEN=true` env var is the correct approach.
+
+**Cleanup**: Always stop the dev server after screenshot validation:
+```bash
+pkill -f "vite" 2>/dev/null || true
+```
+
+## End Section (Services Tile) Details
+
+The end section is positioned at `endZ = CONTENT_START_Z - projects.length * CONTENT_SPACING - 20` (approximately z=-218).
+
+**Key positioning constraints**:
+- Wall height reduced to 18 units (from original 25) to fit viewport
+- Wall positioned at Y=9.5 within endGroup (bottom at Y=0.5, above floor)
+- Camera stops at `endZ + 22` for readable text while showing full tile
+- Corridor length (210) stops wall lines before they appear behind the tile
+
+**Rendering order for transparent objects**:
+- Wall background: `renderOrder = 0`, `depthWrite: false`
+- Border/frame lines: `renderOrder = 1-2`
+- Text content: `renderOrder = 10`
+
+## Tron Legacy Design Principles
+
+Based on GMUNK's work (https://gmunk.com/TRON-Legacy):
+
+- **Minimalist approach**: Clean surfaces, simple geometry
+- **Angular L-brackets**: For corners instead of bulky squares
+- **Ribbons of light**: Thin glowing lines, not heavy borders
+- **Neon glows against dark backgrounds**: High contrast for readability
+- **Grid-based layouts**: Structured, aligned elements
+- **Accent colors**: Primary cyan `#00d4ff`, accent orange `#ff6600`
+
+## Environment Sizing
+
+- **Corridor length**: 280 units (floor lines extend to z=-280, fading into fog naturally)
+- **Particle bounds**: z=300 to cover full scene depth
+- **Decorative furniture**: Placed from z=-20 to z=-193, avoiding the end section area
+- **End section**: Located at approximately z=-218
 
 ## Deployment
 

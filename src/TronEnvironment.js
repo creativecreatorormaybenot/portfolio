@@ -6,14 +6,16 @@ export function createGridFloor(size = 500, divisions = 100) {
 
   // Main grid
   const gridHelper = new THREE.GridHelper(size, divisions, 0x00d4ff, 0x003344);
-  gridHelper.material.opacity = 0.3;
+  gridHelper.material.opacity = 0; // Start hidden for transition
   gridHelper.material.transparent = true;
+  gridHelper.userData.baseOpacity = 0.3;
   group.add(gridHelper);
 
   // Secondary finer grid
   const fineGrid = new THREE.GridHelper(size, divisions * 2, 0x00d4ff, 0x001122);
-  fineGrid.material.opacity = 0.1;
+  fineGrid.material.opacity = 0; // Start hidden for transition
   fineGrid.material.transparent = true;
+  fineGrid.userData.baseOpacity = 0.1;
   fineGrid.position.y = 0.01;
   group.add(fineGrid);
 
@@ -22,12 +24,13 @@ export function createGridFloor(size = 500, divisions = 100) {
   const floorMaterial = new THREE.MeshBasicMaterial({
     color: 0x000511,
     transparent: true,
-    opacity: 0.9,
+    opacity: 0, // Start hidden for transition
     side: THREE.DoubleSide
   });
   const floor = new THREE.Mesh(floorGeometry, floorMaterial);
   floor.rotation.x = -Math.PI / 2;
   floor.position.y = -0.1;
+  floor.userData.baseOpacity = 0.9;
   group.add(floor);
 
   return group;
@@ -44,23 +47,30 @@ export function createNeonLine(start, end, color = 0x00d4ff, intensity = 1) {
   ];
 
   const geometry = new THREE.BufferGeometry().setFromPoints(points);
+  const baseOpacity = 0.8 * intensity;
   const material = new THREE.LineBasicMaterial({
     color,
     transparent: true,
-    opacity: 0.8 * intensity
+    opacity: 0 // Start hidden for transition
   });
+  material.userData = { baseOpacity };
 
   const line = new THREE.Line(geometry, material);
+  line.userData.baseOpacity = baseOpacity;
   group.add(line);
 
   // Glow effect using a thicker transparent line
+  const glowBaseOpacity = 0.3 * intensity;
   const glowMaterial = new THREE.LineBasicMaterial({
     color,
     transparent: true,
-    opacity: 0.3 * intensity,
+    opacity: 0, // Start hidden for transition
     linewidth: 3
   });
+  glowMaterial.userData = { baseOpacity: glowBaseOpacity };
+
   const glowLine = new THREE.Line(geometry.clone(), glowMaterial);
+  glowLine.userData.baseOpacity = glowBaseOpacity;
   group.add(glowLine);
 
   return group;
@@ -382,48 +392,109 @@ export function createBackingBoard(width = 20, height = 12, options = {}) {
   return group;
 }
 
-// Create the end wall with services section
+// Create the end wall with services section - Tron Legacy inspired minimalist design
 export function createEndWall(data) {
   const group = new THREE.Group();
 
-  // Wall background
-  const wallGeo = new THREE.PlaneGeometry(40, 25);
+  const wallWidth = 36;
+  const wallHeight = 18;  // Reduced from 25 for better viewport fit
+  const hw = wallWidth / 2;
+  const hh = wallHeight / 2;
+
+  // Wall background - darker, more subtle
+  const wallGeo = new THREE.PlaneGeometry(wallWidth, wallHeight);
   const wallMat = new THREE.MeshBasicMaterial({
-    color: 0x001122,
+    color: 0x000a14,
     transparent: true,
-    opacity: 0.9,
-    side: THREE.DoubleSide
+    opacity: 0.92,
+    side: THREE.DoubleSide,
+    depthWrite: false
   });
   const wall = new THREE.Mesh(wallGeo, wallMat);
+  wall.renderOrder = 0;
   group.add(wall);
 
-  // Border
+  // Main border - thin elegant line (Tron "ribbon of light" style)
   const borderGeo = new THREE.EdgesGeometry(wallGeo);
   const borderMat = new THREE.LineBasicMaterial({
     color: 0x00d4ff,
     transparent: true,
-    opacity: 0.8
+    opacity: 0.6
   });
   const border = new THREE.LineSegments(borderGeo, borderMat);
+  border.renderOrder = 1;
   group.add(border);
 
-  // Decorative corner pieces
-  const cornerSize = 3;
-  const corners = [
-    { x: -20 + cornerSize / 2, y: 12.5 - cornerSize / 2 },
-    { x: 20 - cornerSize / 2, y: 12.5 - cornerSize / 2 },
-    { x: -20 + cornerSize / 2, y: -12.5 + cornerSize / 2 },
-    { x: 20 - cornerSize / 2, y: -12.5 + cornerSize / 2 }
+  // Inner frame line - subtle depth effect (Tron minimalist aesthetic)
+  const innerMargin = 0.8;
+  const innerGeo = new THREE.PlaneGeometry(wallWidth - innerMargin * 2, wallHeight - innerMargin * 2);
+  const innerEdges = new THREE.EdgesGeometry(innerGeo);
+  const innerMat = new THREE.LineBasicMaterial({
+    color: 0x00d4ff,
+    transparent: true,
+    opacity: 0.25
+  });
+  const innerBorder = new THREE.LineSegments(innerEdges, innerMat);
+  innerBorder.position.z = 0.05;
+  innerBorder.renderOrder = 1;
+  group.add(innerBorder);
+
+  // Angular L-bracket corners (Tron Legacy style - minimal, geometric)
+  const bracketLength = 2.5;
+  const bracketThickness = 0.15;
+  const cornerOffset = 0.3;  // Slight inset from edge
+
+  const createCornerBracket = (cx, cy, dirX, dirY) => {
+    // L-shaped bracket with two lines meeting at corner
+    const positions = new Float32Array([
+      cx, cy + dirY * bracketLength, 0.1,
+      cx, cy, 0.1,
+      cx + dirX * bracketLength, cy, 0.1
+    ]);
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    return geo;
+  };
+
+  const bracketMat = new THREE.LineBasicMaterial({
+    color: 0xff6600,
+    transparent: true,
+    opacity: 0.85
+  });
+
+  // Four corner brackets - positioned just inside the border
+  const brackets = [
+    { cx: -hw + cornerOffset, cy: hh - cornerOffset, dirX: 1, dirY: -1 },   // Top-left
+    { cx: hw - cornerOffset, cy: hh - cornerOffset, dirX: -1, dirY: -1 },   // Top-right
+    { cx: -hw + cornerOffset, cy: -hh + cornerOffset, dirX: 1, dirY: 1 },   // Bottom-left
+    { cx: hw - cornerOffset, cy: -hh + cornerOffset, dirX: -1, dirY: 1 }    // Bottom-right
   ];
 
-  corners.forEach(corner => {
-    const cornerGeo = new THREE.PlaneGeometry(cornerSize, cornerSize);
-    const cornerEdges = new THREE.EdgesGeometry(cornerGeo);
-    const cornerMat = new THREE.LineBasicMaterial({ color: 0xff6600, transparent: true, opacity: 0.8 });
-    const cornerLine = new THREE.LineSegments(cornerEdges, cornerMat);
-    cornerLine.position.set(corner.x, corner.y, 0.1);
-    group.add(cornerLine);
+  brackets.forEach(b => {
+    const bracketGeo = createCornerBracket(b.cx, b.cy, b.dirX, b.dirY);
+    const bracket = new THREE.Line(bracketGeo, bracketMat.clone());
+    bracket.renderOrder = 2;
+    group.add(bracket);
   });
+
+  // Small corner accent dots (Tron node style)
+  const dotPositions = new Float32Array([
+    -hw + cornerOffset, hh - cornerOffset, 0.12,
+    hw - cornerOffset, hh - cornerOffset, 0.12,
+    -hw + cornerOffset, -hh + cornerOffset, 0.12,
+    hw - cornerOffset, -hh + cornerOffset, 0.12
+  ]);
+  const dotGeo = new THREE.BufferGeometry();
+  dotGeo.setAttribute('position', new THREE.BufferAttribute(dotPositions, 3));
+  const dotMat = new THREE.PointsMaterial({
+    color: 0xffffff,
+    size: 0.08,
+    transparent: true,
+    opacity: 0.7
+  });
+  const dots = new THREE.Points(dotGeo, dotMat);
+  dots.renderOrder = 3;
+  group.add(dots);
 
   return group;
 }
