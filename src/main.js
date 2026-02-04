@@ -541,13 +541,15 @@ function onKeyDown(event) {
   const scrollAmount = 200;
 
   switch (event.key) {
-    case 'ArrowDown':
+    // Reversing arrow up/down vs. page up/down and home/end
+    // because arrow up means moving forward in games too.
+    case 'ArrowUp':
     case ' ':
     case 'PageDown':
       event.preventDefault();
       targetScrollProgress += scrollAmount;
       break;
-    case 'ArrowUp':
+    case 'ArrowDown':
     case 'PageUp':
       event.preventDefault();
       targetScrollProgress -= scrollAmount;
