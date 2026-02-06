@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 
-// Create neon text as a sprite with canvas-rendered text
+// Create neon text using two separate meshes with enhanced glow algorithm.
+// We use two canvases, 10 glow layers with exponential falloff + additive compositing.
+// Glow mesh: larger canvas (2.5x padding), additive blending, no alphaTest
+// Text mesh: normal canvas, alphaTest + depthWrite for occlusion
 export function createNeonText(text, options = {}) {
   const {
     fontSize = 64,
@@ -12,98 +15,150 @@ export function createNeonText(text, options = {}) {
     align = 'center'
   } = options;
 
-  // Create canvas for text
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
+  const actualGlowColor = glowColor || color;
+  const rgb = hexToRgb(color);
 
-  // Set up font
-  ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
+  // --- Measure text dimensions ---
+  const measureCanvas = document.createElement('canvas');
+  const measureCtx = measureCanvas.getContext('2d');
+  measureCtx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
 
-  // Measure text and handle multi-line
-  const lines = wrapText(ctx, text, maxWidth);
+  const lines = wrapText(measureCtx, text, maxWidth);
   const lineHeight = fontSize * 1.3;
-  const textWidth = Math.max(...lines.map(line => ctx.measureText(line).width));
+  const textWidth = Math.max(...lines.map(line => measureCtx.measureText(line).width));
   const textHeight = lines.length * lineHeight;
 
-  // Set canvas size with padding for glow
-  const padding = fontSize;
-  canvas.width = Math.ceil(textWidth + padding * 2);
-  canvas.height = Math.ceil(textHeight + padding * 2);
+  // --- 1. GLOW CANVAS: larger padding, 10 layers, additive compositing ---
+  const glowPadding = fontSize * 2.5;
+  const glowCanvas = document.createElement('canvas');
+  glowCanvas.width = Math.ceil(textWidth + glowPadding * 2);
+  glowCanvas.height = Math.ceil(textHeight + glowPadding * 2);
 
-  // Reset font after resize
-  ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
-  ctx.textAlign = align;
-  ctx.textBaseline = 'middle';
+  const glowCtx = glowCanvas.getContext('2d');
+  glowCtx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
+  glowCtx.textAlign = align;
+  glowCtx.textBaseline = 'middle';
 
-  const actualGlowColor = glowColor || color;
+  // Use additive compositing for natural glow light accumulation
+  glowCtx.globalCompositeOperation = 'lighter';
 
-  // Draw glow layers
-  for (let i = 5; i >= 1; i--) {
-    ctx.shadowColor = actualGlowColor;
-    ctx.shadowBlur = fontSize * 0.3 * i;
-    ctx.fillStyle = `rgba(${hexToRgb(color).join(',')}, ${0.1 * i})`;
+  for (let i = 10; i >= 1; i--) {
+    glowCtx.shadowColor = actualGlowColor;
+    glowCtx.shadowBlur = fontSize * 0.2 * i;
+    // Exponential falloff: outer layers are much dimmer for smooth fade
+    const alpha = Math.pow(i / 10, 2) * 0.4;
+    glowCtx.fillStyle = `rgba(${rgb.join(',')}, ${alpha})`;
 
     lines.forEach((line, index) => {
-      const x = align === 'center' ? canvas.width / 2 : padding;
-      const y = padding + lineHeight * index + lineHeight / 2;
-      ctx.fillText(line, x, y);
+      const x = align === 'center' ? glowCanvas.width / 2 : glowPadding;
+      const y = glowPadding + lineHeight * index + lineHeight / 2;
+      glowCtx.fillText(line, x, y);
     });
   }
 
-  // Draw main text
-  ctx.shadowColor = actualGlowColor;
-  ctx.shadowBlur = fontSize * 0.2;
-  ctx.fillStyle = color;
-
-  lines.forEach((line, index) => {
-    const x = align === 'center' ? canvas.width / 2 : padding;
-    const y = padding + lineHeight * index + lineHeight / 2;
-    ctx.fillText(line, x, y);
-  });
-
-  // Inner bright core
-  ctx.shadowBlur = 2;
-  ctx.fillStyle = '#ffffff';
-  ctx.globalAlpha = 0.7;
-
-  lines.forEach((line, index) => {
-    const x = align === 'center' ? canvas.width / 2 : padding;
-    const y = padding + lineHeight * index + lineHeight / 2;
-    ctx.fillText(line, x, y);
-  });
-
-  // Create texture and plane mesh (instead of sprite for stationary text)
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.needsUpdate = true;
-  // Use nearest filter to avoid edge artifacts with alphaTest
-  texture.minFilter = THREE.LinearFilter;
-  texture.magFilter = THREE.LinearFilter;
+  // Glow texture + mesh
+  const glowTexture = new THREE.CanvasTexture(glowCanvas);
+  glowTexture.needsUpdate = true;
+  glowTexture.minFilter = THREE.LinearFilter;
+  glowTexture.magFilter = THREE.LinearFilter;
 
   const scale = fontSize / 50;
-  const planeWidth = canvas.width / fontSize * scale;
-  const planeHeight = canvas.height / fontSize * scale;
+  const glowPlaneWidth = glowCanvas.width / fontSize * scale;
+  const glowPlaneHeight = glowCanvas.height / fontSize * scale;
 
-  const geometry = new THREE.PlaneGeometry(planeWidth, planeHeight);
-  const material = new THREE.MeshBasicMaterial({
-    map: texture,
+  const glowGeometry = new THREE.PlaneGeometry(glowPlaneWidth, glowPlaneHeight);
+  const glowMaterial = new THREE.MeshBasicMaterial({
+    map: glowTexture,
     transparent: true,
+    depthWrite: false,       // Don't write depth - glow should never occlude anything
     depthTest: true,
-    depthWrite: true,   // Write to depth buffer so text occludes content behind
-    alphaTest: 0.1,     // Discard transparent pixels to avoid depth artifacts
+    blending: THREE.AdditiveBlending,
     side: THREE.DoubleSide
   });
 
-  const mesh = new THREE.Mesh(geometry, material);
+  const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
+  glowMesh.position.z = -0.01; // Slightly behind text mesh
 
-  // Store metadata for interaction
-  mesh.userData = {
+  // --- 2. TEXT CANVAS: normal padding, main text + white core only ---
+  const textPadding = fontSize;
+  const textCanvas = document.createElement('canvas');
+  textCanvas.width = Math.ceil(textWidth + textPadding * 2);
+  textCanvas.height = Math.ceil(textHeight + textPadding * 2);
+
+  const textCtx = textCanvas.getContext('2d');
+  textCtx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
+  textCtx.textAlign = align;
+  textCtx.textBaseline = 'middle';
+
+  // Draw main text
+  textCtx.shadowColor = actualGlowColor;
+  textCtx.shadowBlur = fontSize * 0.2;
+  textCtx.fillStyle = color;
+
+  lines.forEach((line, index) => {
+    const x = align === 'center' ? textCanvas.width / 2 : textPadding;
+    const y = textPadding + lineHeight * index + lineHeight / 2;
+    textCtx.fillText(line, x, y);
+  });
+
+  // Inner bright core
+  textCtx.shadowBlur = 2;
+  textCtx.fillStyle = '#ffffff';
+  textCtx.globalAlpha = 0.7;
+
+  lines.forEach((line, index) => {
+    const x = align === 'center' ? textCanvas.width / 2 : textPadding;
+    const y = textPadding + lineHeight * index + lineHeight / 2;
+    textCtx.fillText(line, x, y);
+  });
+
+  // Text texture + mesh
+  const textTexture = new THREE.CanvasTexture(textCanvas);
+  textTexture.needsUpdate = true;
+  textTexture.minFilter = THREE.LinearFilter;
+  textTexture.magFilter = THREE.LinearFilter;
+
+  const textPlaneWidth = textCanvas.width / fontSize * scale;
+  const textPlaneHeight = textCanvas.height / fontSize * scale;
+
+  const textGeometry = new THREE.PlaneGeometry(textPlaneWidth, textPlaneHeight);
+  const textMaterial = new THREE.MeshBasicMaterial({
+    map: textTexture,
+    transparent: true,
+    depthTest: true,
+    depthWrite: true,      // Write to depth buffer so text occludes content behind
+    alphaTest: 0.1,        // Discard transparent pixels to avoid depth artifacts
+    side: THREE.DoubleSide
+  });
+
+  const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+
+  // --- 3. GROUP: combine both meshes ---
+  const group = new THREE.Group();
+  group.add(glowMesh);
+  group.add(textMesh);
+
+  // Store metadata on both the group and the text mesh for interaction
+  const userData = {
     type: 'neonText',
     originalColor: color,
-    canvas,
+    canvas: textCanvas,
     text
   };
 
-  return mesh;
+  textMesh.userData = { ...userData };
+  group.userData = { ...userData };
+
+  // Propagate renderOrder to both child meshes
+  Object.defineProperty(group, 'renderOrder', {
+    get() { return textMesh.renderOrder; },
+    set(value) {
+      textMesh.renderOrder = value;
+      glowMesh.renderOrder = value;
+    }
+  });
+
+  return group;
 }
 
 // Create a clickable neon link button with Tron: Legacy styling
