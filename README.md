@@ -24,11 +24,11 @@ LOADING │▓▓▓░░░   │         │         │         │         
 SCREEN  │ Fast    │         │         │         │         │         │
         │ fade    │         │         │         │         │         │
         ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-GRID    │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│░░░░░░░░░│         │
-EMERGE  │ Ignite + Radial + Walls (compressed, parallel) │         │
+GRID    │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│░░░░░░░░░│         │
+EMERGE  │ Ignite + Radial + Walls (compressed, parallel)  │         │
         ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-LIGHT   │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│░░░░░░░░░│         │
-TRACERS │ Race along grid lines from center              │ Fade    │
+LIGHT   │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│░░░░░░░░░│         │
+TRACERS │ Race along grid lines from center               │ Fade    │
         ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
 HERO    │         │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│         │         │         │
 TEXT    │         │ Draw-in animation │         │         │         │
@@ -36,11 +36,11 @@ TEXT    │         │ Draw-in animation │         │         │         �
 CONTENT │         │         │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│         │
 REVEAL  │         │         │ Tagline, buttons, decorations fade in │
         ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-INTERACT│         │    ════════════════════════════════════════════▶
-        │         │    ↑ SCROLL ENABLED @ 1.2s                     │
+INTERACT│         │    ════════════════════════════════════════════▶│
+        │         │    ↑ SCROLL ENABLED @ 1.2s                      │
         ├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-SCROLL  │         │         │▓▓▓▓▓▓▓▓▓│         │         │         │
-INDIC   │         │         │ Fade In │ (user may already be scrolling)
+INDICATE│         │         │▓▓▓▓▓▓▓▓▓│         │         │         │
+SCROLL  │         │         │ Fade in (if user is not yet scrolling)│
         └─────────┴─────────┴─────────┴─────────┴─────────┴─────────┘
 ```
 
