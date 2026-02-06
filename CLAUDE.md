@@ -178,6 +178,16 @@ Based on GMUNK's work (https://gmunk.com/TRON-Legacy):
 - **Decorative furniture**: Placed from z=-20 to z=-193, avoiding the end section area
 - **End section**: Located at approximately z=-218
 
+## Git Safety Rules
+
+**CRITICAL**: NEVER run destructive git commands without explicit user permission:
+- `git checkout -- <file>` (reverts uncommitted changes - DATA LOSS)
+- `git reset --hard` (discards all changes - DATA LOSS)
+- `git clean -f` (deletes untracked files - DATA LOSS)
+- `git stash drop` (deletes stashed changes - DATA LOSS)
+
+Always ASK the user first and explain why the command is necessary before running any of these. Uncommitted work can represent days of effort and cannot be recovered once overwritten.
+
 ## Deployment
 
 GitHub Actions automatically deploys the main branch to GitHub Pages at https://portfolio.creativemaybeno.dev when changes are pushed to src/, public/, index.html, package files, or vite.config.js.

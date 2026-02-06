@@ -8,3 +8,4 @@ export { PerformanceDetector } from './PerformanceDetector.js';
 export { GridEmergenceController } from './GridEmergenceController.js';
 export { LightTracerSystem } from './LightTracerSystem.js';
 export { TransitionOrchestrator } from './TransitionOrchestrator.js';
+export { ScanLineRevealSystem } from './ScanLineReveal.js';
