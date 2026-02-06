@@ -1,0 +1,224 @@
+/**
+ * main.css
+ *
+ * Main stylesheet for the Tron-style portfolio.
+ * Handles loading screen, UI overlay, scroll indicator, and base styles.
+ */
+
+/* Hide loading text until fonts are loaded to prevent FOUC */
+.loading-text, .loading-subtitle {
+  visibility: hidden;
+}
+.fonts-loaded .loading-text,
+.fonts-loaded .loading-subtitle {
+  visibility: visible;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: 'Exo 2', sans-serif;
+  color: #fff;
+}
+
+#canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+canvas {
+  display: block;
+}
+
+#ui-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#scroll-indicator {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;  /* Start hidden, transition will show it */
+  transition: opacity 0.8s ease;
+  z-index: 100;
+  pointer-events: none;
+}
+
+#scroll-indicator.hidden {
+  opacity: 0;
+}
+
+#scroll-indicator span {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  color: #00d4ff;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff;
+}
+
+.scroll-arrow {
+  width: 30px;
+  height: 30px;
+  border-left: 2px solid #00d4ff;
+  border-bottom: 2px solid #00d4ff;
+  transform: rotate(-45deg);
+  animation: scrollBounce 2s infinite;
+  box-shadow: -3px 3px 10px #00d4ff;
+}
+
+@keyframes scrollBounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: rotate(-45deg) translateY(0);
+  }
+  40% {
+    transform: rotate(-45deg) translateY(10px);
+  }
+  60% {
+    transform: rotate(-45deg) translateY(5px);
+  }
+}
+
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #00d4ff, #ff6600);
+  width: 0%;
+  z-index: 1000;
+  box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff;
+}
+
+/* Loading screen covers everything until 3D transition is ready */
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000a12;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  /* Slightly longer fade-out to ensure content is hidden before screen becomes transparent */
+  transition: opacity 0.4s ease-out;
+}
+
+#loading-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Position convergence ring to align with where 3D ignition will appear */
+/* 3D ignition is at world (0, 0.1, 0) which projects below screen center */
+.convergence-container {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  /* Position so the ring center aligns with where 3D ignition will appear */
+  /* Ignition projects to approximately 50% below vertical center */
+  top: calc(50% + 80px);
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+#convergence-canvas {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* Text container - centered vertically on screen */
+.loading-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Loading text uses cyan/blue color to contrast with orange particles */
+.loading-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 24px;
+  color: #00d4ff;
+  text-transform: uppercase;
+  letter-spacing: 12px;
+  text-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff;
+  animation: loadingPulse 2s infinite ease-in-out;
+  margin-bottom: 12px;
+}
+
+@keyframes loadingPulse {
+  0%, 100% { opacity: 0.7; text-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff; }
+  50% { opacity: 1; text-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff, 0 0 60px #00d4ff; }
+}
+
+/* Subtitle in muted cyan to complement the loading text */
+.loading-subtitle {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 11px;
+  color: #0099b3;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+/* Flash effect disabled - 3D ignition handles the explosion */
+.convergence-flash {
+  display: none;
+}
+
+/* Text dissolve on completion */
+#loading-screen.fade-out .loading-text,
+#loading-screen.fade-out .loading-subtitle {
+  animation: textDissolve 0.2s ease-out forwards;
+}
+
+@keyframes textDissolve {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.9); filter: blur(4px); }
+}
+
+/* Clickable link styles */
+.content-link {
+  pointer-events: auto;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.content-link:hover {
+  transform: scale(1.05);
+}

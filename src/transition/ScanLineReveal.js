@@ -171,9 +171,7 @@ export class ScanLineRevealSystem {
         '#include <dithering_fragment>',
         `#include <dithering_fragment>
         // Edge glow where geometry meets scan line
-        // uScanClipY is above the geometry, so distToScan is positive for visible parts
         float distToScan = uScanClipY - vWorldPosition.y;
-        // Glow strongest right at the edge (0.0), fading over 0.8 units
         float edgeGlow = smoothstep(0.8, 0.0, distToScan) * smoothstep(-0.1, 0.0, distToScan);
         gl_FragColor.rgb += uScanGlowColor * edgeGlow * 1.2;`
       );
