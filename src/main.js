@@ -37,11 +37,8 @@ const CAMERA_BASE_Y = 5; // Base camera height (modified by floating effect)
 const TARGET_LOOK_AT_Y = 6; // Base height the camera looks at
 const CONTENT_SPACING = 12;
 
-// Camera look-at state for smooth transitions
-let currentLookAtX = 0;
+// Camera look-at state
 let currentLookAtY = TARGET_LOOK_AT_Y;
-let targetLookAtX = 0;
-let targetLookAtY = TARGET_LOOK_AT_Y;
 
 const animatedObjects = [];
 const clickableObjects = [];
@@ -759,115 +756,18 @@ function updateCamera(time) {
   let targetZ = maxCameraZ - scrollRatio * CAMERA_PATH_LENGTH;
   targetZ = Math.max(minCameraZ, targetZ);
 
-  // Find the upcoming content section (the one we're approaching)
-  // We want to look at a tile BEFORE we reach it
-  let targetSection = null;
-
-  // Configuration for look-at behavior
-  const lookAheadDistance = 25; // Start transitioning this far before a tile
-  const lookBehindDistance = 8; // Keep looking at a tile this far after passing it
-
-  // Find which tile we should be looking at based on camera Z
-  // Use the ACTUAL camera position (which lags behind targetZ due to lerp)
-  const cameraZ = camera.position.z;
-
-  // Find the closest tile that's in our viewing window
-  // Priority: tiles we're approaching or just passing
-  let bestSection = null;
-  let bestScore = -Infinity;
-
-  for (let i = 0; i < contentSections.length; i++) {
-    const section = contentSections[i];
-    const sectionZ = section.position;
-
-    // Distance to section: positive = section is ahead (camera Z > section Z, meaning section is in -Z direction)
-    const dist = cameraZ - sectionZ;
-
-    // Check if this section is in our viewing window
-    // We can look at tiles from lookAheadDistance ahead to lookBehindDistance behind
-    if (dist >= -lookBehindDistance && dist <= lookAheadDistance) {
-      // Score tiles: prefer ones slightly ahead of us
-      // Best score when tile is about 10-15 units ahead
-      const idealDistance = 12;
-      const score = -Math.abs(dist - idealDistance);
-
-      if (score > bestScore) {
-        bestScore = score;
-        bestSection = section;
-      }
-    }
-  }
-
-  targetSection = bestSection;
-
-  // Check if we're near the end section - should always look straight there
-  const endSectionRef = contentSections.find(s => s.isEndSection);
-  const distToEnd = endSectionRef ? cameraZ - endSectionRef.position : Infinity;
-  const nearEndSection = distToEnd >= -10 && distToEnd <= 40;  // Within range of end section
-
-  // Determine where the camera should look
-  if (!isMobile && targetSection) {
-    const distToTarget = cameraZ - targetSection.position;
-
-    if (targetSection.isEndSection || nearEndSection) {
-      // End section or near it: always look straight ahead
-      targetLookAtX = 0;
-      targetLookAtY = TARGET_LOOK_AT_Y;
-    } else if (targetSection.isLeft !== null) {
-      // Project tiles: look towards the tile
-      // Full strength when within viewing range
-      const viewingStart = lookAheadDistance;
-      const viewingEnd = -lookBehindDistance;
-
-      // Calculate how much to look at this tile (0 to 1)
-      let lookStrength;
-      if (distToTarget > viewingStart) {
-        // Haven't reached viewing range yet - start transitioning
-        lookStrength = Math.max(0, 1 - (distToTarget - viewingStart) / CONTENT_SPACING);
-      } else if (distToTarget < viewingEnd) {
-        // Past the tile - fade out
-        lookStrength = Math.max(0, 1 + (distToTarget - viewingEnd) / 5);
-      } else {
-        // In the sweet spot - full view
-        lookStrength = 1;
-      }
-
-      // Look towards the tile's X offset
-      targetLookAtX = targetSection.xOffset * 0.6 * lookStrength;
-      targetLookAtY = TARGET_LOOK_AT_Y;
-    } else {
-      // Hero section: look straight
-      targetLookAtX = 0;
-      targetLookAtY = TARGET_LOOK_AT_Y;
-    }
-  } else {
-    // Mobile or no section: look straight
-    targetLookAtX = 0;
-    targetLookAtY = TARGET_LOOK_AT_Y;
-  }
-
-  // Smooth interpolation of camera look-at target
-  const lookLerpFactor = 0.02; // Slightly faster for more responsive feel
-  currentLookAtX = lerp(currentLookAtX, targetLookAtX, lookLerpFactor);
-  currentLookAtY = lerp(currentLookAtY, targetLookAtY, lookLerpFactor);
-
-  // Smooth camera position movement (keep camera centered on the path)
-  const targetCameraX = 0; // Camera stays centered
-  const targetCameraY = CAMERA_BASE_Y; // Camera stays at base height
-
-  camera.position.x = lerp(camera.position.x, targetCameraX, 0.03);
-  camera.position.y = lerp(camera.position.y, targetCameraY, 0.03);
+  // Camera moves straight forward/backward only
+  camera.position.x = 0;
+  camera.position.y = lerp(camera.position.y, CAMERA_BASE_Y, 0.03);
   camera.position.z = lerp(camera.position.z, targetZ, 0.08);
 
   // Add subtle floating motion
   camera.position.y += Math.sin(time * 0.5) * 0.05;
 
-  // Calculate look-at point: ahead of camera with X offset to look at tiles
-  // Closer look-at point for better tile visibility
+  // Look straight ahead (no lateral look-at)
+  currentLookAtY = lerp(currentLookAtY, TARGET_LOOK_AT_Y, 0.02);
   const lookAtZ = camera.position.z - 15;
-  const lookAtTarget = new THREE.Vector3(currentLookAtX, currentLookAtY, lookAtZ);
-
-  camera.lookAt(lookAtTarget);
+  camera.lookAt(new THREE.Vector3(0, currentLookAtY, lookAtZ));
 }
 
 // ============================================================================
